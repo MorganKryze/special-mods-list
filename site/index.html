@@ -8,13 +8,18 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#03140a">
 <script>
-// Apply the saved phosphor colour before the first paint.
-try { var p = localStorage.getItem("sml-phosphor"); if (/^(green|amber|blue|white)$/.test(p)) document.documentElement.dataset.phosphor = p; } catch (e) {}
+// Apply the saved phosphor colour and effects level before the first paint.
+(function () {
+  var d = document.documentElement, p, f;
+  try { p = localStorage.getItem("sml-phosphor"); f = localStorage.getItem("sml-fx"); } catch (e) {}
+  if (/^(green|amber|blue|white)$/.test(p)) d.dataset.phosphor = p;
+  d.dataset.fx = /^(full|reduced|off)$/.test(f) ? f : matchMedia("(prefers-reduced-motion: reduce)").matches ? "reduced" : "full";
+})();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="app.css?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css?v=5">
 </head>
 <body>
 <a class="skip" id="skip" href="#panels">Skip to content</a>
@@ -22,9 +27,10 @@ try { var p = localStorage.getItem("sml-phosphor"); if (/^(green|amber|blue|whit
 <div class="screen" id="screen">
   <header class="hud">
     <h1>Special Mods List <span class="hd">· Fallout 4 mod catalogue</span></h1>
-    <p class="hd" id="hud-date">Runtime 1.11.240</p>
+    <div class="hud-r"><p class="hd" id="hud-date">Runtime 1.11.240</p><button id="hud-fx" data-setting="fx">Effects <b>Full</b></button><button id="hud-snd" data-setting="sound" aria-pressed="false">Sound <b>Off</b></button></div>
   </header>
   <div class="tabbar">
+    <div class="tabline instant" id="tabline" aria-hidden="true"><i class="tl-a"></i><i class="tl-b"></i><i class="br-l"></i><i class="br-r"></i><i class="br-t"></i></div>
     <div class="tabs" role="tablist" aria-label="Sections" id="tabs">
       <button class="tab" role="tab" id="tab-stat" aria-controls="panel-stat" aria-selected="true">Stat</button>
       <button class="tab" role="tab" id="tab-mods" aria-controls="panel-mods" aria-selected="false" tabindex="-1">Mods</button>
@@ -42,10 +48,10 @@ try { var p = localStorage.getItem("sml-phosphor"); if (/^(green|amber|blue|whit
 
     <!-- MODS: catalogue and my list -->
     <section class="panel" id="panel-mods" role="tabpanel" aria-labelledby="tab-mods" tabindex="-1" hidden>
-      <div class="subtabs" role="tablist" aria-label="Mods views" id="subtabs">
+      <div class="subtabs" role="tablist" aria-label="Mods views" id="subtabs"><div class="subtrack" role="presentation">
         <button class="subtab" role="tab" id="subtab-cat" aria-controls="sub-cat" aria-selected="true">All mods</button>
         <button class="subtab" role="tab" id="subtab-list" aria-controls="sub-list" aria-selected="false" tabindex="-1">My list <span id="sub-n"></span></button>
-      </div>
+      </div></div>
 
       <div class="cat" id="sub-cat" role="tabpanel" aria-labelledby="subtab-cat">
         <div class="toolbar" id="toolbar">
@@ -96,9 +102,9 @@ try { var p = localStorage.getItem("sml-phosphor"); if (/^(green|amber|blue|whit
           <section class="scroll sum" aria-labelledby="ml-h">
             <h2 class="h3" id="ml-h">Summary</h2>
             <div class="gauge">
-              <p class="num"><b id="ml-n">0</b> <span id="ml-sub">mods</span></p>
+              <p class="num"><b class="roll" id="ml-n">0</b> <span id="ml-sub">mods</span></p>
               <p class="small" id="ml-who"></p>
-              <p class="num"><span>Full plugins</span> <b id="ml-full">0</b> <span id="ml-full-of">of 254</span></p>
+              <p class="num"><span>Full plugins</span> <b class="roll" id="ml-full">0</b> <span id="ml-full-of">of 254</span></p>
               <div class="bar" id="ml-bar" role="img" aria-label="0 of 254 full plugin slots used"><i class="cnt" style="width:0"></i><i class="est" style="left:0;width:0"></i></div>
               <p class="small" id="ml-slots"></p>
             </div>
@@ -127,7 +133,7 @@ try { var p = localStorage.getItem("sml-phosphor"); if (/^(green|amber|blue|whit
     <section class="panel" id="panel-tapes" role="tabpanel" aria-labelledby="tab-tapes" tabindex="-1" hidden>
       <div class="scroll body">
         <div class="tapes-h">
-          <h2 class="qh" id="tapes-h" tabindex="-1">&gt; Pick a holotape</h2>
+          <h2 class="qh" id="tapes-h" tabindex="-1">Pick a holotape</h2>
           <p class="dim">Each tape is a mod list that holds together on Fallout 4 1.11.240. Loading one replaces your list, and you can undo it.</p>
         </div>
         <div class="tapes" id="tapes"><p class="loading">Loading the playthroughs…</p></div>
@@ -161,8 +167,10 @@ try { var p = localStorage.getItem("sml-phosphor"); if (/^(green|amber|blue|whit
               <div><dt>Marked avoid</dt><dd><button class="linkid" id="rec-avoid-btn"><span id="rec-avoid">…</span><span class="vh">: show them</span></button></dd></div>
               <div><dt>Last check</dt><dd id="rec-date">…</dd></div>
             </dl>
-            <h2 class="h3">Screen colour</h2>
-            <fieldset class="opts swatches" id="phosphor"><legend class="vh">Screen colour</legend></fieldset>
+            <h2 class="h3" id="settings-h">Screen</h2>
+            <div class="setting"><fieldset class="opts swatches" id="phosphor"><legend class="lbl">Colour</legend></fieldset></div>
+            <div class="setting"><fieldset class="opts" id="fx-set"><legend class="lbl">Effects</legend></fieldset><p class="small">Full: scan band, grain and screen refresh. Reduced: no movement. Off: a plain screen.</p></div>
+            <div class="setting"><fieldset class="opts" id="snd-set"><legend class="lbl">Sound</legend></fieldset><p class="small">Short clicks for tabs, rows and buttons. Made in your browser, nothing is downloaded.</p></div>
             <h2 class="h3">Links</h2>
             <ul class="links">
               <li><a href="https://github.com/MorganKryze/special-mods-list/tree/main/data">The data: mods.csv, nexus.json, playthroughs.json</a></li>
@@ -178,15 +186,18 @@ try { var p = localStorage.getItem("sml-phosphor"); if (/^(green|amber|blue|whit
   </div>
 
   <div id="notice" hidden role="region" aria-label="Message"><p id="notice-text"></p><span class="nbtns" id="notice-btns"></span></div>
+  <div class="fx" aria-hidden="true"><div class="fx-band"></div><div class="fx-grain"></div><div class="fx-glass"></div><div class="fx-refresh"></div><div class="fx-sweep"></div></div>
+  <div class="boot" id="boot" aria-hidden="true" hidden><div id="boot-text"></div><p class="skiphint">Press any key to skip</p><i class="boot-line"></i></div>
   <footer class="status" aria-label="Status">
-    <div class="cell" id="st-mods"><b>0</b> <span>mods</span></div>
-    <div class="cell" id="st-plug"><span class="lbl-p">Plugins</span> <span><b id="st-full">0</b>/254</span><span class="bar" aria-hidden="true"><i id="st-bar" style="width:0"></i></span></div>
-    <div class="cell" id="st-mach" role="group" aria-label="Your machine"><span class="lbl-l">Machine</span><span class="seg"><button data-machine="mac" aria-pressed="true">Mac</button><button data-machine="pc" aria-pressed="false">PC</button></span></div>
+    <div class="cell" id="st-mods"><b class="roll" id="st-n">0</b><span><span id="st-nl">mods</span><span class="vh"> in your list</span></span><span class="conf bad" id="st-conf" hidden></span></div>
+    <div class="cell" id="st-plug"><span class="lbl-p">Plugins</span> <span><b class="roll" id="st-full">0</b>/254</span><span class="bar" aria-hidden="true"><i id="st-bar" style="width:0"></i></span></div>
+    <div class="cell" id="st-mach" role="group" aria-label="Show costs for"><span class="lbl-l" aria-hidden="true">Costs for</span><span class="seg"><button data-machine="mac" aria-pressed="true">Mac</button><button data-machine="pc" aria-pressed="false">PC</button></span></div>
     <button class="btn primary" id="st-action">Next: Ending</button>
   </footer>
 </div>
 </div>
 <div id="sr-status" class="vh" role="status"></div>
-<script src="app.js?v=3"></script>
+<script src="fx.js?v=5"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

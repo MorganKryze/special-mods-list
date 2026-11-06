@@ -16,3 +16,4 @@ All notable changes to this project are documented here. The format follows [Kee
 ### Changed
 
 - Site rebuilt as a Pip-Boy: STAT (the S.P.E.C.I.A.L. sheet, one step per screen), MODS (list and details, with My list), PLAYTHROUGHS (holotapes) and ABOUT tabs, a status bar, and four screen colours.
+- Pip-Boy atmosphere and readability: Roboto Condensed (the game's Pip-Boy font), a rolling scan band, grain and glow kept off small text, a sliding tab outline, centred sub-tabs, rolling counters, a short boot screen, optional generated UI sounds, and an Effects setting (full, reduced, off).

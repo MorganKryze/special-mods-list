@@ -395,7 +395,7 @@ const SP_BUDGET = 35, SP_MIN = 1, SP_MAX = 10;
 // Base and stability belong to no interest: they always get the medium level (core plus recommended fixes).
 const SP_FOUNDATION = ["base", "stability"];
 const SP_STEPS = ["Machine", "Ending", "Frameworks", "S.P.E.C.I.A.L.", "Your list"];
-const spDefault = () => ({ machine: state.machine === "pc" ? "pc-mid" : "mac-base", ending: "open", raiders: false, lunar: true, ss2: true, pts: Object.fromEntries(SPECIAL.map(a => [a.k, 5])) });
+const spDefault = () => ({ machine: state.machine === "pc" ? "pc-mid" : "mac-base", ending: "open", raiders: false, lunar: true, ss2: true, pts: Object.fromEntries(SPECIAL.map(a => [a.k, 4])) });
 let SP = spDefault(), spStep = 0, spResult = null;
 const spSpent = a => SPECIAL.reduce((s, x) => s + a.pts[x.k], 0);
 
@@ -567,7 +567,8 @@ const queueFades = () => { cancelAnimationFrame(fadeRaf); fadeRaf = requestAnima
 document.addEventListener("scroll", queueFades, true);
 window.addEventListener("resize", queueFades);
 new MutationObserver(queueFades).observe(document.getElementById("screen"), { childList: true, subtree: true, attributes: true, attributeFilter: ["hidden", "class"] });
-const replay = (el, cls) => { if (!el) return; el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); };
+const svg = d => `<svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">${d}</svg>`;
+const ICON = { x: svg('<path d="M3.5 3.5l9 9M12.5 3.5l-9 9"/>'), back: svg('<path d="M10 3L5 8l5 5"/>'), ext: svg('<path d="M6 3h7v7M13 3L4 12"/>') };
 function announce(t) { const s = $("sr-status"); s.textContent = ""; requestAnimationFrame(() => s.textContent = t); }
 const storedTab = () => { try { const v = localStorage.getItem("sml-tab"); return ["stat", "mods", "list", "tapes", "about"].includes(v) ? v : "stat"; } catch { return "stat"; } };
 
@@ -582,30 +583,73 @@ function setPhosphor(v, quiet) {
 }
 function setupPhosphor() {
   const cur = PHOS[document.documentElement.dataset.phosphor] ? document.documentElement.dataset.phosphor : "green";
-  $("phosphor").innerHTML = `<legend class="vh">Screen colour</legend>` + Object.entries(PHOS).map(([k, [n, ink]]) => `<label class="opt radio"><input type="radio" name="phosphor" value="${k}"${k === cur ? " checked" : ""}><span class="sw" style="background:${ink};border-color:${ink}" aria-hidden="true"></span><span>${n}${k === "green" ? " (default)" : ""}</span></label>`).join("");
+  $("phosphor").innerHTML = `<legend class="lbl">Colour</legend>` + Object.entries(PHOS).map(([k, [n, ink]]) => `<label class="opt radio"><input type="radio" name="phosphor" value="${k}"${k === cur ? " checked" : ""}><span class="sw" style="background:${ink};border-color:${ink}" aria-hidden="true"></span><span>${n}${k === "green" ? " (default)" : ""}</span></label>`).join("");
   $("phosphor").addEventListener("change", e => { if (e.target.name === "phosphor") setPhosphor(e.target.value); });
 }
 
 /* ---------- Tabs ---------- */
 function setTab(t, o = {}) {
   if (!TABS.includes(t)) t = "stat";
+  const changed = t !== ui.tab;
   ui.tab = t;
   TABS.forEach(k => { const on = k === t, b = $("tab-" + k); b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; $("panel-" + k).hidden = !on; });
   if (o.sub) setSub(o.sub, { silent: true });
   if (t !== "mods") closePanel(false);
   revealInline($("tab-" + t), document.querySelector(".tabbar"));
-  if (t === "stat") revealInline($("sp-steps").querySelector("[aria-current]"), $("sp-steps"));
-  if (t === "stat") revealInline($("sp-steps").querySelector("[aria-current]"), $("sp-steps"));
+  if (changed) { FX.refresh(); placeTabline(); if (mqMob.matches) hideNotice(); }
+  // The strip was hidden until now: it appears in place, it slides only between its own items.
+  centreStrip(t === "stat" ? $("sp-steps") : t === "mods" ? $("subtabs") : null, true);
+  if (t === "mods" && ui.sub === "cat") requestAnimationFrame(() => FX.bar($("inv"), selRow(), true));
+  if (t === "stat") requestAnimationFrame(() => FX.bar($("sp-attrs"), $("sp-r-" + spSel), true));
   rememberTab(); syncStatus(); writeHash();
   if (!$("notice").hidden) noticeBtns(noticeExtra);
   if (o.focus) focusIn(t);
 }
 function setSub(s, o = {}) {
+  const changed = (s === "list" ? "list" : "cat") !== ui.sub;
   ui.sub = s === "list" ? "list" : "cat";
   [["cat", "subtab-cat", "sub-cat"], ["list", "subtab-list", "sub-list"]].forEach(([k, b, p]) => { const on = k === ui.sub; $(b).setAttribute("aria-selected", on); $(b).tabIndex = on ? 0 : -1; $(p).hidden = !on; });
   if (ui.sub === "list") closePanel(false);
+  centreStrip($("subtabs"), !changed || o.silent);
+  if (ui.sub === "cat") requestAnimationFrame(() => FX.bar($("inv"), selRow(), true));
+  if (changed && !o.silent) { FX.refresh(); if (mqMob.matches) hideNotice(); }
   if (!o.silent) { rememberTab(); syncStatus(); writeHash(); if (!$("notice").hidden) noticeBtns(noticeExtra); }
 }
+// The outline around the current tab and the line under the others: five thin pieces, transform only.
+function placeTabline(instant) {
+  const line = $("tabline"), a = document.querySelector('.tab[aria-selected="true"]');
+  if (!line || !a || !line.offsetWidth) return;
+  const L = line.getBoundingClientRect(), r = a.getBoundingClientRect(), W = L.width;
+  const x0 = Math.round(r.left - L.left), x1 = Math.round(r.right - L.left);
+  const jump = instant || !FX.moving();
+  line.classList.toggle("instant", jump);
+  const set = (c, t) => { line.querySelector(c).style.transform = t; };
+  set(".tl-a", `scaleX(${x0 / W})`);
+  set(".tl-b", `scaleX(${(W - x1) / W})`);
+  set(".br-l", `translateX(${x0}px)`);
+  set(".br-r", `translateX(${x1 - 2}px)`);
+  set(".br-t", `translateX(${x0}px) scaleX(${(x1 - x0) / 100})`);
+  if (jump) { void line.offsetWidth; line.classList.remove("instant"); }
+}
+// Sub-tabs slide so the current one sits in the centre, as in the game. A focused item is brought in view too.
+function centreStrip(strip, instant, on) {
+  if (!strip || !strip.offsetWidth) return;
+  const track = strip.querySelector(".subtrack"), a = on || strip.querySelector('[aria-current="step"], [aria-selected="true"]');
+  if (!track || !a) return;
+  const jump = instant || !FX.moving();
+  track.classList.toggle("instant", jump);
+  track.style.transform = `translateX(${Math.round(strip.clientWidth / 2 - (a.offsetLeft + a.offsetWidth / 2))}px)`;
+  if (jump) { void track.offsetWidth; track.classList.remove("instant"); }
+}
+["sp-steps", "subtabs"].forEach(id => {
+  const strip = $(id);
+  strip.addEventListener("focusin", e => { if (e.target.closest(".subtab")) centreStrip(strip, false, e.target.closest(".subtab")); });
+  strip.addEventListener("focusout", () => setTimeout(() => { if (!strip.contains(document.activeElement)) centreStrip(strip); }));
+});
+function relayout() { placeTabline(true); centreStrip($("sp-steps"), true); centreStrip($("subtabs"), true); FX.bar($("inv"), selRow(), true); FX.bar($("sp-attrs"), $("sp-r-" + spSel), true); }
+window.addEventListener("resize", () => { cancelAnimationFrame(relayout.raf); relayout.raf = requestAnimationFrame(relayout); });
+window.addEventListener("fxchange", relayout);
+if (document.fonts) document.fonts.ready.then(relayout);
 function rememberTab() { try { localStorage.setItem("sml-tab", ui.tab === "mods" ? (ui.sub === "list" ? "list" : "mods") : ui.tab); } catch {} }
 function focusIn(t) {
   const target = t === "stat" ? $("sp-h") : t === "mods" ? (ui.sub === "list" ? $("lo-h") : $("q")) : t === "tapes" ? $("tapes-h") : $("about-h");
@@ -691,22 +735,28 @@ function listNumbers(r = R) {
 }
 function statusAction() {
   const n = R.all.size;
-  if (!loaded) return { id: "", label: "Loading…" };
-  if (ui.tab === "stat") return spStep < 3 ? { id: "next", label: `Next: ${SP_STEPS[spStep + 1]}` } : spStep === 3 ? { id: "next", label: "Build my list" } : { id: "use", label: "Use this list" };
-  if (ui.tab === "mods" && ui.sub === "list") return n ? { id: "csv", label: "Download CSV" } : { id: "tapes", label: "Pick a holotape" };
-  if (ui.tab === "mods") return n ? { id: "list", label: "View my list" } : { id: "tapes", label: "Pick a holotape" };
-  if (ui.tab === "tapes") return n ? { id: "list", label: "View my list" } : { id: "stat", label: "Fill the sheet" };
-  return { id: "mods", label: "Browse mods" };
+  if (!loaded) return { id: "", label: "" };
+  if (ui.tab === "stat") return spStep < 3 ? { id: "next", label: `Next: ${SP_STEPS[spStep + 1]}`, short: "Next" } : spStep === 3 ? { id: "next", label: "Build my list", short: "Build" } : { id: "use", label: "Use this list", short: "Use list" };
+  if (ui.tab === "mods" && ui.sub === "list" && n) return { id: "csv", label: "Download CSV", short: "CSV" };
+  return { id: "", label: "" };
 }
 function syncStatus() {
-  const { n, full, est, over } = listNumbers(), c = R.conflicts.length;
-  $("st-mods").innerHTML = `<b>${num(n)}</b><span>${n === 1 ? "mod" : "mods"}<span class="vh"> in your list</span></span>${c ? `<span class="conf bad">${plural(c, "conflict")}</span>` : ""}`;
-  $("st-full").textContent = num(full) + (est ? "+" : "");
-  $("st-bar").style.width = Math.min(100, (full + est) / 254 * 100) + "%";
+  // On STAT's last step the bar previews the proposed list until "Use this list" loads it.
+  const pv = ui.tab === "stat" && spStep === SP_STEPS.length - 1 && spResult;
+  const { n, full, est, over } = pv ? { n: pv.r.all.size, full: pv.full, est: pv.est, over: pv.full + pv.est > 254 } : listNumbers(), c = pv ? pv.stuck.length : R.conflicts.length;
+  $("st-mods").classList.toggle("preview", !!pv);
+  FX.roll($("st-n"), num(n));
+  $("st-nl").textContent = pv ? "preview" : n === 1 ? "mod" : "mods";
+  $("st-nl").nextElementSibling.textContent = pv ? " in the proposed list, not loaded yet" : " in your list";
+  $("st-conf").hidden = !c; $("st-conf").textContent = c ? plural(c, "conflict") : "";
+  FX.roll($("st-full"), num(full) + (est ? "+" : ""));
+  $("st-bar").style.transform = `scaleX(${Math.min(1, (full + est) / 254)})`;
   $("st-plug").classList.toggle("bad", over);
   $("st-plug").setAttribute("aria-label", `Full plugins: ${num(full)}${est ? ` plus ${est} not counted` : ""} of 254${over ? ", over the limit" : ""}`);
   const a = statusAction(), b = $("st-action");
-  b.textContent = a.label; b.dataset.act = a.id; b.disabled = !a.id;
+  b.innerHTML = a.id ? `<span class="lg">${esc(a.label)}</span><span class="sh" aria-hidden="true">${esc(a.short || a.label)}</span>` : "";
+  b.dataset.act = a.id; b.disabled = !a.id; b.classList.toggle("vacant", !a.id); b.setAttribute("aria-hidden", String(!a.id));
+  document.querySelector(".status").classList.toggle("has-action", !!a.id);
   $("sub-n").textContent = n ? `(${num(n)})` : "";
 }
 function runAction(id) {
@@ -763,7 +813,7 @@ function resetFilters(clearSearch) {
   syncFilterUI(); render();
 }
 function setupFilters() {
-  $("f-section").innerHTML = `<option value="">Every section</option>` + MOD_KEYS.map(k => `<option value="${k}">${secNo(k)} ${esc(MODULES[k])}</option>`).join("");
+  $("f-section").innerHTML = `<option value="">Every section</option>` + MOD_KEYS.map(k => `<option value="${k}">${esc(MODULES[k])}</option>`).join("");
   $("f-profile").innerHTML = `<option value="">Any faction</option>` + PROFILES.map(p => `<option value="${p}">${esc(PROFILE_LABEL[p])}</option>`).join("");
   $("f-pt").innerHTML = `<option value="">Any mod</option>` + PT.map(p => `<option value="${esc(p.id)}">${esc(p.short)} (${p.n ? plural(p.n, "mod") : "no mods yet"}${p.status === "planned" ? ", planned" : ""})</option>`).join("");
   $("f-pt-row").hidden = !PT.length;
@@ -843,11 +893,11 @@ function render(opts = {}) {
   else if (state.sort === "section") {
     const groups = [];
     shown.forEach(m => { const g = groups[groups.length - 1]; if (!g || g.k !== m.module) groups.push({ k: m.module, items: [m] }); else g.items.push(m); });
-    inv.innerHTML = `<ul>${groups.map(g => `<li class="grp"><h3 class="gh"><span>${MOD_KEYS.includes(g.k) ? secNo(g.k) + " " : ""}${esc(MODULES[g.k] || g.k)}</span><span>${num(g.items.length)}</span></h3><ul>${g.items.map(rowHTML).join("")}</ul></li>`).join("")}</ul>`;
+    inv.innerHTML = `<ul>${groups.map(g => `<li class="grp"><h3 class="gh"><span>${esc(MODULES[g.k] || g.k)}</span><span>${num(g.items.length)}</span></h3><ul>${g.items.map(rowHTML).join("")}</ul></li>`).join("")}</ul>`;
   } else inv.innerHTML = `<ul>${shown.map(rowHTML).join("")}</ul>`;
   // The selection follows the list: a mod the filters hide gives way to the first one shown.
   if (!opts.keepSel && !shown.some(m => m.id === ui.sel)) { ui.sel = shown[0]?.id || null; openId = null; }
-  markSel(); renderDetail(); writeHash();
+  instantBar = true; markSel(); instantBar = false; renderDetail(); writeHash();
   if (hadFocus) { const r = selRow() || inv.querySelector(".row"); (r || $("q")).focus({ preventScroll: true }); }
   if (!opts.quiet) { clearTimeout(countTimer); countTimer = setTimeout(() => announce(shown.length ? `${plural(shown.length, "mod")} shown` : $("inv").querySelector(".eh")?.textContent || "No mod shown"), 400); }
 }
@@ -856,7 +906,9 @@ function markSel() {
   $("inv").querySelectorAll('.row[aria-current], .row[tabindex="0"]').forEach(r => { r.removeAttribute("aria-current"); r.tabIndex = -1; });
   const r = selRow() || $("inv").querySelector(".row");
   if (r) { r.tabIndex = 0; if (r.dataset.pick === ui.sel) r.setAttribute("aria-current", "true"); }
+  FX.bar($("inv"), r && r.dataset.pick === ui.sel ? r : null, instantBar);
 }
+let instantBar = false;
 function selectMod(id, o = {}) {
   if (!BY[id]) return;
   ui.sel = id; openId = id;
@@ -884,7 +936,7 @@ $("inv").addEventListener("keydown", e => {
   if (j < 0 && e.key === "ArrowUp") { $("q").focus(); return; }
   const n = rows[Math.max(0, Math.min(rows.length - 1, j))];
   ui.sel = n.dataset.pick; openId = ui.sel;
-  markSel(); n.focus({ preventScroll: true }); n.scrollIntoView({ block: "nearest" });
+  n.scrollIntoView({ block: "nearest" }); markSel(); n.focus({ preventScroll: true }); FX.sound("row");
   cancelAnimationFrame(detRaf); detRaf = requestAnimationFrame(() => { renderDetail(); writeHash(); });
 });
 
@@ -926,13 +978,13 @@ function detailHTML(m) {
   const by = [n.author && "by " + n.author, n.version && "version " + n.version, n.updated && "updated " + fmtDate(n.updated, true), n.endorsements != null && num(n.endorsements) + " endorsements", fmtSize(sizeOf(m)) && fmtSize(sizeOf(m))].filter(Boolean).join(" · ");
   const src = list(m.evidence), why = m.tier === "avoid" ? avoidWhy(m) : "";
   const machines = state.machine === "pc" ? ["pc", "mac"] : ["mac", "pc"];
-  return `<div class="d-back"><button class="lnk" data-back>‹ Back to the list</button></div>
-<p class="d-where"><span>${MOD_KEYS.includes(m.module) ? "Section " + secNo(m.module) + " · " : ""}${esc(MODULES[m.module] || m.module)}</span><span class="tier">${TIER_LABEL[m.tier] || esc(m.tier)}</span></p>
+  return `<div class="d-back"><button class="lnk" data-back>${ICON.back}Back to the list</button></div>
+<p class="d-where"><span>${esc(MODULES[m.module] || m.module)}</span><span class="tier">${TIER_LABEL[m.tier] || esc(m.tier)}</span></p>
 <h2 class="d-title" id="d-title" tabindex="-1">${esc(m.name)}</h2>
 ${by ? `<p class="d-by">${esc(by)}</p>` : ""}
 ${m.tier === "avoid" ? `<p class="d-lead bad">Avoid${why ? ": " + esc(why) : ""}.</p>` : ""}
 <p class="d-lead">${esc(m.summary)}</p>
-<div class="d-act"><button class="btn dtoggle" data-toggle="${esc(m.id)}" data-st="">Add to list</button>${nexusUrl(m) ? `<a class="lnk" href="${nexusUrl(m)}" rel="noopener">Open on Nexus Mods<span class="vh"> (new page)</span> ↗</a>` : ""}<p class="d-eff" id="d-eff" aria-live="polite"></p></div>
+<div class="d-act"><button class="btn dtoggle" data-toggle="${esc(m.id)}" data-st="">Add to list</button>${nexusUrl(m) ? `<a class="lnk" href="${nexusUrl(m)}" rel="noopener">Open on Nexus Mods${ICON.ext}</a>` : ""}<p class="d-eff" id="d-eff" aria-live="polite"></p></div>
 <h3 class="h3">Stats</h3>
 <dl class="stats">
   ${dd("Runtime 1.11.240", lab(LBL.rtLong, m.runtime_1_11_240), m.runtime_1_11_240 === "no")}
@@ -961,7 +1013,7 @@ function renderDetail(force) {
   if (!force && id === detailId && detailMach === state.machine) { updateDetail(); return; }
   detailId = id; detailMach = state.machine;
   d.innerHTML = id ? detailHTML(BY[id])
-    : `<div class="d-back"><button class="lnk" data-back>‹ Back to the list</button></div><div class="empty"><p class="eh">No mod selected</p><p>${shown.length ? "Pick a mod on the left to see what it does." : "The list is empty, so there is nothing to show here."}</p></div>`;
+    : `<div class="d-back"><button class="lnk" data-back>${ICON.back}Back to the list</button></div><div class="empty"><p class="eh">No mod selected</p><p>${shown.length ? "Pick a mod on the left to see what it does." : "The list is empty, so there is nothing to show here."}</p></div>`;
   d.scrollTop = 0;
   if (id) updateDetail();
 }
@@ -1004,11 +1056,11 @@ function renderReq() {
   const r = R, { mods, n, full, est, over } = listNumbers(r), nAuto = r.auto.size + r.patches.size;
   const light = mods.reduce((s, m) => s + (+m.plugins_light || 0), 0);
   const size = mods.reduce((s, m) => s + sizeOf(m), 0);
-  $("ml-n").textContent = num(n);
+  FX.roll($("ml-n"), num(n));
   $("ml-sub").textContent = n === 1 ? "mod" : "mods";
   const parts = [r.auto.size && plural(r.auto.size, "requirement"), r.patches.size && plural(r.patches.size, "patch", "patches")].filter(Boolean);
   $("ml-who").textContent = n ? `${num(r.chosen.size)} picked by you${nAuto ? `, plus ${joinAnd(parts)} added for you` : ""}.` : "Your list is empty.";
-  $("ml-full").textContent = num(full);
+  FX.roll($("ml-full"), num(full));
   $("ml-full-of").textContent = over ? "of 254: over the limit" : "of 254";
   $("ml-full-of").classList.toggle("bad", over);
   const cw = Math.min(100, full / 254 * 100), ew = Math.max(0, Math.min(100 - cw, est / 254 * 100));
@@ -1048,7 +1100,7 @@ function renderReq() {
       i++;
       let why = "";
       if (!r.chosen.has(m.id)) { const w = whyAuto(m.id); why = w.names.length ? `<small>${w.kind === "patch" ? "Patch for " : "Needed by "}${esc(joinAnd(w.names))}</small>` : `<small>Added for you</small>`; }
-      return `<li class="m"><span class="no" aria-hidden="true">${i}</span><span><button class="linkid" data-open="${esc(m.id)}">${esc(m.name)}</button>${why}</span>${r.chosen.has(m.id) ? `<button class="rm" data-toggle="${esc(m.id)}" aria-label="Remove ${esc(m.name)}">×</button>` : "<span></span>"}</li>`;
+      return `<li class="m"><span class="no" aria-hidden="true">${i}</span><span><button class="lo-name" data-open="${esc(m.id)}">${esc(m.name)}</button>${why}</span>${r.chosen.has(m.id) ? `<button class="rm" data-toggle="${esc(m.id)}" aria-label="Remove ${esc(m.name)}">${ICON.x}</button>` : "<span></span>"}</li>`;
     }).join("")}</ol></li>`).join("");
   }
   ["x-csv", "x-txt", "x-link", "x-clear"].forEach(id => $(id).disabled = !n);
@@ -1083,20 +1135,19 @@ function renderTapes() {
   $("tapes").innerHTML = PT.map(p => {
     const planned = p.status === "planned", id = esc(p.id);
     return `<article class="tcard${planned ? " planned" : ""}" data-pt="${id}" aria-labelledby="tt-${id}">
-<div class="tape"><div class="tlabel"><span class="tt" id="tt-${id}">${esc(p.title)}</span><span class="tm">${esc(p.kind)} · ${p.n ? plural(p.n, "mod") : "no mods yet"}</span><span class="ld" aria-hidden="true">■ Loaded in your list</span></div>${REELS}</div>
+<div class="tape"><div class="tlabel"><span class="tt" id="tt-${id}">${esc(p.title)}</span><span class="tm">${esc(p.kind)} · ${p.n ? plural(p.n, "mod") : "no mods yet"}${planned ? `<span class="tag">Planned</span>` : ""}</span><span class="ld" aria-hidden="true"><i class="mk on"></i>Loaded in your list</span><span class="lq" aria-hidden="true">Loading <i></i><i></i><i></i></span></div>${REELS}</div>
 <div class="tinfo"><p class="ts">${planned ? `Planned, not played yet${p.n ? ": the list may still change" : ""}` : "Played"}</p>
 <div class="row-btns"><button class="btn primary preset" data-preset="pt:${id}" aria-pressed="false"${p.n ? "" : ' aria-disabled="true"'}>${p.n ? "Load this tape" : "Nothing to load yet"}<span class="vh">: ${esc(p.title)}</span></button>${p.doc ? `<a class="lnk" href="${esc(p.doc)}" rel="noopener">Read the write-up<span class="vh">: ${esc(p.title)}</span></a>` : ""}</div>
-${p.machine ? `<p class="sm">Built for ${esc(p.machine)}.</p>` : ""}${p.summary ? `<p class="sm">${esc(p.summary)}</p>` : ""}</div></article>`;
+<div class="tdesc">${p.machine ? `<p class="sm">Built for ${esc(p.machine)}.</p>` : ""}${p.summary ? `<p class="sm">${esc(p.summary)}</p>` : ""}</div></div></article>`;
   }).join("") + `<article class="tcard blank" aria-labelledby="tt-blank">
-<div class="tape"><div class="tlabel"><span class="tt" id="tt-blank">Blank tape</span><span class="tm">Your own list</span><span class="tm">&gt; Answer four questions_</span></div>${REELS}</div>
+<div class="tape"><div class="tlabel"><span class="tt" id="tt-blank">Blank tape</span><span class="tm">Your own list</span><span class="tm">Answer four questions</span></div>${REELS}</div>
 <div class="tinfo"><p class="ts">Built from your answers</p>
 <div class="row-btns"><button class="btn" data-go="stat">Fill the sheet</button></div>
-<p class="sm">Your machine, your ending, two frameworks and what you care about. The list is built from the catalogue's own ratings, the same way every time.</p></div></article>`;
+<div class="tdesc"><p class="sm">Your machine, your ending, two frameworks and what you care about. The list is built from the catalogue's own ratings, the same way every time.</p></div></div></article>`;
   syncPresets();
 }
 function spinTape(id) {
-  const c = document.querySelector(`.tcard[data-pt="${CSS.escape(id)}"]`);
-  if (c) { replay(c, "spin"); setTimeout(() => c.classList.remove("spin"), 1000); }
+  FX.loadTape(document.querySelector(`.tcard[data-pt="${CSS.escape(id)}"]`));
 }
 
 /* ---------- STAT: the sheet UI ---------- */
@@ -1109,57 +1160,68 @@ const ss2Txt = v => {
 const descFor = (name, v) => name === "sp-machine" ? SP_MACHINES[v]?.text : name === "sp-ending" ? SP_ENDINGS[v]?.[1] : name === "sp-lunar" ? LUNAR_TXT[v] : name === "sp-ss2" ? ss2Txt(v) : "";
 let spSel = "S";
 const choice = (name, value, title, checked) => `<label class="opt radio"><input type="radio" name="${name}" value="${esc(value)}"${checked ? " checked" : ""}><span class="bx" aria-hidden="true"></span><span>${esc(title)}<span class="vh">. ${esc(descFor(name, value))}</span></span></label>`;
-const qdesc = (name, v) => `<p class="qdesc" id="qd-${name}" aria-hidden="true">${esc(descFor(name, v))}</p>`;
-const qHead = (i, h) => `<p class="qno">Question ${i + 1} of 4</p><h2 class="qh" id="sp-h" tabindex="-1">&gt; ${h}</h2>`;
+const titleFor = (name, v) => name === "sp-machine" ? SP_MACHINES[v]?.title : name === "sp-ending" ? SP_ENDINGS[v]?.[0] : name === "sp-lunar" ? (v === "yes" ? "Yes, use Lunar" : "No Lunar") : (v === "yes" ? "Yes, use Sim Settlements 2" : "No Sim Settlements 2");
+// The card repeats what the radio labels already say to a screen reader, so it is hidden from it.
+const qcard = (name, v, label) => `<div class="qc" aria-hidden="true"><p class="lbl">${esc(label)}</p><h3 id="qt-${name}">${esc(titleFor(name, v))}</h3><p id="qd-${name}">${esc(descFor(name, v))}</p></div>`;
+const qHead = (i, h) => `<p class="qno">Step ${i + 1} of ${SP_STEPS.length}</p><h2 class="qh" id="sp-h" tabindex="-1">${h}</h2>`;
 function spStepHTML() {
-  if (spStep === 0) return `<div class="q"><p class="term" aria-hidden="true">SPECIAL MODS LIST TERMLINK<br>${num(MODS.length)} mods checked against Fallout 4 1.11.240</p>${qHead(0, "What will you play on?")}
-<fieldset class="opts"><legend class="vh">Your machine</legend>${Object.entries(SP_MACHINES).map(([k, o]) => choice("sp-machine", k, o.title, SP.machine === k)).join("")}</fieldset>${qdesc("sp-machine", SP.machine)}
-<p class="small dim">Costs were measured on a base M3 Mac. Gaming PC costs are estimated, not measured yet: ${num(MODS.filter(m => m.perf_pc).length)} of ${num(MODS.length)} mods so far.</p>
-<div class="row-btns"><button class="lnk" data-go="tapes">Skip the questions: pick a ready-made playthrough</button></div></div>`;
-  if (spStep === 1) return `<div class="q">${qHead(1, "Which ending are you playing for?")}
-<fieldset class="opts"><legend class="vh">Your faction ending</legend>${Object.entries(SP_ENDINGS).map(([k, [t]]) => choice("sp-ending", k, t, SP.ending === k)).join("")}</fieldset>${qdesc("sp-ending", SP.ending)}
+  if (spStep === 0) return `<div class="special qstep"><div>${qHead(0, "What will you play on?")}
+<fieldset class="opts"><legend class="vh">Your machine</legend>${Object.entries(SP_MACHINES).map(([k, o]) => choice("sp-machine", k, o.title, SP.machine === k)).join("")}</fieldset>
+<div class="row-btns"><button class="lnk" data-go="tapes">Skip the questions: pick a ready-made playthrough</button></div></div>
+<section class="sp-right">${qcard("sp-machine", SP.machine, "Your machine")}<p class="small dim">Costs were measured on a base M3 Mac. Gaming PC costs are estimated, not measured yet: ${num(MODS.filter(m => m.perf_pc).length)} of ${num(MODS.length)} mods so far.</p></section></div>`;
+  if (spStep === 1) return `<div class="special qstep"><div>${qHead(1, "Which ending are you playing for?")}
+<fieldset class="opts"><legend class="vh">Your faction ending</legend>${Object.entries(SP_ENDINGS).map(([k, [t]]) => choice("sp-ending", k, t, SP.ending === k)).join("")}</fieldset>
 <label class="opt check"><input type="checkbox" id="sp-raiders"${SP.raiders ? " checked" : ""}><span class="bx" aria-hidden="true"></span><span>Welcome raider mods too<span class="vh">. Mods made for a raider playthrough, such as the Nuka-World gangs.</span></span></label>
-<p class="small dim">Raider mods are made for a raider playthrough, such as the Nuka-World gangs.</p>
-<div class="row-btns"><button class="lnk" data-sp="back">‹ Back</button></div></div>`;
-  if (spStep === 2) return `<div class="q">${qHead(2, "Do you want the two big frameworks?")}
-<p class="dim prose">Many mods are built for, or against, these two. Yes adds them with their patches. No leaves out every mod that needs them.</p>
-<div class="fw"><div><fieldset class="opts"><legend>Lunar Fallout Overhaul</legend>${choice("sp-lunar", "yes", "Yes, use Lunar", SP.lunar)}${choice("sp-lunar", "no", "No", !SP.lunar)}</fieldset>${qdesc("sp-lunar", SP.lunar ? "yes" : "no")}</div>
-<div><fieldset class="opts"><legend>Sim Settlements 2</legend>${choice("sp-ss2", "yes", "Yes, use SS2", SP.ss2)}${choice("sp-ss2", "no", "No", !SP.ss2)}</fieldset>${qdesc("sp-ss2", SP.ss2 ? "yes" : "no")}</div></div>
-<div class="row-btns"><button class="lnk" data-sp="back">‹ Back</button></div></div>`;
+<div class="row-btns"><button class="lnk" data-sp="back">${ICON.back}Back</button></div></div>
+<section class="sp-right">${qcard("sp-ending", SP.ending, "Your ending")}<p class="small dim">Raider mods are made for a raider playthrough, such as the Nuka-World gangs.</p></section></div>`;
+  if (spStep === 2) return `<div class="special qstep"><div class="fw-l">${qHead(2, "Do you want the two big frameworks?")}
+<fieldset class="opts"><legend>Lunar Fallout Overhaul</legend>${choice("sp-lunar", "yes", "Yes, use Lunar", SP.lunar)}${choice("sp-lunar", "no", "No", !SP.lunar)}</fieldset>
+<fieldset class="opts"><legend>Sim Settlements 2</legend>${choice("sp-ss2", "yes", "Yes, use SS2", SP.ss2)}${choice("sp-ss2", "no", "No", !SP.ss2)}</fieldset>
+<div class="row-btns"><button class="lnk" data-sp="back">${ICON.back}Back</button></div></div>
+<section class="sp-right"><p class="small dim">Many mods are built for, or against, these two. Yes adds them with their patches. No leaves out every mod that needs them.</p>${qcard("sp-lunar", SP.lunar ? "yes" : "no", "Lunar Fallout Overhaul")}${qcard("sp-ss2", SP.ss2 ? "yes" : "no", "Sim Settlements 2")}</section></div>`;
   if (spStep === 3) {
     const counts = buildSheet(SP, true).perAttr, left = SP_BUDGET - spSpent(SP);
     return `<div class="special"><div>${qHead(3, `Spread ${SP_BUDGET} points over what you care about`)}
-<ul class="attrs" id="sp-attrs" aria-label="Interests">${SPECIAL.map(x => `<li><button class="attr" data-sp="pick" data-k="${x.k}" id="sp-r-${x.k}"${x.k === spSel ? ' aria-current="true"' : ""} tabindex="${x.k === spSel ? 0 : -1}"><span class="lt" aria-hidden="true">${x.k}</span><span class="an">${x.name}<span class="dim">${esc(x.title)}</span></span><span class="av" id="sp-v-${x.k}">${SP.pts[x.k]}</span><span class="vh"> points</span></button></li>`).join("")}</ul>
-<p class="keys" aria-hidden="true">↑ ↓ choose an interest · ← → change its points</p>
-<div class="row-btns"><button class="lnk" data-sp="back">‹ Back</button></div></div>
-<section class="sp-right" aria-labelledby="sp-a-h">${spRightHTML(counts, left)}</section></div>`;
+<ul class="attrs" id="sp-attrs" aria-label="Interests">${SPECIAL.map(x => `<li><button class="attr" data-sp="pick" data-k="${x.k}" id="sp-r-${x.k}"${x.k === spSel ? ' aria-current="true"' : ""} tabindex="${x.k === spSel ? 0 : -1}"><span class="lt" aria-hidden="true">${x.k}</span><span class="an">${x.name}<span class="dim">${esc(x.title)}</span></span><span class="av roll" id="sp-v-${x.k}">${SP.pts[x.k]}</span><span class="vh"> points</span></button></li>`).join("")}</ul>
+<p class="keys" aria-hidden="true">Up and down: choose an interest. Left and right: change its points.</p>
+<div class="row-btns"><button class="lnk" data-sp="back">${ICON.back}Back</button></div></div>
+<section class="sp-right" aria-labelledby="sp-a-h" data-k="${spSel}">${spRightHTML(counts, left)}</section></div>`;
   }
   return spResultHTML(spResult = buildSheet(SP));
 }
 function spRightHTML(counts, left) {
   const x = SPECIAL.find(s => s.k === spSel), v = SP.pts[x.k];
-  return `<p class="big" id="sp-big" aria-hidden="true"><span class="ab">${ABBR[x.k]}</span><span class="bn">${v}</span></p>
+  return `<p class="big" id="sp-big" aria-hidden="true"><span class="ab">${ABBR[x.k]}</span><span class="bn roll">${v}</span></p>
 <h3 id="sp-a-h">${x.name}: ${esc(x.title.toLowerCase())}</h3>
 <p class="sp-text">${esc(x.text)}</p>
 <p class="band" id="sp-band">${esc(spBand(x, counts))}</p>
 <div class="pips" aria-hidden="true">${Array.from({ length: SP_MAX }, (_, i) => `<i class="${i < v ? "on" : ""}${i === 3 || i === 6 ? " cut" : ""}"></i>`).join("")}</div>
 <p class="small dim sp-legend">1 to 3: core fixes only. 4 to 6: adds the mods we recommend. 7 to 10: adds the optional mods from our playthroughs too.</p>
-<div class="ctrl"><button class="btn sq" data-sp="dec" data-k="${x.k}" aria-label="Lower ${x.name}"${v <= SP_MIN ? ' aria-disabled="true"' : ""}>−</button><button class="btn sq" data-sp="inc" data-k="${x.k}" aria-label="Raise ${x.name}"${v >= SP_MAX || left <= 0 ? ' aria-disabled="true"' : ""}>+</button><p class="pool" id="sp-pool">Points left <b id="sp-left">${num(left)}</b> of ${SP_BUDGET}</p></div>`;
+<div class="ctrl"><button class="btn sq" data-sp="dec" data-k="${x.k}" aria-label="Lower ${x.name}"${v <= SP_MIN ? ' aria-disabled="true"' : ""}>−</button><button class="btn sq" data-sp="inc" data-k="${x.k}" aria-label="Raise ${x.name}"${v >= SP_MAX || left <= 0 ? ' aria-disabled="true"' : ""}>+</button><p class="pool" id="sp-pool">Points left <b class="roll" id="sp-left">${num(left)}</b> of ${SP_BUDGET}</p></div>`;
 }
-function spSyncPoints(bump) {
-  SPECIAL.forEach(x => { const e = $("sp-v-" + x.k); if (e) e.textContent = SP.pts[x.k]; });
+function spSyncPoints() {
+  SPECIAL.forEach(x => FX.roll($("sp-v-" + x.k), SP.pts[x.k]));
   const r = document.querySelector(".sp-right"); if (!r) return;
-  const counts = buildSheet(SP, true).perAttr, left = SP_BUDGET - spSpent(SP);
-  const f = document.activeElement, fk = f && r.contains(f) ? f.dataset.sp : null;
+  const counts = buildSheet(SP, true).perAttr, left = SP_BUDGET - spSpent(SP), x = SPECIAL.find(s => s.k === spSel), v = SP.pts[spSel];
+  if (r.dataset.k === spSel) {
+    // Same interest: update in place so the numbers roll and focus stays put.
+    FX.roll(r.querySelector(".bn"), v); FX.roll($("sp-left"), num(left));
+    $("sp-band").textContent = spBand(x, counts);
+    r.querySelectorAll(".pips i").forEach((p, i) => p.classList.toggle("on", i < v));
+    r.querySelector('[data-sp="dec"]').setAttribute("aria-disabled", String(v <= SP_MIN));
+    r.querySelector('[data-sp="inc"]').setAttribute("aria-disabled", String(v >= SP_MAX || left <= 0));
+    return;
+  }
+  r.dataset.k = spSel;
   r.innerHTML = spRightHTML(counts, left);
-  if (fk) r.querySelector(`[data-sp="${fk}"]`)?.focus();
-  if (bump) replay($("sp-big"), "bump");
+  FX.shift(r, 0);
 }
 function spPickAttr(k, focus) {
   spSel = k;
   document.querySelectorAll("#sp-attrs .attr").forEach(b => { const on = b.dataset.k === k; b.tabIndex = on ? 0 : -1; if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
-  spSyncPoints(false);
-  if (focus) $("sp-r-" + k).focus();
+  spSyncPoints();
+  FX.bar($("sp-attrs"), $("sp-r-" + k));
+  if (focus) { $("sp-r-" + k).focus(); FX.sound("row"); }
 }
 function spResultHTML(res) {
   const r = res.r, n = r.all.size, a = res.answers, added = n - res.chosen.size, overSlots = res.full + res.est > 254;
@@ -1176,7 +1238,7 @@ function spResultHTML(res) {
   const lefts = Object.keys(SP_LEFT).filter(k => res.left[k]?.length).map(k => `<li>${plural(res.left[k].length, "mod")} ${esc(SP_LEFT[k](a)[res.left[k].length === 1 ? 0 : 1])}</li>`);
   const near = res.near && res.near.o ? res.near : null;
   return `<div class="result"><div>
-<p class="qno">Your list</p><h2 class="qh" id="sp-h" tabindex="-1">&gt; ${plural(n, "mod")}, ready to load</h2>
+<p class="qno">Step 5 of 5</p><h2 class="qh" id="sp-h" tabindex="-1">${plural(n, "mod")}, ready to load</h2>
 <p>${num(res.chosen.size)} from your answers${added ? `, ${num(added)} requirements and patches added for you` : ""}. Costs are ${esc(res.mc.col === "perf" ? "the base M3 Mac ratings" : "the gaming PC ratings, estimated so far")}.</p>
 <dl class="tally">
 ${row("Mods", num(n))}
@@ -1189,7 +1251,7 @@ ${row("Cost not rated for you", num(res.unrated), res.unrated > 0 && !!res.mc.un
 <div class="row-btns"><button class="btn" data-sp="back">Change answers</button><button class="btn" data-sp="copy">Copy sheet link</button></div>
 <p class="small dim" style="margin-top:16px">Use this list replaces your current list. You can undo it.</p>
 </div><div>
-${alerts.length ? `<h3 class="h3">Warnings</h3><div class="alerts">${alerts.join("")}</div>` : ""}
+${alerts.length ? `<h3 class="h3">Warnings and notes</h3><div class="alerts">${alerts.join("")}</div>` : ""}
 ${near ? `<h3 class="h3">Closest ready-made playthrough</h3><div class="near"><p>${esc(near.p.title)}${near.p.status === "planned" ? " (planned, not played yet)" : ""}: ${num(near.o)} of its ${plural(near.size, "mod")} are in your list.</p><button class="btn" data-sp="near" data-pt="${esc(near.p.id)}">Load this playthrough instead</button></div>` : ""}
 ${drops.length ? `<h3 class="h3">Taken out to avoid conflicts</h3>${drops.join("")}` : ""}
 ${lefts.length ? `<h3 class="h3">Left out by your answers</h3><ul class="plist">${lefts.join("")}</ul><p class="small dim" style="margin-top:16px">Mods marked avoid are never added.</p>` : ""}
@@ -1197,11 +1259,14 @@ ${lefts.length ? `<h3 class="h3">Left out by your answers</h3><ul class="plist">
 }
 function spRender(o = {}) {
   if (!loaded) return;
-  $("sp-steps").innerHTML = SP_STEPS.map((t, i) => `<button class="subtab" data-sp="step" data-i="${i}"${i === spStep ? ' aria-current="step"' : ""}>${esc(t)}<span class="vh">, step ${i + 1} of ${SP_STEPS.length}</span></button>`).join("");
+  const strip = $("sp-steps");
+  if (!strip.querySelector(".subtrack")) strip.innerHTML = `<div class="subtrack">${SP_STEPS.map((t, i) => `<button class="subtab" data-sp="step" data-i="${i}">${esc(t)}<span class="vh">, step ${i + 1} of ${SP_STEPS.length}</span></button>`).join("")}</div>`;
+  strip.querySelectorAll(".subtab").forEach(b => { if (+b.dataset.i === spStep) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
   const box = $("sp");
   box.innerHTML = spStepHTML();
-  revealInline($("sp-steps").querySelector("[aria-current]"), $("sp-steps"));
-  if (o.anim) { replay(box, "enter"); replay($("sp-steps").querySelector("[aria-current]"), "just"); }
+  centreStrip(strip, !o.anim);
+  if (o.anim) FX.shift(box, o.dir || 1);
+  requestAnimationFrame(() => FX.bar($("sp-attrs"), $("sp-r-" + spSel), true));
   $("sp-scroll").scrollTop = 0;
   if (o.focus) $("sp-h").focus({ preventScroll: true });
   syncStatus();
@@ -1210,14 +1275,15 @@ function spGo(i) {
   const prev = spStep;
   spStep = Math.max(0, Math.min(SP_STEPS.length - 1, i)); spTouched = true;
   if (ui.tab !== "stat") setTab("stat");
-  spRender({ focus: true, anim: prev !== spStep }); writeHash();
+  spRender({ focus: true, anim: prev !== spStep, dir: spStep >= prev ? 1 : -1 }); writeHash();
+  if (prev !== spStep) FX.sound("tab");
 }
 function spPoint(k, delta) {
   const x = SPECIAL.find(s => s.k === k), v = SP.pts[k], left = SP_BUDGET - spSpent(SP);
   if (delta > 0 && v >= SP_MAX) return announce(`${x.name} is at ${SP_MAX}, the maximum.`);
   if (delta > 0 && left <= 0) return announce("No points left. Lower another interest first.");
   if (delta < 0 && v <= SP_MIN) return announce(`${x.name} is at ${SP_MIN}, the minimum.`);
-  SP.pts[k] = v + delta; spTouched = true; spSyncPoints(true); writeHash();
+  SP.pts[k] = v + delta; spTouched = true; spSyncPoints(); writeHash(); FX.sound("row");
   announce(`${x.name} ${SP.pts[k]}. ${plural(SP_BUDGET - spSpent(SP), "point")} left.`);
 }
 function spUse() {
@@ -1258,7 +1324,7 @@ $("sp").addEventListener("change", e => {
   else if (t.id === "sp-raiders") SP.raiders = t.checked;
   else return;
   spTouched = true;
-  const d = $("qd-" + t.name); if (d) d.textContent = descFor(t.name, t.value);
+  const d = $("qd-" + t.name); if (d) { d.textContent = descFor(t.name, t.value); $("qt-" + t.name).textContent = titleFor(t.name, t.value); FX.shift(d.closest(".qc"), 0); }
   writeHash();
 });
 
@@ -1306,8 +1372,26 @@ $("rec-avoid-btn").addEventListener("click", () => {
   setTab("mods", { sub: "cat" }); $("inv").querySelector(".row")?.focus();
   announce(`${plural(shown.length, "mod")} marked avoid shown, each with the reason.`);
 });
+// While the keyboard drives, the mouse hover tint is switched off, so only one row looks selected.
+const NAV_KEYS = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "End", "PageUp", "PageDown", "Tab"];
+document.addEventListener("keydown", e => { if (NAV_KEYS.includes(e.key)) document.documentElement.classList.add("kbnav"); }, true);
+document.addEventListener("mousemove", () => document.documentElement.classList.remove("kbnav"), { passive: true });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && $("sub-cat").classList.contains("panel-open")) { e.preventDefault(); closePanel(); return; }
+  // Left and right switch tabs, up and down move through the list, unless a field or a list already uses the key.
+  if (!e.defaultPrevented && !e.metaKey && !e.ctrlKey && !e.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) {
+    const a = document.activeElement;
+    const owned = a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) || a.closest('[role="tablist"], #sp-attrs, #inv, .opts, .seg, details'));
+    if (!owned && loaded) {
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        e.preventDefault();
+        const i = TABS.indexOf(ui.tab), t = TABS[(i + (e.key === "ArrowRight" ? 1 : TABS.length - 1)) % TABS.length];
+        setTab(t); FX.sound("tab"); return;
+      }
+      if (ui.tab === "mods" && ui.sub === "cat") { const r = selRow() || $("inv").querySelector(".row"); if (r) { e.preventDefault(); r.focus(); } return; }
+      if (ui.tab === "stat" && $("sp-attrs")) { e.preventDefault(); $("sp-r-" + spSel).focus(); return; }
+    }
+  }
   if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey) {
     const a = document.activeElement;
     if (a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return;
@@ -1347,6 +1431,7 @@ function fillStatic() {
   const maxOf = arr => arr.filter(Boolean).sort().pop() || "";
   const checked = maxOf(MODS.map(m => m.checked_on)), synced = maxOf(Object.values(NX).map(n => n.synced_on));
   document.querySelectorAll(".n-total").forEach(e => e.textContent = num(MODS.length));
+  FX.setBootData({ mods: plural(MODS.length, "mod"), tapes: plural(PT.length, "tape"), date: fmtDate(checked, true) || "not recorded" });
   $("rec-total").textContent = num(MODS.length);
   $("rec-pick").textContent = num(MODS.filter(inPt).length);
   $("rec-avoid").textContent = num(MODS.filter(m => m.tier === "avoid").length);
@@ -1396,5 +1481,6 @@ async function load() {
 }
 R = resolve(new Set());
 setupPhosphor();
+FX.setupSettings();
 syncStatus();
 load();
