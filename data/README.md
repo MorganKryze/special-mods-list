@@ -1,10 +1,11 @@
 # Mod data
 
-Machine-readable catalogue of the mods evaluated for this setup. Two files, two owners:
+Machine-readable catalogue of the mods evaluated for this setup. Three files:
 
 | File | Written by | Contents |
 | --- | --- | --- |
 | `mods.csv` | Hand, reviewed | Our judgement: module, tier, compatibility, cost, dependencies, evidence |
+| `playthroughs.json` | Hand | The ready-made playthroughs: title, machine, summary, write-up |
 | `nexus.json` | `scripts/nexus_sync.py` | What Nexus Mods says today: name, author, summary, image, version, dates, endorsements, file size |
 
 Edit `mods.csv`, then run `python3 scripts/nexus_sync.py` to refresh `nexus.json` and `python3 scripts/build_catalog.py` to regenerate the pages in `docs/catalog/`.
@@ -19,10 +20,10 @@ Lists inside a cell are separated by `;`. Empty cell means "none" or "not applic
 | `name` | text | Display name (Nexus may use a longer one) |
 | `nexus_id` | integer | `https://www.nexusmods.com/fallout4/mods/<nexus_id>` |
 | `file` | text | Which file to take on the Files tab when it is not the obvious main file |
-| `module` | `base`, `stability`, `interface`, `gameplay`, `brotherhood`, `minutemen`, `institute`, `railroad`, `raiders`, `factions`, `settlements`, `dlc`, `quests`, `weapons-armor`, `immersion`, `companions` | Page of the catalogue the mod belongs to |
+| `module` | `base`, `stability`, `interface`, `gameplay`, `brotherhood`, `minutemen`, `institute`, `railroad`, `raiders`, `factions`, `settlements`, `dlc`, `quests`, `weapons-armor`, `immersion`, `companions`, `visuals` | Page of the catalogue the mod belongs to |
 | `profiles` | `all`, `bos`, `minutemen`, `institute`, `railroad`, `raider`, `neutral` | Playthroughs the mod suits |
 | `tier` | `core`, `recommended`, `optional`, `avoid` | Core: every list needs it. Avoid: listed so readers know why |
-| `our_pick` | `yes`, `no`, `test` | What the reference playthrough uses |
+| `playthroughs` | ids from `playthroughs.json` | Ready-made playthroughs that include the mod |
 | `summary` | one line | What the mod changes, in our words |
 | `runtime_1_11_240` | `yes`, `plugin-only`, `no`, `unknown` | `yes`: the author states support. `plugin-only`: no DLL, version-independent in practice |
 | `f4se_dll` | `yes`, `no` | Needs F4SE and a DLL built for 1.11.240 |
@@ -30,7 +31,8 @@ Lists inside a cell are separated by `;`. Empty cell means "none" or "not applic
 | `plugins_light` | integer | Light plugins (ESL or ESL-flagged), out of 4096 |
 | `scripts` | `none`, `light`, `heavy` | Papyrus load while playing |
 | `npcs` | `none`, `few`, `many` | NPCs added to the world |
-| `perf` | `low`, `med`, `high` | Overall cost on the reference Mac (M3, 16 GB) |
+| `perf` | `low`, `med`, `high` | Overall cost on a base Apple M3 Mac (16 GB, under Wine) |
+| `perf_pc` | `low`, `med`, `high` | Overall cost on a gaming PC (Ryzen 7 9800X3D, RTX 5070 Ti, 3440×1440). Empty: not rated. Mods rated `low` on the M3 are `low` here by inference |
 | `precombines` | `safe`, `breaks`, `prp-patch` | Effect on precombined meshes; `prp-patch` means a PRP patch exists and is listed in `patches` |
 | `lunar` | `ok`, `patch`, `conflict`, `n/a` | Compatibility with Lunar Fallout Overhaul |
 | `ss2` | `ok`, `patch`, `conflict`, `n/a` | Compatibility with Sim Settlements 2 |
@@ -80,3 +82,7 @@ Keyed by Nexus mod ID. Generated: do not edit by hand.
   }
 }
 ```
+
+## `playthroughs.json`
+
+A list of objects: `id` (used in the `playthroughs` column), `title`, `machine` it was built for, `summary`, `doc` (write-up URL, may be empty) and `status` (`played` or `planned`).

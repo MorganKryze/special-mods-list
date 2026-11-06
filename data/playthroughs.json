@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mac-m3-minutemen",
+    "title": "Minutemen general on a base Mac",
+    "machine": "Apple M3 MacBook Air, 16 GB, under Not Proton and CrossOver",
+    "summary": "Lunar Fallout Overhaul, Sim Settlements 2 and the Minutemen, with the Brotherhood kept as an ally and no visual mods. Built for a steady 40-45 fps; on this Mac the full list falls to 20-30 fps outdoors.",
+    "doc": "https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/reference-playthrough.md",
+    "status": "played"
+  },
+  {
+    "id": "pc-minutemen-bos",
+    "title": "Minutemen and Brotherhood, full immersion on a gaming PC",
+    "machine": "Ryzen 7 9800X3D, RTX 5070 Ti 16 GB, 32 GB, 3440×1440, under Proton",
+    "summary": "The Minutemen and settlements at the centre, the Brotherhood as a second career, an open ending. Adds Community Shaders and lighting, Lunar Fallout Arsenal and reload animations, living settlers and travelling NPCs, survival-lite needs and a few quests and companions.",
+    "doc": "",
+    "status": "planned"
+  }
+]

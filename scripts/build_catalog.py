@@ -29,8 +29,23 @@ MODULES = {
     "weapons-armor": "Weapons and armor",
     "immersion": "Immersion and quality of life",
     "companions": "Companions",
+    "visuals": "Visuals: textures, lighting, shaders, LOD",
 }
 TIERS = ["core", "recommended", "optional", "avoid"]
+ALLOWED = {
+    "tier": TIERS,
+    "runtime_1_11_240": ["yes", "plugin-only", "no", "unknown"],
+    "f4se_dll": ["", "yes", "no"],
+    "scripts": ["", "none", "light", "heavy"],
+    "npcs": ["", "none", "few", "many"],
+    "perf": ["", "low", "med", "high"],
+    "perf_pc": ["", "low", "med", "high"],
+    "precombines": ["", "safe", "breaks", "prp-patch"],
+    "lunar": ["", "ok", "patch", "conflict", "n/a"],
+    "ss2": ["", "ok", "patch", "conflict", "n/a"],
+    "ending_lock": ["", "none", "bos", "minutemen", "institute", "railroad"],
+}
+PROFILES = {"all", "bos", "minutemen", "institute", "railroad", "raider", "neutral"}
 
 
 def split(cell):
@@ -64,7 +79,7 @@ def row(mod, nexus, names):
         fit.append(f"Lunar: {mod['lunar']}")
     if mod["ss2"] in ("patch", "conflict"):
         fit.append(f"SS2: {mod['ss2']}")
-    cost = [f"perf {mod['perf']}"]
+    cost = [f"M3 {mod['perf'] or '?'}", f"PC {mod['perf_pc'] or '?'}"]
     if mod["scripts"] not in ("", "none"):
         cost.append(f"scripts {mod['scripts']}")
     if mod["npcs"] not in ("", "none"):
@@ -130,12 +145,28 @@ def write_page(path, title, generated):
     path.write_text(f"{head}{BEGIN}\n{generated}\n{END}{tail}")
 
 
+def check(mods, playthroughs):
+    """Return a list of problems: bad values, duplicate ids, links to ids that do not exist."""
+    ids = [m["id"] for m in mods]
+    known = set(ids)
+    bad = [f"duplicate id {i}" for i in sorted({i for i in ids if ids.count(i) > 1})]
+    for m in mods:
+        if m["module"] not in MODULES:
+            bad.append(f"{m['id']}: module {m['module']!r}")
+        bad += [f"{m['id']}: {k} {m[k]!r}" for k, ok in ALLOWED.items() if m[k] not in ok]
+        bad += [f"{m['id']}: profile {p!r}" for p in split(m["profiles"]) if p not in PROFILES]
+        bad += [f"{m['id']}: playthrough {p!r}" for p in split(m["playthroughs"]) if p not in playthroughs]
+        bad += [f"{m['id']}: {k} -> unknown id {i!r}" for k in ("requires", "patches", "conflicts") for i in split(m[k]) if i not in known]
+    return bad
+
+
 def main():
     mods = list(csv.DictReader(open(ROOT / "data/mods.csv", newline="")))
     nexus = json.loads((ROOT / "data/nexus.json").read_text())
+    playthroughs = {p["id"] for p in json.loads((ROOT / "data/playthroughs.json").read_text())}
     names = {m["id"]: m["name"] for m in mods}
-    unknown = {m["module"] for m in mods} - MODULES.keys()
-    assert not unknown, f"unknown modules in mods.csv: {unknown}"
+    problems = check(mods, playthroughs)
+    assert not problems, "mods.csv problems:\n" + "\n".join(problems)
     CATALOG.mkdir(parents=True, exist_ok=True)
     index = ["| Module | Mods | Core | Recommended |", "| --- | --- | --- | --- |"]
     for key, title in MODULES.items():
