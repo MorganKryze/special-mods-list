@@ -7,3 +7,8 @@ All notable changes to this project are documented here. The format follows [Kee
 ### Added
 
 - Mod catalogue, catalogue pages, interactive site and their scripts, imported from fallout4-macos-modding v1.0.0.
+- Ready-made playthroughs in `data/playthroughs.json`, and a `playthroughs` column replacing `our_pick`.
+- The planned gaming PC playthrough: 89 new mods (visuals, life, gunplay, Brotherhood, survival-lite, quests) and 193 rows updated, with the write-up in `docs/playthroughs/`.
+- `perf_pc` column: cost on a gaming PC. New `visuals` module.
+- Data checks in `build_catalog.py`: allowed values, duplicate ids, links to missing ids.
+- Site: playthrough presets, a machine toggle for costs, and the S.P.E.C.I.A.L. sheet questionnaire.
