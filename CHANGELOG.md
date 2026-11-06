@@ -12,3 +12,7 @@ All notable changes to this project are documented here. The format follows [Kee
 - `perf_pc` column: cost on a gaming PC. New `visuals` module.
 - Data checks in `build_catalog.py`: allowed values, duplicate ids, links to missing ids.
 - Site: playthrough presets, a machine toggle for costs, and the S.P.E.C.I.A.L. sheet questionnaire.
+
+### Changed
+
+- Site rebuilt as a Pip-Boy: STAT (the S.P.E.C.I.A.L. sheet, one step per screen), MODS (list and details, with My list), PLAYTHROUGHS (holotapes) and ABOUT tabs, a status bar, and four screen colours.
