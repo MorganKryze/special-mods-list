@@ -10,6 +10,7 @@ A curated, machine-readable catalogue of about 1,000 Fallout 4 mods checked for 
 | --- | --- |
 | **[Interactive catalogue](https://morgankryze.github.io/special-mods-list/site/)** | Filter by faction, tier and performance cost, build a list that adds its own requirements and patches, see conflicts, export it |
 | [Catalogue pages](docs/catalog/README.md) | The same data as readable pages, one per area |
+| [Playthroughs](data/playthroughs.json) | Ready-made lists: the [macOS playthrough](https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/reference-playthrough.md), played on a base M3, and the [gaming PC playthrough](docs/playthroughs/pc-minutemen-bos.md), planned |
 | [data/mods.csv](data/mods.csv) | The raw data, documented in [data/README.md](data/README.md). AI assistants: start from [llms.txt](llms.txt) |
 
 ## Set up the game
