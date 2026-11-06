@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fallout 4 mod catalogue</title>
-<meta name="description" content="Fallout 4 mods checked one by one against runtime 1.11.240, Lunar Fallout Overhaul and Sim Settlements 2. Start from our playthrough or build a list that adds its own requirements and patches.">
+<meta name="description" content="Fallout 4 mods checked one by one against runtime 1.11.240, Lunar Fallout Overhaul and Sim Settlements 2. Start from one of our playthroughs, fill a S.P.E.C.I.A.L. sheet, or build a list that adds its own requirements and patches.">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -124,6 +124,20 @@ header.top::after { content: ""; position: absolute; left: 0; right: 0; bottom: 
 .start[aria-pressed="true"] { box-shadow: inset 4px 0 0 var(--violet); padding-left: 22px; }
 .start[aria-pressed="true"] strong::before { content: "\2713"; color: var(--violet); margin-right: 6px; }
 .start.primary[aria-pressed="true"] strong::before { color: var(--on-ink); }
+.starts { align-items: flex-start; }
+#pt-starts { display: contents; }
+.ptstart { display: grid; gap: 2px; max-width: 400px; min-width: 0; }
+.ptstart .start { width: 100%; }
+.start .pl { font-weight: 700; color: var(--violet); }
+.start.primary .pl { color: var(--on-ink); }
+.start.planned { border-style: dashed; }
+.start[aria-disabled="true"] { cursor: not-allowed; background: var(--stock); }
+.start[aria-disabled="true"]:active { transform: none; }
+.ptdoc { font-size: 13px; padding: 6px 0; justify-self: start; }
+.spcta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin-top: 14px; }
+.start.sp { border-color: var(--violet); box-shadow: inset 0 0 0 1px var(--violet); }
+.start.sp strong { color: var(--violet); }
+.spcta p { margin: 0; flex: 1 1 260px; max-width: 52ch; font-size: 14px; color: var(--pencil); }
 .record { align-self: end; min-width: 0; }
 .record table { width: 100%; border-collapse: collapse; border-top: 2px solid var(--ink); }
 .record caption { text-align: left; font-size: 13px; color: var(--pencil); padding-bottom: 6px; }
@@ -156,6 +170,9 @@ aside.filters { position: sticky; top: 16px; max-height: calc(100vh - 32px); ove
 .box input:checked::after { content: ""; width: 10px; height: 5px; border-left: 2.5px solid var(--violet); border-bottom: 2.5px solid var(--violet); transform: translateY(-2px) rotate(-48deg); }
 .box input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 .hint { margin: 2px 0 8px 30px; font-size: 13px; color: var(--pencil); line-height: 1.4; }
+.block > .hint.flush { margin: 6px 0 0; }
+.selrow { display: grid; gap: 2px; font-size: 14px; padding: 6px 0 4px; }
+.selrow select { border: 1.5px solid var(--rule-strong); background: var(--sheet); padding: 6px 8px; font-size: 14px; min-height: 40px; max-width: 100%; border-radius: 0; }
 
 /* Section index */
 .secindex { border-top: 2px solid var(--ink); padding-top: 6px; }
@@ -185,6 +202,8 @@ aside.filters { position: sticky; top: 16px; max-height: calc(100vh - 32px); ove
 .seg { border: 0; background: var(--sheet); padding: 6px 14px; font-size: 14px; font-weight: 600; min-height: 40px; }
 .seg + .seg { border-left: 1.5px solid var(--ink); }
 .seg[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+.machine { display: grid; gap: 2px; }
+.machine .ml { font-size: 13px; color: var(--pencil); }
 .midonly { display: none; }
 .fbtn { border: 1.5px solid var(--ink); background: var(--sheet); padding: 6px 14px; font-weight: 600; font-size: 14px; min-height: 40px; align-items: center; }
 .jumpwrap select { border: 1.5px solid var(--rule-strong); background: var(--sheet); padding: 6px 8px; font-size: 14px; min-height: 40px; max-width: 100%; border-radius: 0; }
@@ -260,7 +279,7 @@ details.module.empty > summary h2 { color: var(--pencil); }
 .effect { margin: -4px 0 10px; font-size: 13px; line-height: 1.4; color: var(--violet); }
 .effect:empty { display: none; }
 .effect .bad { font-weight: 600; }
-.foot { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 8px; pointer-events: none; }
+.foot { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 8px; margin-top: 8px; pointer-events: none; }
 .foot > * { pointer-events: auto; }
 .add { display: inline-flex; align-items: center; gap: 9px; border: 0; background: none; padding: 0 6px 0 0; min-height: 40px; font-size: 14px; font-weight: 600; color: var(--ink); }
 .add .bx { flex: none; width: 22px; height: 22px; border: 1.5px solid var(--rule-strong); background: var(--sheet); display: grid; place-items: center; }
@@ -430,6 +449,70 @@ ul.risks li.bad::marker { color: var(--red); }
 .d-eff { flex: 1 1 200px; margin: 0; font-size: 13px; color: var(--violet); line-height: 1.4; }
 .d-eff .bad { font-weight: 600; }
 .d-foot a { font-weight: 600; white-space: nowrap; }
+.d-pt { list-style: none; margin: 0; padding: 0; font-size: 14px; }
+.d-pt li { padding: 7px 0; border-bottom: 1px solid var(--rule); }
+.d-pt small { display: block; font-size: 13px; color: var(--pencil); }
+
+/* S.P.E.C.I.A.L. sheet: same right-hand record as the detail panel */
+.sbtn { border: 1.5px solid var(--ink); background: var(--sheet); color: var(--ink); padding: 9px 16px; font-weight: 600; min-height: 44px; }
+.sbtn:hover { background: var(--stock); }
+.sp-steps { list-style: none; display: flex; margin: 0 0 18px; padding: 0; border-top: 1.5px solid var(--ink); border-bottom: 1px solid var(--rule); }
+.sp-steps li { flex: 1 1 0; min-width: 0; }
+.sp-steps button { display: block; width: 100%; height: 100%; text-align: left; border: 0; border-left: 1px solid var(--rule); background: none; padding: 6px 8px 7px; font-size: 12.5px; line-height: 1.25; color: var(--pencil); min-height: 44px; overflow-wrap: anywhere; }
+.sp-steps li:first-child button { border-left: 0; padding-left: 0; }
+.sp-steps .n { display: block; font: 800 18px/1 var(--display); }
+.sp-steps button[aria-current="step"] { color: var(--ink); font-weight: 700; box-shadow: inset 0 3px 0 var(--violet); }
+.sp-steps button:hover { color: var(--ink); }
+.sp-steps button:focus-visible { outline-offset: -3px; }
+.sp h2:focus { outline: none; }
+.sp .d-lead { font-weight: 400; font-size: 16px; }
+.choices { display: grid; gap: 6px; border: 0; margin: 18px 0 0; padding: 0; min-width: 0; }
+.choices legend { width: 100%; padding: 0 0 4px; margin-bottom: 8px; font: 800 24px/1 var(--display); border-bottom: 1.5px solid var(--ink); }
+.choices.two { grid-template-columns: 1fr 1fr; }
+.choice { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--rule-strong); background: var(--sheet); cursor: pointer; }
+.choice:hover { background: var(--stock); }
+.choice input { appearance: none; -webkit-appearance: none; margin: 1px 0 0; width: 20px; height: 20px; border: 1.5px solid var(--rule-strong); border-radius: 50%; background: var(--sheet); display: grid; place-items: center; cursor: pointer; }
+.choice input:checked { border-color: var(--violet); }
+.choice input:checked::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--violet); }
+.choice input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.choice:has(input:checked) { border-color: var(--ink); box-shadow: inset 4px 0 0 var(--violet); }
+.choice b { display: block; font-weight: 700; font-size: 15px; }
+.choice small { display: block; margin-top: 2px; font-size: 13px; line-height: 1.4; color: var(--pencil); }
+.sp .box { margin-top: 8px; }
+.sp-pool { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 18px; padding: 6px 0 7px; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--rule); font-size: 14px; }
+.sp-pool b { font: 800 40px/1 var(--display); }
+.sp-pool.spent b { color: var(--violet); }
+.attrs { list-style: none; margin: 0; padding: 0; }
+.attr { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 4px 14px; align-items: center; padding: 12px 0 10px; border-bottom: 1px solid var(--rule); }
+.attr .lt { width: 48px; height: 48px; display: grid; place-items: center; border: 2px solid var(--ink); font: 800 38px/1 var(--display); }
+.attr h3 { margin: 0; font: 800 22px/1.05 var(--display); }
+.attr h3 span { color: var(--pencil); }
+.attr p { margin: 2px 0 0; font-size: 13px; line-height: 1.4; color: var(--pencil); }
+.attr .band { color: var(--violet); }
+.stepper { display: flex; align-items: stretch; border: 1.5px solid var(--ink); background: var(--sheet); }
+.stepper button { width: 44px; min-height: 44px; border: 0; background: none; font-size: 22px; font-weight: 700; line-height: 1; }
+.stepper button:hover { background: var(--stock); }
+.stepper button[aria-disabled="true"] { color: var(--rule-strong); cursor: not-allowed; background: none; }
+.stepper output { min-width: 44px; display: grid; place-items: center; border-left: 1.5px solid var(--ink); border-right: 1.5px solid var(--ink); font: 800 26px/1 var(--display); }
+.pips { grid-column: 2 / -1; display: flex; gap: 3px; }
+.pips i { flex: 1; height: 8px; border: 1px solid var(--rule-strong); }
+.pips i.on { background: var(--violet); border-color: var(--violet); }
+.pips i.mark { border-left: 2px solid var(--ink); }
+.sp-tally { width: 100%; border-collapse: collapse; border-top: 2px solid var(--ink); margin: 4px 0 0; }
+.sp-tally th, .sp-tally td { padding: 7px 0 6px; border-bottom: 1px solid var(--rule); text-align: left; font-weight: 400; font-size: 14px; vertical-align: baseline; }
+.sp-tally td { text-align: right; font: 700 28px/1 var(--display); white-space: nowrap; padding-left: 12px; }
+.sp-tally td.bad { color: var(--red); }
+.sp-tally th small { display: block; font-size: 13px; color: var(--pencil); }
+.sp .alerts { margin-top: 10px; }
+.sp-list { margin: 8px 0 0; padding: 0 0 0 20px; font-size: 14px; }
+.sp-list li { margin-bottom: 5px; }
+.sp-list li small { color: var(--pencil); font-size: 13px; }
+.sp-near { margin-top: 8px; padding: 12px 14px; border: 1.5px solid var(--ink); border-top-width: 4px; }
+.sp-near p { margin: 0 0 8px; font-size: 14px; }
+.sp-near b { font-weight: 700; }
+.sp .d-foot { justify-content: space-between; }
+.sp .d-foot .grow { flex: 1; }
+.sp .d-eff { flex: 1 1 100%; order: 9; margin: 0; }
 
 /* Footer */
 footer.foot-page { border-top: 1px solid var(--ink); margin: 0 var(--gutter); padding: 18px 0 40px; font-size: 13px; color: var(--pencil); }
@@ -474,8 +557,14 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
   .stamp { width: 112px; height: 112px; top: -14px; right: -8px; }
   .lede { font-size: 17px; margin-top: 18px; }
   .starts { display: grid; grid-template-columns: 1fr 1fr; }
-  .starts .primary { grid-column: 1 / -1; }
+  .starts .primary, .starts .ptstart { grid-column: 1 / -1; }
+  .ptstart { max-width: none; }
   .start { min-height: 48px; }
+  .choices.two { grid-template-columns: 1fr; }
+  .attr { grid-template-columns: 48px minmax(0, 1fr); }
+  .attr .stepper { grid-column: 2; justify-self: start; }
+  .sp-steps .t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .sp-steps button { text-align: center; padding-left: 0; padding-right: 0; }
   .record tbody { display: grid; grid-template-columns: 1fr 1fr; }
   .record tr { display: flex; flex-direction: column-reverse; justify-content: flex-end; padding: 6px 0 7px; border-bottom: 1px solid var(--rule); }
   .record tr:nth-child(even) { border-left: 1px solid var(--rule); padding-left: 12px; }
@@ -486,6 +575,8 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
   .toolbar { position: static; padding-top: 0; }
   .field { flex-basis: 100%; }
   .toolbar .midonly, .views, .seg, .fbtn, .jumpwrap select, .textbtn, .opt { min-height: 44px; }
+  .machine { order: 4; flex: 1 1 100%; }
+  .machine .views { width: fit-content; }
   .jumpwrap { flex: 1 1 160px; min-width: 0; }
   .jumpwrap select { width: 100%; }
   #result-count { order: 5; flex: 1; padding-bottom: 0; align-self: center; }
@@ -556,7 +647,7 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
   <a class="wordmark" href="./">Fallout 4 mod catalogue</a>
   <nav class="navlinks" aria-label="Guides">
     <a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/setup.md">macOS setup guide</a>
-    <a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/reference-playthrough.md">Our playthrough, explained</a>
+    <a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/reference-playthrough.md">Our Mac playthrough, explained</a>
     <a href="https://github.com/MorganKryze/special-mods-list/tree/main/data">Raw data</a>
     <a href="https://github.com/MorganKryze/special-mods-list">GitHub</a>
   </nav>
@@ -564,7 +655,7 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
     <summary>Guides</summary>
     <ul>
       <li><a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/setup.md">macOS setup guide</a></li>
-      <li><a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/reference-playthrough.md">Our playthrough, explained</a></li>
+      <li><a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/reference-playthrough.md">Our Mac playthrough, explained</a></li>
       <li><a href="https://github.com/MorganKryze/special-mods-list/tree/main/data">Raw data</a></li>
       <li><a href="https://github.com/MorganKryze/special-mods-list">GitHub</a></li>
     </ul>
@@ -596,18 +687,23 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
       </svg>
       <h1 id="hero-h">Build a mod list<br> <span class="nb">that holds together</span></h1>
     </div>
-    <p class="lede"><span class="n-total">…</span> Fallout 4 mods, each checked one by one against the current game version (1.11.240), Lunar Fallout Overhaul and Sim Settlements 2. Start from the list we play on a base M3 Mac, or build your own: your list adds the requirements and patches each mod needs and warns you about conflicts. The ratings hold on Windows too.</p>
-    <div class="starts" role="group" aria-label="Start from">
-      <button class="start primary preset" data-preset="pick" aria-pressed="false"><strong>Start from our playthrough</strong><small><span id="n-pick">…</span> mods, built for a base M3 Mac</small></button>
+    <p class="lede"><span class="n-total">…</span> Fallout 4 mods, each checked one by one against the current game version (1.11.240), Lunar Fallout Overhaul and Sim Settlements 2. Start from one of our playthroughs, fill your S.P.E.C.I.A.L. sheet, or build your own: your list adds the requirements and patches each mod needs and warns you about conflicts. Costs were rated on a base M3 Mac; ratings for a gaming PC are in progress.</p>
+    <div class="starts" id="starts" role="group" aria-label="Start from">
+      <span id="pt-starts"><button class="start primary" aria-disabled="true"><strong>Our playthroughs</strong><small>Loading…</small></button></span>
       <button class="start preset" data-preset="core" aria-pressed="false"><strong>Core fixes only</strong><small>The <span id="n-core">…</span> every list needs</small></button>
       <button class="start preset" data-preset="clear" aria-pressed="false"><strong>Start empty</strong><small>Build your own</small></button>
+    </div>
+    <div class="spcta">
+      <button class="start sp" id="sp-open" data-sp-open aria-haspopup="dialog"><strong>Fill your S.P.E.C.I.A.L. sheet</strong><small>Four questions, one list</small></button>
+      <p>Tell us your machine, your faction and what you care about. The list is built from the catalogue's own ratings, the same way every time.</p>
     </div>
   </div>
   <div class="record">
     <table>
       <caption>Inspection record</caption>
       <tr><th scope="row">Mods checked</th><td id="rec-total">…</td></tr>
-      <tr><th scope="row">In our playthrough</th><td id="rec-pick">…</td></tr>
+      <tr><th scope="row">In a ready-made playthrough</th><td id="rec-pick">…</td></tr>
+      <tr><th scope="row">Cost rated for a gaming PC</th><td id="rec-pc">…</td></tr>
       <tr><th scope="row"><button class="textbtn" id="rec-avoid-btn">Rejected, with the reason</button></th><td id="rec-avoid">…</td></tr>
       <tr><th scope="row">Last check</th><td id="rec-date">…</td></tr>
     </table>
@@ -625,7 +721,7 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
     </div>
     <fieldset class="block"><legend><i>1</i>Playing as</legend><div class="opts" id="f-profile"></div></fieldset>
     <fieldset class="block"><legend><i>2</i>Tier</legend><div class="opts" id="f-tier"></div></fieldset>
-    <fieldset class="block"><legend><i>3</i>Cost on a base M3</legend><div class="opts" id="f-perf"></div></fieldset>
+    <fieldset class="block"><legend><i>3</i><span id="perf-legend">Cost on a base M3 Mac</span></legend><div class="opts" id="f-perf"></div><p class="hint flush" id="perf-hint"></p></fieldset>
     <fieldset class="block"><legend><i>4</i>Only show</legend>
       <label class="box"><input type="checkbox" id="f-runtime"><span>Works on 1.11.240</span></label>
       <label class="box"><input type="checkbox" id="f-lunar"><span>Works with Lunar</span></label>
@@ -633,7 +729,7 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
       <p class="hint">Hides mods we know conflict. Most mods are not checked against these yet.</p>
       <label class="box"><input type="checkbox" id="f-nodll"><span>No F4SE DLL</span></label>
       <label class="box"><input type="checkbox" id="f-noend"><span>No faction ending lock</span></label>
-      <label class="box"><input type="checkbox" id="f-pick"><span>In our playthrough</span></label>
+      <label class="selrow" id="f-pt-row"><span>In a ready-made playthrough</span><select id="f-pt"><option value="">Any mod</option></select></label>
       <label class="box"><input type="checkbox" id="f-inlist"><span>In your list</span></label>
     </fieldset>
     <nav class="secindex" id="sec-index" aria-labelledby="sec-h">
@@ -648,6 +744,7 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
       <button class="fbtn midonly" id="filters-btn" aria-controls="filters" aria-expanded="false">Filters</button>
       <label class="jumpwrap midonly"><span class="vh">Jump to section</span><select id="jump" aria-label="Jump to section"><option value="">Jump to section</option></select></label>
       <span id="result-count">Loading…</span>
+      <div class="machine" role="group" aria-labelledby="mach-l"><span class="ml" id="mach-l">Your machine</span><div class="views"><button class="seg" data-machine="mac" aria-pressed="true">Apple Silicon Mac</button><button class="seg" data-machine="pc" aria-pressed="false">Gaming PC</button></div></div>
       <div class="views" role="group" aria-label="View">
         <button class="seg" data-view="cards" aria-pressed="true">Cards</button>
         <button class="seg" data-view="table" aria-pressed="false">Table</button>
@@ -675,7 +772,7 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
         <p class="note" id="slots-note"></p>
       </div>
       <div class="gauge">
-        <div class="line"><span>Cost mix</span></div>
+        <div class="line"><span id="mix-h">Cost mix on a base M3 Mac</span></div>
         <div class="mix" id="mix" role="img" aria-label="Cost mix"></div>
         <div class="mixkey" id="mixkey"></div>
       </div>
@@ -708,7 +805,7 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
   <p id="foot-dates">Loading the data dates…</p>
   <nav aria-label="Project links">
     <a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/setup.md">macOS setup guide</a>
-    <a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/reference-playthrough.md">Our playthrough, explained</a>
+    <a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/reference-playthrough.md">Our Mac playthrough, explained</a>
     <a href="https://github.com/MorganKryze/fallout4-macos-modding/blob/main/docs/troubleshooting.md">Troubleshooting</a>
     <a href="https://github.com/MorganKryze/special-mods-list/tree/main/data">Raw data</a>
     <a href="https://github.com/MorganKryze/special-mods-list">GitHub</a>
@@ -717,6 +814,7 @@ footer.foot-page nav a { display: inline-block; padding: 10px 0; }
 
 <button id="mobilebar" aria-controls="req" aria-expanded="false"><span class="mbt">Your list</span><span id="mb-count">0 mods</span><span class="show" aria-hidden="true">Show ▴</span></button>
 <dialog class="detail" id="detail" aria-labelledby="d-title"></dialog>
+<dialog class="detail sp" id="special" aria-labelledby="sp-title"></dialog>
 <div id="sheet-backdrop" hidden></div>
 <div id="sr-status" class="vh" role="status"></div>
 
@@ -727,7 +825,7 @@ const MODULES = {
   brotherhood: "Brotherhood of Steel", minutemen: "Minutemen", institute: "The Institute", railroad: "The Railroad",
   raiders: "Raiders and hostile factions", factions: "Factions, endings and starts", settlements: "Settlements",
   dlc: "DLC", quests: "Quests and locations", "weapons-armor": "Weapons and armor", immersion: "Immersion and quality of life",
-  companions: "Companions",
+  companions: "Companions", visuals: "Visuals: textures, lighting, shaders, LOD",
 };
 const MOD_KEYS = Object.keys(MODULES);
 const secNo = k => String(MOD_KEYS.indexOf(k) + 1).padStart(2, "0");
@@ -741,7 +839,6 @@ const FACTION = { bos: "Brotherhood", minutemen: "Minutemen", institute: "Instit
 const LOAD_GROUPS = { "0": "No plugin: F4SE and DLL mods", "10": "Unofficial patch and frameworks", "20": "Overhauls", "30": "Large content frameworks", "40": "Content", "50": "Gear, weapons and armor", "60": "Tweaks and immersion", "80": "Compatibility patches", "90": "Precombine and previs patches", "99": "Load last", "": "Load group not recorded" };
 const LBL = {
   perf: { low: "Low", med: "Medium", high: "High", "": "Not rated" },
-  perfLong: { low: "Low cost on a base M3", med: "Medium cost on a base M3", high: "High cost on a base M3", "": "Not rated yet" },
   rt: { yes: "Yes", "plugin-only": "Works", no: "No", unknown: "Unchecked", "": "Unchecked" },
   rtLong: { yes: "Supported (the author says so)", "plugin-only": "Works: plugin only, no DLL", no: "Not supported", unknown: "Not checked yet", "": "Not checked yet" },
   dll: { yes: "Needs an F4SE DLL", no: "No DLL", "": "Not checked yet" },
@@ -764,10 +861,20 @@ const num = n => Number(n).toLocaleString("en");
 const plural = (n, one, many) => `${num(n)} ${n === 1 ? one : (many || one + "s")}`;
 const joinAnd = a => a.length <= 1 ? (a[0] || "") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
 
+// "perf" was rated on a base M3 Mac, "perf_pc" on a gaming PC (still being rated: empty means not rated).
+const MACHINES = {
+  mac: { label: "Apple Silicon Mac", short: "M3", col: "perf", on: "on a base M3 Mac" },
+  pc: { label: "Gaming PC", short: "PC", col: "perf_pc", on: "on a gaming PC" },
+};
+const costOf = (m, mach = state.machine) => m[MACHINES[mach].col] || "";
+const costLong = (v, mach = state.machine) => v ? `${LBL.perf[v]} cost ${MACHINES[mach].on}` : "Not rated yet";
+// The old "our pick" mark and the old "pick" preset both meant this playthrough.
+const LEGACY_PT = "mac-m3-minutemen";
+
 const DEFAULT_TIERS = ["core", "recommended", "optional"];
-const state = { view: "cards", q: "", profiles: new Set(), tiers: new Set(DEFAULT_TIERS), perf: "high", runtime: false, nodll: false, noend: false, pick: false, lunar: false, ss2: false, inlist: false, unrated: false, chosen: new Set() };
-const CHECKS = ["runtime", "lunar", "ss2", "nodll", "noend", "pick", "inlist"];
-let MODS = [], BY = {}, NX = {}, R = null, byMod = {}, shown = [], loaded = false;
+const state = { view: "cards", q: "", profiles: new Set(), tiers: new Set(DEFAULT_TIERS), perf: "high", runtime: false, nodll: false, noend: false, pt: "", lunar: false, ss2: false, inlist: false, unrated: false, machine: "mac", chosen: new Set() };
+const CHECKS = ["runtime", "lunar", "ss2", "nodll", "noend", "inlist"];
+let MODS = [], BY = {}, NX = {}, PT = [], PTBY = {}, R = null, byMod = {}, shown = [], loaded = false;
 let openSet = new Set(["base", "stability"]), qClosed = new Set();
 let sortKey = "tier", sortDir = 1;
 let effCache = new Map();
@@ -863,7 +970,8 @@ function passes(m, skip = "") {
   if (skip !== "tier" && !state.tiers.has(m.tier)) return false;
   if (state.profiles.size && !m.prof.some(p => p === "all" || state.profiles.has(p))) return false;
   if (state.perf !== "high") {
-    if (m.perf) { if (PERF.indexOf(m.perf) > PERF.indexOf(state.perf)) return false; }
+    const c = costOf(m);
+    if (c) { if (PERF.indexOf(c) > PERF.indexOf(state.perf)) return false; }
     else if (skip !== "unrated" && !state.unrated) return false;
   }
   if (state.runtime && !["yes", "plugin-only"].includes(m.runtime_1_11_240)) return false;
@@ -871,7 +979,7 @@ function passes(m, skip = "") {
   if (state.ss2 && m.ss2 === "conflict") return false;
   if (state.nodll && m.f4se_dll === "yes") return false;
   if (state.noend && m.ending_lock && m.ending_lock !== "none") return false;
-  if (state.pick && m.our_pick !== "yes") return false;
+  if (state.pt && !m.pts.includes(state.pt)) return false;
   if (state.inlist && !R.all.has(m.id)) return false;
   if (state.q && !m.hay.includes(state.q)) return false;
   return true;
@@ -881,6 +989,7 @@ function filterCount() {
   if (state.profiles.size) n++;
   if (state.tiers.size !== DEFAULT_TIERS.length || DEFAULT_TIERS.some(t => !state.tiers.has(t))) n++;
   if (state.perf !== "high") n++;
+  if (state.pt) n++;
   CHECKS.forEach(k => { if (state[k]) n++; });
   return n;
 }
@@ -916,7 +1025,7 @@ function watchLine(m) {
 function specCell(label, text, cls) { return `<div><dt>${label}</dt><dd${cls ? ` class="${cls}"` : ""}>${esc(text)}</dd></div>`; }
 function specStrip(m) {
   const compatCls = v => v === "conflict" ? "bad" : (!v || v === "n/a") ? "na" : "";
-  return `<dl class="spec">${specCell("Cost", lab(LBL.perf, m.perf), m.perf === "high" ? "bad" : !m.perf ? "na" : "")}${specCell("1.11.240", lab(LBL.rt, m.runtime_1_11_240), m.runtime_1_11_240 === "no" ? "bad" : ["yes", "plugin-only"].includes(m.runtime_1_11_240) ? "" : "na")}${specCell("Lunar", lab(LBL.compat, m.lunar), compatCls(m.lunar))}${specCell("SS2", lab(LBL.compat, m.ss2), compatCls(m.ss2))}</dl>`;
+  return `<dl class="spec">${specCell(MACHINES[state.machine].short + " cost", lab(LBL.perf, costOf(m)), costOf(m) === "high" ? "bad" : !costOf(m) ? "na" : "")}${specCell("1.11.240", lab(LBL.rt, m.runtime_1_11_240), m.runtime_1_11_240 === "no" ? "bad" : ["yes", "plugin-only"].includes(m.runtime_1_11_240) ? "" : "na")}${specCell("Lunar", lab(LBL.compat, m.lunar), compatCls(m.lunar))}${specCell("SS2", lab(LBL.compat, m.ss2), compatCls(m.ss2))}</dl>`;
 }
 const TICK = '<span class="bx" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2.5 8.5l3.5 3.2L13.5 4"/></svg></span>';
 function tickLabel(st) { return st === "on" ? "In your list" : st === "auto" ? "Added for you" : "Add to list"; }
@@ -925,7 +1034,13 @@ function tickBtn(m) {
   const st = stOf(m.id);
   return `<button class="add" data-toggle="${esc(m.id)}" data-st="${st}" aria-pressed="${st !== "off"}" aria-label="${esc(tickAria(st, m.name))}">${TICK}<span class="lbl">${tickLabel(st)}</span></button>`;
 }
-const pickMark = m => m.our_pick === "yes" ? '<span class="pickmark">Our pick</span>' : "";
+// The mark names the playthroughs a mod belongs to; screen readers get the full titles.
+function pickMark(m) {
+  const ps = m.pts.map(id => PTBY[id]).filter(Boolean);
+  if (!ps.length) return "";
+  const vis = ps.length === 1 ? ps[0].short : ps.map(p => p.kind).join(" + ");
+  return `<span class="pickmark"><span aria-hidden="true">${esc(vis)}</span><span class="vh">In ${ps.length > 1 ? "the playthroughs" : "the playthrough"} ${esc(joinAnd(ps.map(p => p.title)))}</span></span>`;
+}
 function entry(m) {
   const n = NX[m.nexus_id] || {};
   const hasImg = n.thumbnail && !n.adult;
@@ -943,6 +1058,7 @@ ${watchLine(m)}<p class="effect" data-effect="${esc(m.id)}"></p>${specStrip(m)}
 }
 function sectionBody(key) {
   const mods = byMod[key] || [];
+  if (!mods.length && !MODS.some(m => m.module === key)) return `<p class="stub">No mods in this section yet.</p>`;
   if (!mods.length) return state.q ? `<p class="stub">No mods in this section match "${esc(state.q)}". <button class="textbtn" data-reset="all">Clear search and filters</button></p>`
     : `<p class="stub">No mods in this section match your filters. <button class="textbtn" data-reset>Reset filters</button></p>`;
   return TIERS.map(t => {
@@ -972,7 +1088,7 @@ function sortVal(m, k) {
     case "name": return m.name.toLowerCase();
     case "module": return m.mi;
     case "tier": return m.ti;
-    case "perf": return ORD.perf[m.perf] ?? 9;
+    case "perf": return ORD.perf[costOf(m)] ?? 9;
     case "rt": return ORD.rt[m.runtime_1_11_240] ?? 9;
     case "dll": return ORD.dll[m.f4se_dll] ?? 9;
     case "plugins": return m.load_group === "0" ? 0 : m.plugins_full === "" ? 999 : +m.plugins_full;
@@ -981,7 +1097,7 @@ function sortVal(m, k) {
   return "";
 }
 function nameWithMark(m) {
-  if (m.our_pick !== "yes") return esc(m.name);
+  if (!m.pts.some(id => PTBY[id])) return esc(m.name);
   const i = m.name.lastIndexOf(" ");
   return `${esc(m.name.slice(0, i + 1))}<span class="lw">${esc(m.name.slice(i + 1))}${pickMark(m)}</span>`;
 }
@@ -992,12 +1108,12 @@ function tableHTML(mods) {
     return c * sortDir || a.name.localeCompare(b.name);
   });
   const head = COLS.map(([k, l, cls]) => k === "tick" ? `<th scope="col"><span class="vh">In your list</span></th>`
-    : `<th scope="col" class="${cls}"${sortKey === k ? ` aria-sort="${sortDir > 0 ? "ascending" : "descending"}"` : ""}><button data-sort="${k}">${l}${sortKey === k ? `<span aria-hidden="true">${sortDir > 0 ? " ▴" : " ▾"}</span>` : ""}</button></th>`).join("");
+    : `<th scope="col" class="${cls}"${sortKey === k ? ` aria-sort="${sortDir > 0 ? "ascending" : "descending"}"` : ""}><button data-sort="${k}">${k === "perf" ? MACHINES[state.machine].short + " cost" : l}${sortKey === k ? `<span aria-hidden="true">${sortDir > 0 ? " ▴" : " ▾"}</span>` : ""}</button></th>`).join("");
   const plug = m => m.load_group === "0" ? "None" : m.plugins_full === "" ? "Not counted" : `${+m.plugins_full || 0}${+m.plugins_light ? ` + ${m.plugins_light} light` : ""}`;
   const body = rows.map(m => `<tr data-id="${esc(m.id)}"${R.all.has(m.id) ? ' class="on"' : ""}><td>${tickBtn(m)}</td>
 <td class="mn"><button class="linkid" data-open="${esc(m.id)}">${nameWithMark(m)}</button><span class="mt${m.tier === "avoid" ? " bad" : ""}">${TIER_LABEL[m.tier] || esc(m.tier)}</span></td>
 <td class="hide-s hide-m">${esc(MODULES[m.module] || m.module)}</td><td class="nw hide-s hide-m${m.tier === "avoid" ? " bad" : ""}">${TIER_LABEL[m.tier] || esc(m.tier)}</td>
-<td class="nw${m.perf === "high" ? " bad" : ""}">${lab(LBL.perf, m.perf)}</td><td class="nw${m.runtime_1_11_240 === "no" ? " bad" : ""}">${lab(LBL.rt, m.runtime_1_11_240)}</td>
+<td class="nw${costOf(m) === "high" ? " bad" : ""}">${lab(LBL.perf, costOf(m))}</td><td class="nw${m.runtime_1_11_240 === "no" ? " bad" : ""}">${lab(LBL.rt, m.runtime_1_11_240)}</td>
 <td class="hide-s nw">${lab(LBL.dllShort, m.f4se_dll)}</td><td class="hide-s nw">${plug(m)}</td><td class="hide-s hide-m nw">${fmtDate(NX[m.nexus_id]?.updated)}</td></tr>`).join("");
   return `<div class="tablewrap" tabindex="0" role="region" aria-label="Mods table"><table class="ledger"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
 }
@@ -1017,7 +1133,9 @@ function render(opts = {}) {
   shown.forEach(m => (byMod[m.module] || (byMod[m.module] = [])).push(m));
   updateBars();
   if (!shown.length) {
-    main.innerHTML = `<div class="nomatch"><strong>No mod matches these filters.</strong><p>Widen the tier or cost, or clear the search.</p><button class="btn" data-reset="all">Reset filters</button></div>`;
+    const ep = state.pt && PTBY[state.pt] && !PTBY[state.pt].n ? PTBY[state.pt] : null;
+    main.innerHTML = ep ? `<div class="nomatch"><strong>No mods listed for this playthrough yet.</strong><p>${esc(ep.title)} is ${ep.status === "planned" ? "planned and its list is still being written" : "not filled in yet"}. Check back later, or pick another playthrough.</p><button class="btn" data-reset="all">Reset filters</button></div>`
+      : `<div class="nomatch"><strong>No mod matches these filters.</strong><p>Widen the tier or cost, or clear the search.</p><button class="btn" data-reset="all">Reset filters</button></div>`;
   } else if (state.view === "table") {
     main.innerHTML = tableHTML(shown);
   } else {
@@ -1046,8 +1164,8 @@ function updateBars() {
     if (n) notes.push(`${num(n)} marked avoid ${n === 1 ? "is" : "are"} hidden. <button class="textbtn" data-show="avoid">Show them</button>`);
   }
   if (state.perf !== "high" && !state.unrated) {
-    const n = MODS.filter(m => !m.perf && passes(m, "unrated")).length;
-    if (n) notes.push(`${num(n)} with no cost rating ${n === 1 ? "is" : "are"} hidden by the cost limit. <button class="textbtn" data-show="unrated">Show them</button>`);
+    const n = MODS.filter(m => !costOf(m) && passes(m, "unrated")).length;
+    if (n) notes.push(`${num(n)} with no cost rating ${MACHINES[state.machine].on} ${n === 1 ? "is" : "are"} hidden by the cost limit. <button class="textbtn" data-show="unrated">Show them</button>`);
   }
   $("hidden-note").innerHTML = notes.join(" ");
   $("xc").hidden = state.view !== "cards" || !shown.length;
@@ -1141,14 +1259,15 @@ function renderReq() {
   $("slots-note").innerHTML = over ? `<span class="bad">Over the limit by ${num(full + est - 254)}${est ? ", counting each uncounted mod as one slot" : ""}.</span>`
     : est ? `Plus ${plural(est, "mod")} whose plugins are not counted yet, drawn as one slot each.` : n ? "Every plugin in your list is counted." : "";
   // Cost mix
-  const c = { low: 0, med: 0, high: 0, "": 0 }; mods.forEach(m => c[m.perf in c ? m.perf : ""]++);
+  const c = { low: 0, med: 0, high: 0, "": 0 }; mods.forEach(m => c[costOf(m) in c ? costOf(m) : ""]++);
+  $("mix-h").textContent = `Cost mix ${MACHINES[state.machine].on}`;
   $("mix").innerHTML = n ? [["lo", "low"], ["md", "med"], ["hi", "high"], ["nr", ""]].map(([cls, k]) => c[k] ? `<span class="${cls}" style="flex-basis:${c[k] / n * 100}%"></span>` : "").join("") : "";
-  $("mix").setAttribute("aria-label", `Cost mix: low ${c.low}, medium ${c.med}, high ${c.high}, not rated ${c[""]}`);
+  $("mix").setAttribute("aria-label", `Cost mix ${MACHINES[state.machine].on}: low ${c.low}, medium ${c.med}, high ${c.high}, not rated ${c[""]}`);
   $("mixkey").innerHTML = `<span><i class="mk" style="background:color-mix(in srgb, var(--pencil) 45%, transparent)"></i>Low ${c.low}</span><span><i style="background:var(--violet)"></i>Medium ${c.med}</span><span${c.high ? ' class="bad"' : ""}><i style="background:var(--red)"></i>High ${c.high}</span><span><i style="background:var(--hatch)"></i>Not rated ${c[""]}</span>`;
   $("s-light").textContent = num(light);
   $("s-size").textContent = fmtSize(size) || "0 GB";
   $("s-dll").textContent = num(mods.filter(m => m.f4se_dll === "yes").length);
-  const heavy = mods.filter(m => m.scripts === "heavy").length, high = mods.filter(m => m.perf === "high").length;
+  const heavy = mods.filter(m => m.scripts === "heavy").length, high = mods.filter(m => costOf(m) === "high").length;
   $("s-heavy").textContent = num(heavy); $("s-heavy").classList.toggle("bad", heavy > 2);
   $("s-high").textContent = num(high); $("s-high").classList.toggle("bad", high > 2);
   $("s-auto").textContent = num(nAuto);
@@ -1169,7 +1288,8 @@ function renderReq() {
   // Load order
   const ord = ordered(mods);
   if (!ord.length) {
-    $("picked").innerHTML = `<li class="empty"><p>Nothing on your list yet.</p><div><button class="textbtn preset" data-preset="pick">Start from our playthrough</button><button class="textbtn preset" data-preset="core">Core fixes only</button></div></li>`;
+    const first = PT.find(p => p.n && p.status === "played") || PT.find(p => p.n);
+    $("picked").innerHTML = `<li class="empty"><p>Nothing on your list yet.</p><div>${first ? `<button class="textbtn preset" data-preset="pt:${esc(first.id)}">Start from the ${esc(first.short)}</button>` : ""}<button class="textbtn preset" data-preset="core">Core fixes only</button><button class="textbtn" data-sp-open>Fill your S.P.E.C.I.A.L. sheet</button></div></li>`;
   } else {
     let i = 0; const groups = [];
     ord.forEach(m => { const g = m.load_group; const last = groups[groups.length - 1]; if (!last || last.g !== g) groups.push({ g, items: [m] }); else last.items.push(m); });
@@ -1198,7 +1318,9 @@ function dropFor(id) {
 /* ---------- List changes, presets, undo ---------- */
 function writeHash() {
   const p = [];
+  if (state.machine !== "mac") p.push("machine=" + state.machine);
   if (state.chosen.size) p.push("list=" + [...state.chosen].join(","));
+  if (spIsOpen()) p.push("sheet=" + encodeSheet(SP));
   if (openId) p.push("mod=" + openId);
   history.replaceState(null, "", p.length ? "#" + p.join("&") : location.pathname + location.search);
   lastWrittenHash = location.hash;
@@ -1211,7 +1333,10 @@ function syncPresets() {
     b.setAttribute("aria-pressed", p === "clear" ? "false" : String(state.chosen.size > 0 && eq(presetIds(p))));
   });
 }
-const presetIds = p => p === "pick" ? MODS.filter(m => m.our_pick === "yes").map(m => m.id) : p === "core" ? MODS.filter(m => m.tier === "core").map(m => m.id) : [];
+// Presets: "pt:<playthrough id>", "core" or "clear". The old "pick" preset maps to the Mac playthrough.
+const ptOf = p => p === "pick" ? LEGACY_PT : String(p).startsWith("pt:") ? p.slice(3) : "";
+const ptIds = id => MODS.filter(m => m.pts.includes(id)).map(m => m.id);
+const presetIds = p => { const pt = ptOf(p); return pt ? ptIds(pt) : p === "core" ? MODS.filter(m => m.tier === "core").map(m => m.id) : []; };
 function listChanged(keepNotice) {
   R = resolve(); effCache = new Map();
   if (!keepNotice) hideNotice();
@@ -1272,11 +1397,14 @@ function applyPreset(p) {
     if (!k) { undoSet = null; noticeBtns(); }
     return;
   }
+  const ptId = ptOf(p), pt = PTBY[ptId];
+  if (ptId && !pt) { showNotice(`The playthrough "${ptId}" is not in the catalogue any more.`); return; }
+  if (pt && !pt.n) { showNotice(`${pt.title} is ${pt.status === "planned" ? "planned: no mods are listed for it yet" : "empty for now"}. Your list was not changed.`); return; }
   setChosen(presetIds(p), () => {
-    const added = R.all.size - R.chosen.size;
-    return p === "pick" ? `Loaded our playthrough: ${plural(R.chosen.size, "mod")}${added ? `, plus ${num(added)} added for you` : ""}.`
-      : `Loaded the ${num(R.chosen.size)} core fixes${added ? `, plus ${num(added)} added for you` : ""}.`;
-  }, { showList: p === "pick" });
+    const added = R.all.size - R.chosen.size, more = added ? `, plus ${num(added)} added for you` : "";
+    return pt ? `Loaded ${pt.title}: ${plural(R.chosen.size, "mod")}${more}.${pt.status === "planned" ? " This playthrough is planned, not played yet: its list may still change." : ""}`
+      : `Loaded the ${num(R.chosen.size)} core fixes${more}.`;
+  }, { showList: !!pt });
 }
 function keepConflict(keep, drop) {
   const { drop: ids } = dropFor(drop);
@@ -1335,6 +1463,11 @@ function detailEffect(id) {
   const e = effectOf(id);
   return (e.html.includes("bad") ? e.html.replace("Adding it brings", "It brings") : e.html.replace("Adding it brings", "Brings")) || `${esc(m.name)} brings nothing else with it.`;
 }
+function ptDetail(m) {
+  const ps = m.pts.map(id => PTBY[id]).filter(Boolean);
+  if (!ps.length) return `<p class="d-nx">Not in any of our playthroughs.</p>`;
+  return `<ul class="d-pt">${ps.map(p => `<li>${p.doc ? `<a href="${esc(p.doc)}" rel="noopener">${esc(p.title)}</a>` : `<b>${esc(p.title)}</b>`}<small>${p.status === "planned" ? "Planned, not played yet" : "Played"}. ${esc(p.machine)}</small></li>`).join("")}</ul>`;
+}
 const isStamp = s => /^(v?\d[\w.]*(\s*\(\d{4}(-\d{2}){0,2}\))?|\d{4}(-\d{2}){1,2})(\s*$|[,:]\s*)/i.test(s);
 function openDetail(id, opener) {
   const m = BY[id]; if (!m) return;
@@ -1380,13 +1513,14 @@ ${n.picture && !n.adult ? `<div class="d-hero"><img src="${esc(n.picture)}" alt=
     ${dd("Playing as", list(m.profiles).map(p => PROFILE_LABEL[p] || p).join(", ") || "Not recorded")}
   </dl></section>
   <section class="d-sec"><h3>Cost</h3><dl>
-    ${dd("Cost on a base M3", lab(LBL.perfLong, m.perf), m.perf === "high")}
+    ${(state.machine === "pc" ? ["pc", "mac"] : ["mac", "pc"]).map(k => dd(`Cost ${MACHINES[k].on}${k === state.machine ? " (your machine)" : ""}`, costOf(m, k) ? lab(LBL.perf, costOf(m, k)) : "Not rated yet", costOf(m, k) === "high")).join("")}
     ${dd("Scripts", lab(LBL.scripts, m.scripts), m.scripts === "heavy")}
     ${dd("NPCs", lab(LBL.npcs, m.npcs))}
     ${dd("Plugins", plugins)}
     ${dd("Load group", LOAD_GROUPS[m.load_group] || (m.load_group ? "Group " + m.load_group : "Not recorded"))}
     ${dd("Download size", fmtSize(sizeOf(m)) || "Not known")}
   </dl></section>
+  ${PT.length ? `<section class="d-sec"><h3>Ready-made playthroughs</h3>${ptDetail(m)}</section>` : ""}
   ${nxs ? `<section class="d-sec"><h3>From the Nexus page</h3><p class="d-nx">${esc(nxs)}</p></section>` : ""}
   <section class="d-sec"><h3>Sources</h3>${src.length ? `<ol class="d-src">${src.map(u => `<li><a href="${esc(u)}" rel="noopener">${esc(srcLabel(u, m))}</a></li>`).join("")}</ol>` : `<p class="d-nx">No sources recorded.</p>`}
   ${m.checked_on ? `<p class="d-checked">Checked on ${fmtDate(m.checked_on, true)}.</p>` : ""}</section>
@@ -1423,18 +1557,36 @@ function opts(el, values, labels, isOn, onClick, single) {
 function syncFilterUI() {
   ["f-profile", "f-tier", "f-perf"].forEach(id => $(id)._sync && $(id)._sync());
   CHECKS.forEach(k => $("f-" + k).checked = state[k]);
+  $("f-pt").value = PTBY[state.pt] ? state.pt : "";
   $("q").value = state.q;
 }
 function resetFilters(clearSearch) {
-  state.profiles = new Set(); state.tiers = new Set(DEFAULT_TIERS); state.perf = "high"; state.unrated = false;
+  state.profiles = new Set(); state.tiers = new Set(DEFAULT_TIERS); state.perf = "high"; state.unrated = false; state.pt = "";
   CHECKS.forEach(k => state[k] = false);
   if (clearSearch) { state.q = ""; qClosed.clear(); }
   syncFilterUI(); render();
 }
 function setView(v) {
   state.view = v;
-  document.querySelectorAll(".seg").forEach(x => x.setAttribute("aria-pressed", x.dataset.view === v));
+  document.querySelectorAll(".seg[data-view]").forEach(x => x.setAttribute("aria-pressed", x.dataset.view === v));
   render();
+}
+function syncMachineUI() {
+  const mc = MACHINES[state.machine];
+  document.querySelectorAll(".seg[data-machine]").forEach(x => x.setAttribute("aria-pressed", x.dataset.machine === state.machine));
+  $("perf-legend").textContent = `Cost ${mc.on}`;
+  const rated = MODS.filter(m => costOf(m)).length;
+  $("perf-hint").textContent = state.machine === "pc"
+    ? `Being rated on a Ryzen 7 9800X3D with an RTX 5070 Ti: ${num(rated)} of ${num(MODS.length)} mods so far. Mods rated low on the M3 count as low here.`
+    : `Rated on a base M3 MacBook Air (16 GB, under Wine): ${num(rated)} of ${num(MODS.length)} mods.`;
+}
+function setMachine(v, quiet) {
+  if (!MACHINES[v] || v === state.machine) return;
+  state.machine = v; syncMachineUI();
+  if (!loaded) return;
+  render({ quiet: true }); renderReq(); writeHash();
+  if (openId) openDetail(openId);
+  if (!quiet) { const n = MODS.filter(m => !costOf(m)).length; announce(`Costs now shown ${MACHINES[v].on}.${n ? ` ${plural(n, "mod")} not rated for it yet.` : ""}`); }
 }
 function setupFilters() {
   opts($("f-profile"), PROFILES, PROFILE_LABEL, v => state.profiles.has(v), v => state.profiles.has(v) ? state.profiles.delete(v) : state.profiles.add(v));
@@ -1449,7 +1601,12 @@ function setupFilters() {
     if (e.key === "Escape" && e.target.value) { e.preventDefault(); e.stopPropagation(); e.target.value = ""; clearTimeout(qt); state.q = ""; qClosed.clear(); render(); }
   });
   CHECKS.forEach(k => $("f-" + k).addEventListener("change", e => { state[k] = e.target.checked; render(); }));
-  document.querySelectorAll(".seg").forEach(b => b.addEventListener("click", () => setView(b.dataset.view)));
+  $("f-pt").innerHTML = `<option value="">Any mod</option>` + PT.map(p => `<option value="${esc(p.id)}">${esc(p.title)} (${p.n ? plural(p.n, "mod") : "no mods yet"}${p.status === "planned" ? ", planned" : ""})</option>`).join("");
+  $("f-pt-row").hidden = !PT.length;
+  $("f-pt").value = PTBY[state.pt] ? state.pt : "";
+  $("f-pt").addEventListener("change", e => { state.pt = e.target.value; render(); });
+  document.querySelectorAll(".seg[data-view]").forEach(b => b.addEventListener("click", () => setView(b.dataset.view)));
+  document.querySelectorAll(".seg[data-machine]").forEach(b => b.addEventListener("click", () => setMachine(b.dataset.machine)));
   $("f-reset").addEventListener("click", () => resetFilters(false));
   $("jump").addEventListener("change", e => { const k = e.target.value; e.target.value = ""; if (k) jumpTo(k); });
 }
@@ -1497,6 +1654,8 @@ function announce(t) { const s = $("sr-status"); s.textContent = ""; requestAnim
 document.addEventListener("click", e => {
   const pre = e.target.closest(".preset[data-preset]");
   if (pre) { if (loaded) applyPreset(pre.dataset.preset); return; }
+  const spo = e.target.closest("[data-sp-open]");
+  if (spo) { openSP(null, 0, spo); return; }
   const t = e.target.closest("[data-toggle],[data-open],[data-close],[data-sort],[data-jump],[data-reset],[data-show],[data-all],[data-notice],[data-keep]");
   if (!t) return;
   const ds = t.dataset;
@@ -1555,7 +1714,7 @@ $("rec-avoid-btn").addEventListener("click", () => {
 });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && sheet) { e.preventDefault(); closeSheet(); return; }
-  if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey && !$("detail").open && !sheet) {
+  if (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey && !$("detail").open && !$("special").open && !sheet) {
     const a = document.activeElement;
     if (a && (a.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return;
     e.preventDefault(); $("q").focus();
@@ -1571,16 +1730,46 @@ document.addEventListener("error", e => {
 // A share link pasted into a tab already on the site only changes the hash.
 const parseList = v => (v || "").split(",").map(x => x.trim()).filter(Boolean);
 const missingNote = ids => `${plural(ids.length, "mod")} from this link ${ids.length > 1 ? "are" : "is"} no longer in the catalogue: ${ids.join(", ")}.`;
+// Old links: "#preset=pick", "#start=pick" or "#list=pick" loaded our playthrough; "#pick" or "#filter=pick" filtered on it.
+function hashPreset(hp) {
+  const v = hp.get("preset") || hp.get("start") || (parseList(hp.get("list")).join(",") === "pick" && !BY.pick ? "pick" : "");
+  return v === "pick" || v === "core" || v === "clear" ? v : PTBY[v] ? "pt:" + v : String(v).startsWith("pt:") && PTBY[v.slice(3)] ? v : "";
+}
+function hashFilter(hp) {
+  if (hp.has("pick") && !/^(0|no|false)$/i.test(hp.get("pick"))) return LEGACY_PT;
+  if (hp.get("filter") === "pick" || hp.get("only") === "pick") return LEGACY_PT;
+  const pt = hp.get("pt") || hp.get("playthrough");
+  return PTBY[pt] ? pt : "";
+}
+// On first load, machine, filter and list are already applied (see load); this handles the rest.
+function readHash(hp, first, missing = []) {
+  if (!first) {
+    const mach = hp.get("machine") || "mac";
+    if (MACHINES[mach]) setMachine(mach, true);
+    const f = hashFilter(hp);
+    if (f && f !== state.pt) { state.pt = f; syncFilterUI(); render({ quiet: true }); }
+  }
+  const preset = hashPreset(hp);
+  if (preset) applyPreset(preset);
+  else if (first) { if (missing.length) showNotice(missingNote(missing)); }
+  else if (hp.has("list")) {
+    const raw = parseList(hp.get("list")), ids = raw.filter(id => BY[id]), miss = raw.filter(id => !BY[id]);
+    const same = ids.length === state.chosen.size && ids.every(id => state.chosen.has(id));
+    if (!same) setChosen(ids, `Loaded the list from the link: ${plural(ids.length, "mod")}.${miss.length ? " " + missingNote(miss) : ""}`);
+  }
+  if (hp.has("sheet")) {
+    const { ans, ok } = decodeSheet(hp.get("sheet"));
+    if (!spIsOpen() || encodeSheet(ans) !== encodeSheet(SP)) openSP(ans, ok ? SP_STEPS.length - 1 : 3, $("sp-open"));
+    if (!ok) announce(`The points in this sheet add up to more than ${SP_BUDGET}, so they were reset.`);
+    return;
+  }
+  if (spIsOpen()) $("special").close();
+  const m = hp.get("mod");
+  if (m && BY[m]) openDetail(m, first ? $("main") : undefined); else writeHash();
+}
 window.addEventListener("hashchange", () => {
   if (!loaded || location.hash === lastWrittenHash) return;
-  const hp = new URLSearchParams(location.hash.slice(1));
-  if (hp.has("list")) {
-    const raw = parseList(hp.get("list")), ids = raw.filter(id => BY[id]), missing = raw.filter(id => !BY[id]);
-    const same = ids.length === state.chosen.size && ids.every(id => state.chosen.has(id));
-    if (!same) setChosen(ids, `Loaded the list from the link: ${plural(ids.length, "mod")}.${missing.length ? " " + missingNote(missing) : ""}`);
-  }
-  const m = hp.get("mod");
-  if (m && BY[m]) openDetail(m); else writeHash();
+  readHash(new URLSearchParams(location.hash.slice(1)), false);
 });
 
 /* ---------- Exports ---------- */
@@ -1595,7 +1784,7 @@ function flash(btn, text) {
   btn.textContent = text; clearTimeout(btn._t);
   btn._t = setTimeout(() => btn.textContent = orig, 2000);
 }
-const shareUrl = () => location.origin + location.pathname + location.search + (state.chosen.size ? "#list=" + [...state.chosen].join(",") : "");
+const shareUrl = () => location.origin + location.pathname + location.search + (state.chosen.size || state.machine !== "mac" ? "#" + [state.machine !== "mac" ? "machine=" + state.machine : "", state.chosen.size ? "list=" + [...state.chosen].join(",") : ""].filter(Boolean).join("&") : "");
 $("x-csv").onclick = () => {
   const mods = ordered([...R.all].map(id => BY[id]).filter(Boolean)), cols = ["load_group", "name", "nexus_id", "file", "module", "tier", "notes"];
   const q = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
@@ -1614,14 +1803,319 @@ $("x-link").onclick = async () => {
 };
 $("x-clear").onclick = () => applyPreset("clear");
 
+/* ---------- S.P.E.C.I.A.L. sheet ---------- */
+// Deterministic: the same answers always give the same list, built from the catalogue's own columns.
+const SS2_ID = "sim-settlements-2", LUNAR_ID = "lunar";
+const SP_MACHINES = {
+  "mac-base": { title: "Base Apple Silicon Mac", text: "M1, M2 or M3 with the base chip, like the MacBook Air the catalogue was rated on. Low-cost mods only.", col: "perf", max: "low", site: "mac" },
+  "mac-pro": { title: "Mac with a Pro or Max chip, or a newer generation", text: "Low and medium-cost mods, judged from the base M3 ratings.", col: "perf", max: "med", site: "mac" },
+  "pc-mid": { title: "Mid-range gaming PC", text: "Low and medium-cost mods. PC costs are still being rated, and mods not rated for a PC yet are left out.", col: "perf_pc", max: "med", site: "pc" },
+  "pc-high": { title: "High-end gaming PC", text: "Close to the PC the ratings are made on (Ryzen 7 9800X3D, RTX 5070 Ti). Any cost. Mods not rated for a PC yet are included and counted.", col: "perf_pc", max: "high", site: "pc", unrated: true },
+};
+const SP_ENDINGS = {
+  open: ["Keep every ending open", "Leaves out every mod that forces or assumes an ending. Mods for every faction are welcome; raider mods only if you tick the box below."],
+  minutemen: ["Minutemen", "Mods for the Minutemen and for any playthrough. Leaves out mods that lock another faction's ending."],
+  bos: ["Brotherhood of Steel", "Mods for the Brotherhood and for any playthrough. Leaves out mods that lock another faction's ending."],
+  railroad: ["Railroad", "Mods for the Railroad and for any playthrough. Leaves out mods that lock another faction's ending."],
+  institute: ["Institute", "Mods for the Institute and for any playthrough. Leaves out mods that lock another faction's ending."],
+};
+const SPECIAL = [
+  { k: "S", name: "Strength", title: "Combat and gear", modules: ["gameplay", "weapons-armor"], text: "Weapons, armor, enemies and how fights play out." },
+  { k: "P", name: "Perception", title: "Visuals", modules: ["visuals"], text: "Textures, lighting, shaders and distant detail. The mods that cost your machine the most." },
+  { k: "E", name: "Endurance", title: "Immersion", modules: ["immersion", "interface"], text: "Survival needs, small touches of realism and a cleaner interface." },
+  { k: "C", name: "Charisma", title: "Factions", modules: ["minutemen", "brotherhood", "institute", "railroad", "factions", "raiders"], text: "More quests, troops and depth for the factions your ending welcomes." },
+  { k: "I", name: "Intelligence", title: "Settlements", modules: ["settlements"], text: "Building, settlers and running towns." },
+  { k: "A", name: "Agility", title: "Exploration and quests", modules: ["quests", "dlc"], text: "New places to explore, new quests and more from the DLC." },
+  { k: "L", name: "Luck", title: "Companions", modules: ["companions"], text: "Who walks the wasteland with you, and how they behave." },
+];
+const SP_BUDGET = 35, SP_MIN = 1, SP_MAX = 10;
+// Base and stability belong to no interest: they always get the medium level (core plus recommended fixes).
+const SP_FOUNDATION = ["base", "stability"];
+const SP_STEPS = ["Machine", "Ending", "Frameworks", "S.P.E.C.I.A.L.", "Your list"];
+const spDefault = () => ({ machine: state.machine === "pc" ? "pc-mid" : "mac-base", ending: "open", raiders: false, lunar: true, ss2: true, pts: Object.fromEntries(SPECIAL.map(a => [a.k, 5])) });
+let SP = spDefault(), spStep = 0, spOpener = null, spResult = null;
+const spIsOpen = () => $("special").open;
+const spSpent = a => SPECIAL.reduce((s, x) => s + a.pts[x.k], 0);
+
+// Hash form: sheet=pc-high.minutemen.lunar.no-ss2.raiders.S6P8E5C5I6A3L2
+function encodeSheet(a) {
+  return [a.machine, a.ending, a.lunar ? "lunar" : "no-lunar", a.ss2 ? "ss2" : "no-ss2", a.raiders ? "raiders" : "", SPECIAL.map(x => x.k + a.pts[x.k]).join("")].filter(Boolean).join(".");
+}
+function decodeSheet(str) {
+  const a = spDefault(); let ok = true;
+  String(str || "").split(/[.,]/).forEach(t => {
+    if (SP_MACHINES[t]) a.machine = t;
+    else if (SP_ENDINGS[t]) a.ending = t;
+    else if (t === "lunar" || t === "no-lunar") a.lunar = t === "lunar";
+    else if (t === "ss2" || t === "no-ss2") a.ss2 = t === "ss2";
+    else if (t === "raiders") a.raiders = true;
+    else if (/^([SPECIAL]\d{1,2})+$/.test(t)) t.replace(/([SPECIAL])(\d{1,2})/g, (_, k, v) => { a.pts[k] = Math.min(SP_MAX, Math.max(SP_MIN, +v)); });
+  });
+  if (spSpent(a) > SP_BUDGET) { a.pts = spDefault().pts; ok = false; }
+  return { ans: a, ok };
+}
+
+// Why a mod was left out, as [one, many] so the verb agrees with the count.
+const SP_LEFT = {
+  runtime: () => ["does not run on 1.11.240", "do not run on 1.11.240"],
+  ending: () => ["locks a faction ending you did not choose", "lock a faction ending you did not choose"],
+  profile: a => a.ending === "open" ? ["is made for a raider playthrough (tick the raider box to welcome it)", "are made for a raider playthrough (tick the raider box to welcome them)"] : ["is made for another faction's playthrough", "are made for another faction's playthrough"],
+  lunar: () => ["conflicts with Lunar", "conflict with Lunar"],
+  nolunar: () => ["needs Lunar", "need Lunar"],
+  ss2: () => ["conflicts with Sim Settlements 2", "conflict with Sim Settlements 2"],
+  noss2: () => ["needs Sim Settlements 2", "need Sim Settlements 2"],
+  cost: () => ["costs more than your machine allows", "cost more than your machine allows"],
+  unrated: () => ["has no cost rating for your machine yet", "have no cost rating for your machine yet"],
+  requirement: () => ["needs a mod your answers leave out", "need a mod your answers leave out"],
+};
+const endorse = id => NX[BY[id]?.nexus_id]?.endorsements || 0;
+const inPt = m => m.pts.some(id => PTBY[id]);
+// Which mod of a conflicting pair stays: the one the list must have, then the higher tier, then playthrough membership, then Nexus endorsements.
+function rankPair(x, y, forced) {
+  const A = BY[x], B = BY[y], keep = (w, l, why) => [w, l, why];
+  if (forced.has(x) !== forced.has(y)) { const w = forced.has(x) ? x : y; return keep(w, w === x ? y : x, BY[w].tier === "core" ? "it is a core fix" : "you asked for it"); }
+  if (A.ti !== B.ti) { const w = A.ti < B.ti ? x : y, l = w === x ? y : x; return keep(w, l, `it has the higher tier (${TIER_LABEL[BY[w].tier].toLowerCase()} against ${TIER_LABEL[BY[l].tier].toLowerCase()})`); }
+  if (inPt(A) !== inPt(B)) { const w = inPt(A) ? x : y; return keep(w, w === x ? y : x, "it is in a ready-made playthrough"); }
+  const ea = endorse(x), eb = endorse(y);
+  if (ea !== eb) { const w = ea > eb ? x : y; return keep(w, w === x ? y : x, `it has more endorsements on Nexus (${num(Math.max(ea, eb))} against ${num(Math.min(ea, eb))})`); }
+  return x < y ? keep(x, y, "it is a tie, settled by name") : keep(y, x, "it is a tie, settled by name");
+}
+function buildSheet(a, quick) {
+  const mc = SP_MACHINES[a.machine] || SP_MACHINES["mac-base"], maxI = PERF.indexOf(mc.max);
+  const welcome = new Set(["all"]);
+  if (a.ending === "open") ["bos", "minutemen", "institute", "railroad", "neutral"].forEach(p => welcome.add(p)); else welcome.add(a.ending);
+  if (a.raiders) welcome.add("raider");
+  // Forced: every core row, plus Lunar and SS2 when asked for. Their own requirements are allowed whatever they cost.
+  const forced = new Set(MODS.filter(m => m.tier === "core").map(m => m.id));
+  if (a.lunar && BY[LUNAR_ID]) forced.add(LUNAR_ID);
+  if (a.ss2 && BY[SS2_ID]) forced.add(SS2_ID);
+  const safe = new Set(forced); forced.forEach(id => reqClosure(id).forEach(x => safe.add(x)));
+  const memo = new Map();
+  const rule = m => {
+    if (memo.has(m.id)) return memo.get(m.id);
+    memo.set(m.id, "");
+    const needs = reqClosure(m.id), lock = m.ending_lock && m.ending_lock !== "none" ? m.ending_lock : "";
+    let why = "";
+    if (m.tier === "avoid") why = "avoid";
+    else if (m.runtime_1_11_240 === "no") why = "runtime";
+    else if (lock && (a.ending === "open" || lock !== a.ending)) why = "ending";
+    else if (!(m.prof.length ? m.prof : ["all"]).some(p => welcome.has(p))) why = "profile";
+    else if (a.lunar && m.lunar === "conflict") why = "lunar";
+    else if (!a.lunar && (m.id === LUNAR_ID || needs.has(LUNAR_ID))) why = "nolunar";
+    else if (a.ss2 && m.ss2 === "conflict") why = "ss2";
+    else if (!a.ss2 && (m.id === SS2_ID || needs.has(SS2_ID))) why = "noss2";
+    else { const c = m[mc.col]; if (!c) { if (!mc.unrated) why = "unrated"; } else if (PERF.indexOf(c) > maxI) why = "cost"; }
+    if (!why && [...needs].some(x => BY[x] && !safe.has(x) && rule(BY[x]))) why = "requirement";
+    memo.set(m.id, why); return why;
+  };
+  const level = {}, attrOf = {};
+  SPECIAL.forEach(s => s.modules.forEach(k => { level[k] = a.pts[s.k]; attrOf[k] = s.k; }));
+  SP_FOUNDATION.forEach(k => level[k] = 5);
+  const wants = m => { const v = level[m.module] || 0; return m.tier === "recommended" ? v >= 4 : m.tier === "optional" ? v >= 7 && inPt(m) : false; };
+  const chosen = new Set(forced), left = {}, perAttr = {};
+  MODS.forEach(m => {
+    if (forced.has(m.id) || !wants(m)) return;
+    const why = rule(m);
+    if (why) (left[why] = left[why] || []).push(m.id);
+    else { chosen.add(m.id); const k = attrOf[m.module]; if (k) perAttr[k] = (perAttr[k] || 0) + 1; }
+  });
+  if (quick) return { perAttr };
+  // Conflicts: drop the losing side (or the picks that bring it in) until none is left.
+  const dropped = [], stuck = [], skip = new Set();
+  const bring = id => chosen.has(id) ? [id] : [...chosen].filter(c => reqClosure(c).has(id));
+  let r = resolve(chosen);
+  for (let guard = 0; guard < 1000; guard++) {
+    const pair = [...r.conflicts].sort((p, q) => (p[0] + "|" + p[1]).localeCompare(q[0] + "|" + q[1])).find(p => !skip.has(p.join("|")));
+    if (!pair) break;
+    let [win, lose, why] = rankPair(pair[0], pair[1], forced);
+    let ids = bring(lose).filter(x => !forced.has(x));
+    if (!ids.length) { ids = bring(win).filter(x => !forced.has(x)); if (ids.length) { [win, lose] = [lose, win]; why = "the other one could not be taken out"; } }
+    if (!ids.length) { skip.add(pair.join("|")); stuck.push(pair); continue; }
+    ids.forEach(x => chosen.delete(x));
+    dropped.push({ ids, lose, win, why });
+    r = resolve(chosen);
+  }
+  const mods = [...r.all].map(id => BY[id]).filter(Boolean);
+  const est = mods.filter(m => m.plugins_full === "" && m.load_group !== "0").length;
+  const near = PT.filter(p => p.n).map(p => {
+    const all = resolve(new Set(ptIds(p.id))).all; let o = 0; all.forEach(id => { if (r.all.has(id)) o++; });
+    return { p, o, size: all.size };
+  }).sort((u, v) => v.o - u.o)[0] || null;
+  return {
+    answers: a, mc, forced, chosen, r, dropped, stuck: stuck.filter(([x, y]) => r.all.has(x) && r.all.has(y)), left, perAttr, near,
+    full: mods.reduce((s, m) => s + (+m.plugins_full || 0), 0), light: mods.reduce((s, m) => s + (+m.plugins_light || 0), 0), est,
+    unknownRt: mods.filter(m => !m.runtime_1_11_240 || m.runtime_1_11_240 === "unknown").length,
+    breaks: mods.filter(m => m.precombines === "breaks").length,
+    unrated: mods.filter(m => !m[mc.col]).length,
+    over: mods.filter(m => m[mc.col] && PERF.indexOf(m[mc.col]) > maxI).map(m => m.id),
+  };
+}
+
+/* Sheet UI */
+const choice = (name, value, title, text, checked) => `<label class="choice"><input type="radio" name="${name}" value="${esc(value)}"${checked ? " checked" : ""}><span><b>${esc(title)}</b>${text ? `<small>${esc(text)}</small>` : ""}</span></label>`;
+function spBand(x, counts) {
+  const v = SP.pts[x.k];
+  if (!MODS.some(m => x.modules.includes(m.module) && m.tier !== "avoid" && m.tier !== "core")) return "No mods in these sections of the catalogue yet.";
+  if (v <= 3) return "Adds nothing beyond the core fixes.";
+  const n = counts[x.k] || 0;
+  if (!n) return "Nothing here fits your other answers.";
+  return v <= 6 ? `Adds ${plural(n, "recommended mod")}.` : `Adds ${plural(n, "mod")}: recommended, plus optional ones from our playthroughs.`;
+}
+function spAttrRow(x, counts) {
+  const v = SP.pts[x.k], left = SP_BUDGET - spSpent(SP);
+  return `<li class="attr" role="group" aria-labelledby="sp-a-${x.k}">
+<span class="lt" aria-hidden="true">${x.k}</span>
+<div><h3 id="sp-a-${x.k}">${x.name}<span class="vh">:</span> <span>${esc(x.title)}</span></h3><p>${esc(x.text)} <span class="band" id="sp-b-${x.k}">${esc(spBand(x, counts))}</span></p></div>
+<div class="stepper"><button data-sp="dec" data-k="${x.k}" aria-label="Lower ${x.name}"${v <= SP_MIN ? ' aria-disabled="true"' : ""}>−</button><output id="sp-v-${x.k}" aria-label="${x.name}">${v}</output><button data-sp="inc" data-k="${x.k}" aria-label="Raise ${x.name}"${v >= SP_MAX || left <= 0 ? ' aria-disabled="true"' : ""}>+</button></div>
+<span class="pips" aria-hidden="true">${Array.from({ length: SP_MAX }, (_, i) => `<i class="${i < v ? "on" : ""}${i === 3 || i === 6 ? " mark" : ""}"></i>`).join("")}</span></li>`;
+}
+function spSyncPoints() {
+  const counts = buildSheet(SP, true).perAttr, left = SP_BUDGET - spSpent(SP);
+  $("sp-left").textContent = num(left);
+  $("sp-pool").classList.toggle("spent", left === 0);
+  SPECIAL.forEach(x => {
+    const v = SP.pts[x.k], row = $("sp-v-" + x.k).closest(".attr");
+    $("sp-v-" + x.k).textContent = v;
+    $("sp-b-" + x.k).textContent = spBand(x, counts);
+    row.querySelector('[data-sp="dec"]').setAttribute("aria-disabled", String(v <= SP_MIN));
+    row.querySelector('[data-sp="inc"]').setAttribute("aria-disabled", String(v >= SP_MAX || left <= 0));
+    row.querySelectorAll(".pips i").forEach((p, i) => p.classList.toggle("on", i < v));
+  });
+}
+function spStepHTML() {
+  if (spStep === 0) return `<h2 id="sp-h" tabindex="-1">Your machine</h2>
+<p class="d-lead">This sets how much each mod may cost. Costs were rated on a base M3 Mac. Ratings for a gaming PC are in progress: ${num(MODS.filter(m => m.perf_pc).length)} of ${num(MODS.length)} mods so far.</p>
+<fieldset class="choices"><legend class="vh">Your machine</legend>${Object.entries(SP_MACHINES).map(([k, o]) => choice("sp-machine", k, o.title, o.text, SP.machine === k)).join("")}</fieldset>`;
+  if (spStep === 1) return `<h2 id="sp-h" tabindex="-1">Your faction ending</h2>
+<p class="d-lead">Some mods only make sense for one faction, and a few force an ending. This decides which ones are welcome.</p>
+<fieldset class="choices"><legend class="vh">Your faction ending</legend>${Object.entries(SP_ENDINGS).map(([k, [t, x]]) => choice("sp-ending", k, t, x, SP.ending === k)).join("")}</fieldset>
+<label class="box"><input type="checkbox" id="sp-raiders"${SP.raiders ? " checked" : ""}><span>Welcome raider mods too</span></label>
+<p class="hint">Mods made for a raider playthrough, such as Nuka-World raider gangs.</p>`;
+  if (spStep === 2) {
+    const ss2 = BY[SS2_ID], c = ss2 && ss2.perf ? `Rated ${lab(LBL.perf, ss2.perf).toLowerCase()} cost on a base M3; kept even above your machine's limit when you say yes.` : "";
+    return `<h2 id="sp-h" tabindex="-1">Two big frameworks</h2>
+<p class="d-lead">Many mods are built for, or against, these two. Your answer adds them with their patches, or leaves out every mod that needs them.</p>
+<fieldset class="choices two"><legend>Lunar Fallout Overhaul</legend>${choice("sp-lunar", "yes", "Yes, use Lunar", "Reworks combat, loot and enemies. Leaves out mods that conflict with it.", SP.lunar)}${choice("sp-lunar", "no", "No", "Keeps the game's own balance. Leaves out every mod that needs Lunar.", !SP.lunar)}</fieldset>
+<fieldset class="choices two"><legend>Sim Settlements 2</legend>${choice("sp-ss2", "yes", "Yes, use Sim Settlements 2", `Settlers build their own homes, with a long questline. ${c}`, SP.ss2)}${choice("sp-ss2", "no", "No", "Leaves out every mod that needs it.", !SP.ss2)}</fieldset>`;
+  }
+  if (spStep === 3) {
+    const counts = buildSheet(SP, true).perAttr, left = SP_BUDGET - spSpent(SP);
+    return `<h2 id="sp-h" tabindex="-1">S.P.E.C.I.A.L.</h2>
+<p class="d-lead">Spread ${SP_BUDGET} points over seven interests, 1 to 10 each. 1 to 3 adds nothing beyond the core fixes. 4 to 6 adds the mods we recommend. 7 to 10 adds those, plus the optional mods from our playthroughs.</p>
+<div class="sp-pool${left === 0 ? " spent" : ""}" id="sp-pool"><span>Points left, out of ${SP_BUDGET}</span><b id="sp-left">${num(left)}</b></div>
+<ol class="attrs">${SPECIAL.map(x => spAttrRow(x, counts)).join("")}</ol>`;
+  }
+  return spResultHTML(spResult = buildSheet(SP));
+}
+function spResultHTML(res) {
+  const r = res.r, n = r.all.size, a = res.answers, added = n - res.chosen.size, overSlots = res.full + res.est > 254;
+  const row = (label, val, bad, note) => `<tr><th scope="row">${label}${note ? `<small>${note}</small>` : ""}</th><td${bad ? ' class="bad"' : ""}>${val}</td></tr>`;
+  const alerts = [];
+  if (overSlots) alerts.push(`<div class="alert"><b>Over the 254 full plugin limit</b> by ${num(res.full + res.est - 254)}${res.est ? ", counting each uncounted mod as one slot" : ""}. Lower an interest, or take mods out once the list is loaded.</div>`);
+  res.stuck.forEach(([x, y]) => alerts.push(`<div class="alert"><b>Conflict left for you:</b> ${esc(BY[x].name)} and ${esc(BY[y].name)} can't share a save, and neither could be taken out here. Keep one in your list.</div>`));
+  if (res.over.length) alerts.push(`<div class="alert info">${plural(res.over.length, "mod")} cost${res.over.length === 1 ? "s" : ""} more than your machine allows, kept because you asked for ${res.over.length === 1 ? "it" : "them"} or another mod needs ${res.over.length === 1 ? "it" : "them"}: ${esc(joinAnd(res.over.map(id => BY[id].name)))}.</div>`);
+  const drops = res.dropped.map(d => {
+    const names = d.ids.map(id => BY[id].name);
+    return d.ids.length === 1 && d.ids[0] === d.lose
+      ? `<li><b>${esc(BY[d.lose].name)}</b> conflicts with ${esc(BY[d.win].name)}. <small>Kept ${esc(BY[d.win].name)}: ${esc(d.why)}.</small></li>`
+      : `<li><b>${esc(joinAnd(names))}</b>, because ${d.ids.length > 1 ? "they need" : "it needs"} ${esc(BY[d.lose].name)}, which conflicts with ${esc(BY[d.win].name)}. <small>Kept ${esc(BY[d.win].name)}: ${esc(d.why)}.</small></li>`;
+  });
+  const lefts = Object.keys(SP_LEFT).filter(k => res.left[k]?.length).map(k => `<li>${plural(res.left[k].length, "mod")} ${esc(SP_LEFT[k](a)[res.left[k].length === 1 ? 0 : 1])}</li>`);
+  const near = res.near && res.near.o ? res.near : null;
+  return `<h2 id="sp-h" tabindex="-1">Your list</h2>
+<p class="d-lead">${plural(n, "mod")}: ${num(res.chosen.size)} from your answers${added ? `, ${num(added)} requirements and patches added for you` : ""}. Costs are ${esc(res.mc.col === "perf" ? "the base M3 Mac ratings" : "the gaming PC ratings, still in progress")}.</p>
+<table class="sp-tally"><caption class="vh">Your list in numbers</caption><tbody>
+${row("Mods", num(n))}
+${row("Full plugin slots", `${num(res.full)}${res.est ? "+" : ""} <small>of 254</small>`, overSlots, res.est ? `Plus ${plural(res.est, "mod")} whose plugins are not counted yet` : "")}
+${row("Light plugins", num(res.light), false, "Out of 4,096")}
+${row("Not checked on 1.11.240 yet", num(res.unknownRt), false, "May or may not work on the current game version")}
+${row("Break precombines", num(res.breaks), res.breaks > 0, "Lower fps in their area")}
+${row("Cost not rated for your machine", num(res.unrated), res.unrated > 0 && !!res.mc.unrated, res.mc.unrated ? "Allowed on a high-end PC: watch your fps" : "Only ones another mod needs: the rest were left out")}
+</tbody></table>
+${alerts.length ? `<div class="alerts">${alerts.join("")}</div>` : ""}
+${near ? `<section class="d-sec"><h3>Closest ready-made playthrough</h3><div class="sp-near"><p><b>${esc(near.p.title)}</b>${near.p.status === "planned" ? " (planned, not played yet)" : ""}: ${num(near.o)} of its ${plural(near.size, "mod")} are in your list.</p><button class="sbtn" data-sp="near" data-pt="${esc(near.p.id)}">Start from this playthrough instead</button></div></section>` : ""}
+${drops.length ? `<section class="d-sec"><h3>Taken out to avoid conflicts</h3><ul class="sp-list">${drops.join("")}</ul></section>` : ""}
+${lefts.length ? `<section class="d-sec"><h3>Left out by your answers</h3><ul class="sp-list">${lefts.join("")}</ul><p class="d-checked">Mods marked avoid are never added.</p></section>` : ""}`;
+}
+function spRender() {
+  const d = $("special"), last = SP_STEPS.length - 1;
+  const foot = spStep === last
+    ? `<button class="sbtn" data-sp="back">Change answers</button><span class="grow"></span><button class="sbtn" data-sp="copy">Copy sheet link</button><button class="dtoggle" data-sp="use">Use this list</button><p class="d-eff">Replaces your current list. You can undo it.</p>`
+    : `${spStep ? `<button class="sbtn" data-sp="back">Back</button>` : ""}<span class="grow"></span><button class="dtoggle" data-sp="next">${spStep === last - 1 ? "Build my list" : `Next: ${SP_STEPS[spStep + 1]}`}</button>`;
+  d.innerHTML = `<div class="d-head"><span id="sp-title">Your S.P.E.C.I.A.L. sheet</span><button class="close" data-sp="close">Close</button></div>
+<div class="d-body"><div class="d-in">
+<nav aria-label="Sheet steps"><ol class="sp-steps">${SP_STEPS.map((t, i) => `<li><button data-sp="step" data-i="${i}"${i === spStep ? ' aria-current="step"' : ""}><span class="n" aria-hidden="true">${i + 1}</span><span class="t">${t}</span><span class="vh">, step ${i + 1} of ${SP_STEPS.length}</span></button></li>`).join("")}</ol></nav>
+${spStepHTML()}</div></div>
+<div class="d-foot">${foot}</div>`;
+  d.querySelector(".d-body").scrollTop = 0;
+  $("sp-h").focus();
+}
+function openSP(ans, step, opener) {
+  if (!loaded) return;
+  if (ans) SP = ans;
+  spStep = step || 0;
+  closeSheet(false);
+  const d = $("special");
+  if (!d.open) { spOpener = opener || document.activeElement; d.showModal(); }
+  spRender(); writeHash();
+}
+function spGo(i) { spStep = Math.max(0, Math.min(SP_STEPS.length - 1, i)); spRender(); writeHash(); }
+function spPoint(k, delta) {
+  const x = SPECIAL.find(s => s.k === k), v = SP.pts[k], left = SP_BUDGET - spSpent(SP);
+  if (delta > 0 && v >= SP_MAX) return announce(`${x.name} is at ${SP_MAX}, the maximum.`);
+  if (delta > 0 && left <= 0) return announce("No points left. Lower another interest first.");
+  if (delta < 0 && v <= SP_MIN) return announce(`${x.name} is at ${SP_MIN}, the minimum.`);
+  SP.pts[k] = v + delta; spSyncPoints(); writeHash();
+  announce(`${x.name} ${SP.pts[k]}. ${plural(SP_BUDGET - spSpent(SP), "point")} left.`);
+}
+function spUse() {
+  const res = spResult || buildSheet(SP), mach = res.mc.site;
+  $("special").close();
+  if (mach !== state.machine) setMachine(mach, true);
+  setChosen([...res.chosen], () => `Loaded the list from your S.P.E.C.I.A.L. sheet: ${plural(R.all.size, "mod")}${R.all.size > R.chosen.size ? `, ${num(R.all.size - R.chosen.size)} of them requirements and patches added for you` : ""}.${mach === "pc" ? " Costs now shown for a gaming PC." : ""}`, { showList: true });
+}
+$("special").addEventListener("click", e => {
+  if (e.target.id === "special") { e.target.close(); return; }
+  const b = e.target.closest("[data-sp]"); if (!b) return;
+  const ds = b.dataset;
+  if (ds.sp === "close") $("special").close();
+  else if (ds.sp === "step") spGo(+ds.i);
+  else if (ds.sp === "next") spGo(spStep + 1);
+  else if (ds.sp === "back") spGo(spStep - 1);
+  else if (ds.sp === "inc" || ds.sp === "dec") spPoint(ds.k, ds.sp === "inc" ? 1 : -1);
+  else if (ds.sp === "use") spUse();
+  else if (ds.sp === "near") { $("special").close(); applyPreset("pt:" + ds.pt); }
+  else if (ds.sp === "copy") {
+    const url = location.origin + location.pathname + location.search + "#sheet=" + encodeSheet(SP);
+    navigator.clipboard.writeText(url).then(() => { flash(b, "Copied"); announce("Sheet link copied."); }, () => window.prompt("Copy this link", url));
+  }
+});
+$("special").addEventListener("change", e => {
+  const t = e.target;
+  if (t.name === "sp-machine") SP.machine = t.value;
+  else if (t.name === "sp-ending") SP.ending = t.value;
+  else if (t.name === "sp-lunar") SP.lunar = t.value === "yes";
+  else if (t.name === "sp-ss2") SP.ss2 = t.value === "yes";
+  else if (t.id === "sp-raiders") SP.raiders = t.checked;
+  else return;
+  writeHash();
+});
+$("special").addEventListener("close", () => {
+  spResult = null; writeHash();
+  const o = spOpener; spOpener = null;
+  if (o && document.contains(o) && !o.closest("[inert]")) o.focus();
+});
+
 /* ---------- Load ---------- */
 function fillStatic() {
   const maxOf = arr => arr.filter(Boolean).sort().pop() || "";
   const checked = maxOf(MODS.map(m => m.checked_on)), synced = maxOf(Object.values(NX).map(n => n.synced_on));
-  const picks = MODS.filter(m => m.our_pick === "yes").length, cores = MODS.filter(m => m.tier === "core").length, avoid = MODS.filter(m => m.tier === "avoid").length;
+  const picks = MODS.filter(inPt).length, cores = MODS.filter(m => m.tier === "core").length, avoid = MODS.filter(m => m.tier === "avoid").length;
   document.querySelectorAll(".n-total").forEach(e => e.textContent = num(MODS.length));
-  $("n-pick").textContent = num(picks); $("n-core").textContent = num(cores);
+  $("n-core").textContent = num(cores);
   $("rec-total").textContent = num(MODS.length); $("rec-pick").textContent = num(picks); $("rec-avoid").textContent = num(avoid);
+  $("rec-pc").textContent = num(MODS.filter(m => m.perf_pc).length);
+  renderStarts();
   $("rec-date").textContent = fmtDate(checked, true) || "Not recorded";
   const dm = /^(\d{4})-(\d{2})-(\d{2})/.exec(checked);
   if (dm) {
@@ -1632,30 +2126,51 @@ function fillStatic() {
   }
   $("foot-dates").textContent = `Data checked up to ${fmtDate(checked, true) || "an unknown date"}${synced ? `, Nexus details synced on ${fmtDate(synced, true)}` : ""}.`;
 }
+// One start button per playthrough. A planned playthrough says so; one with no mods yet cannot be loaded.
+function renderStarts() {
+  const primary = PT.find(p => p.n && p.status === "played") || PT.find(p => p.n);
+  $("pt-starts").innerHTML = PT.map(p => {
+    const planned = p.status === "planned";
+    return `<div class="ptstart"><button class="start preset${p === primary ? " primary" : ""}${planned ? " planned" : ""}" data-preset="pt:${esc(p.id)}" aria-pressed="false"${p.n ? "" : ' aria-disabled="true"'}><strong>${esc(p.title)}</strong><small>${p.n ? plural(p.n, "mod") : "No mods listed yet"}${p.machine ? `, built for ${esc(p.machine)}` : ""}</small>${planned ? `<small class="pl">Planned, not played yet${p.n ? ": the list may still change" : ""}</small>` : ""}</button>${p.doc ? `<a class="ptdoc" href="${esc(p.doc)}" rel="noopener">Read the write-up<span class="vh">: ${esc(p.title)}</span></a>` : ""}</div>`;
+  }).join("");
+}
+function setupPlaythroughs(raw) {
+  PT = (Array.isArray(raw) ? raw : []).filter(p => p && p.id).map(p => ({ id: String(p.id), title: p.title || p.id, machine: p.machine || "", summary: p.summary || "", doc: p.doc || "", status: p.status === "planned" ? "planned" : "played" }));
+  // Ids used in the CSV but missing from playthroughs.json still get a mark.
+  const known = new Set(PT.map(p => p.id));
+  MODS.forEach(m => m.pts.forEach(id => { if (!known.has(id)) { known.add(id); PT.push({ id, title: id, machine: "", summary: "", doc: "", status: "played" }); } }));
+  PTBY = Object.fromEntries(PT.map(p => [p.id, p]));
+  PT.forEach(p => { p.kind = /\b(mac|apple|m[1-9])\b/i.test(p.machine + " " + p.id) ? "Mac" : "PC"; p.n = ptIds(p.id).length; });
+  PT.forEach(p => { p.short = PT.filter(q => q.kind === p.kind).length === 1 ? `${p.kind} playthrough` : p.title; });
+}
 let setupDone = false;
 async function load() {
   const main = $("main");
   main.innerHTML = '<p class="loading">Loading the catalogue…</p><div class="ph" aria-hidden="true"><i></i><i></i><i></i></div>';
   try {
-    const [csv, nx] = await Promise.all([
+    const [csv, nx, pts] = await Promise.all([
       fetch("../data/mods.csv").then(r => { if (!r.ok) throw new Error("mods.csv " + r.status); return r.text(); }),
       fetch("../data/nexus.json").then(r => r.ok ? r.json() : {}).catch(() => ({})),
+      fetch("../data/playthroughs.json").then(r => r.ok ? r.json() : []).catch(() => []),
     ]);
     MODS = parseCSV(csv); NX = nx && typeof nx === "object" && !Array.isArray(nx) ? nx : {}; BY = Object.fromEntries(MODS.map(m => [m.id, m]));
     MODS.forEach(m => {
       const n = NX[m.nexus_id] || {};
       m.hay = (m.name + " " + m.summary + " " + (n.name || "") + " " + (n.author || "")).toLowerCase();
       m.mi = MOD_KEYS.indexOf(m.module); m.ti = TIERS.indexOf(m.tier); m.prof = list(m.profiles);
+      // Older data had a yes/no "our_pick" column instead of "playthroughs".
+      m.pts = m.playthroughs !== undefined ? list(m.playthroughs) : m.our_pick === "yes" ? [LEGACY_PT] : [];
     });
+    setupPlaythroughs(pts);
     const hp = new URLSearchParams(location.hash.slice(1));
-    const raw = parseList(hp.get("list")), missing = raw.filter(id => !BY[id]);
+    if (MACHINES[hp.get("machine")]) state.machine = hp.get("machine");
+    state.pt = hashFilter(hp);
+    const raw = hashPreset(hp) ? [] : parseList(hp.get("list")), missing = raw.filter(id => !BY[id]);
     if (raw.length) state.chosen = new Set(raw.filter(id => BY[id]));
     R = resolve(); loaded = true;
     if (!setupDone) { setupFilters(); setupDone = true; }
-    fillStatic(); renderReq(); syncPresets(); render({ quiet: true });
-    const mod = hp.get("mod");
-    if (mod && BY[mod]) openDetail(mod, $("main")); else writeHash();
-    if (missing.length) showNotice(missingNote(missing));
+    syncMachineUI(); syncFilterUI(); fillStatic(); renderReq(); syncPresets(); render({ quiet: true });
+    readHash(hp, true, missing);
   } catch (err) {
     main.innerHTML = `<div class="loaderr"><p>The catalogue data could not be loaded (${esc(err.message)}). Open this page from the published site or a local web server, not as a file.</p><button class="btn" id="retry">Try again</button></div>`;
     $("retry").onclick = load;
