@@ -164,7 +164,7 @@ const FX = (() => {
   }
 
   /* ---------- Sound: off by default, two quiet clicks ----------
-     Only filtered noise, no tone: a tick of about 6 ms for moving through lists and changing tabs, and
+     Only filtered noise, no tone: a tick of about 16 ms for moving through lists and changing tabs, and
      a slightly fuller click of about 18 ms for confirming. Everything passes a 1.2 kHz high-pass and a
      7.5 kHz low-pass, and peaks near -24 dBFS. Nothing plays longer than 40 ms.
      To drop sound entirely: delete this block and the Sound setting; FX.sound() then does nothing. */
@@ -180,26 +180,30 @@ const FX = (() => {
       const n = Math.round(ctx.sampleRate * .05); noiseBuf = ctx.createBuffer(1, n, ctx.sampleRate); const d = noiseBuf.getChannelData(0);
       for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
     }
-    if (ctx.state === "suspended") ctx.resume();
     return ctx;
   }
   // A burst of noise through a band-pass, with a fast attack and an exponential decay.
   function burst(freq, q, dur, level) {
-    const t = ctx.currentTime, s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    // Schedule a few ms ahead: a sound started at currentTime can lose its attack and be skipped.
+    const t = ctx.currentTime + .012, s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
     s.buffer = noiseBuf; f.type = "bandpass"; f.frequency.value = freq; f.Q.value = q;
     g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(level, t + .001); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
     s.connect(f).connect(g).connect(out); s.start(t, 0, dur + .005);
   }
   const VOICES = {
-    tick: () => burst(4200, 1.2, .006, .8),
+    tick: () => burst(3400, 1, .016, 1.7),
     click: () => burst(2600, .9, .018, 1),
   };
   // Older names used by the rest of the site map onto the two voices.
   const ALIAS = { tab: "tick", row: "tick", back: "tick", press: "click", tape: "click" };
+  let lastAt = 0;
   function sound(kind) {
     if (!soundOn) return;
+    // A tab click reaches here twice (the click listener below and the tab code): play it once.
+    const now = performance.now(); if (now - lastAt < 60) return; lastAt = now;
     const v = VOICES[ALIAS[kind] || kind]; if (!v || !audio()) return;
-    v();
+    // A suspended context (first sound, or after the tab was hidden) plays only once it has resumed.
+    if (ctx.state === "running") v(); else ctx.resume().then(v, () => {});
   }
   document.addEventListener("click", e => {
     if (!soundOn) return;
