@@ -17,6 +17,8 @@ const FX = (() => {
   function setLevel(v, quiet) {
     if (!LEVELS[v]) v = "full";
     root.dataset.fx = v;
+    // Off means off now: stop any refresh, shift or roll still playing.
+    if (v === "off") document.getAnimations().forEach(x => { if (!(x instanceof CSSAnimation) && !(x instanceof CSSTransition)) x.cancel(); });
     try { localStorage.setItem("sml-fx", v); } catch {}
     syncSettings();
     window.dispatchEvent(new Event("fxchange"));

@@ -19,11 +19,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="app.css?v=5">
+<link rel="stylesheet" href="app.css?v=6">
 </head>
 <body>
 <a class="skip" id="skip" href="#panels">Skip to content</a>
 <div class="bezel">
+<div class="device" aria-hidden="true"><i class="grille g-top"></i><i class="grille g-bot"></i><i class="knob"></i><i class="dial"></i><i class="led l1 on"></i><i class="led l2"></i><i class="toggle t1"></i><i class="toggle t2"></i></div>
+<div class="frame">
+<i class="screw sc1" aria-hidden="true"></i><i class="screw sc2" aria-hidden="true"></i><i class="screw sc3" aria-hidden="true"></i><i class="screw sc4" aria-hidden="true"></i>
 <div class="screen" id="screen">
   <header class="hud">
     <h1>Special Mods List <span class="hd">· Fallout 4 mod catalogue</span></h1>
@@ -192,12 +195,12 @@
     <div class="cell" id="st-mods"><b class="roll" id="st-n">0</b><span><span id="st-nl">mods</span><span class="vh"> in your list</span></span><span class="conf bad" id="st-conf" hidden></span></div>
     <div class="cell" id="st-plug"><span class="lbl-p">Plugins</span> <span><b class="roll" id="st-full">0</b>/254</span><span class="bar" aria-hidden="true"><i id="st-bar" style="width:0"></i></span></div>
     <div class="cell" id="st-mach" role="group" aria-label="Show costs for"><span class="lbl-l" aria-hidden="true">Costs for</span><span class="seg"><button data-machine="mac" aria-pressed="true">Mac</button><button data-machine="pc" aria-pressed="false">PC</button></span></div>
-    <button class="btn primary" id="st-action">Next: Ending</button>
   </footer>
 </div>
 </div>
+</div>
 <div id="sr-status" class="vh" role="status"></div>
-<script src="fx.js?v=5"></script>
-<script src="app.js?v=5"></script>
+<script src="fx.js?v=6"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>
