@@ -17,7 +17,7 @@ Column definitions and allowed values: [data/README.md](../../data/README.md). I
 | --- | --- | --- | --- |
 | [Base: script extender and unofficial patch](base.md) | 7 | 3 | 0 |
 | [Stability and performance](stability.md) | 99 | 4 | 28 |
-| [Interface](interface.md) | 47 | 1 | 19 |
+| [Interface](interface.md) | 48 | 1 | 19 |
 | [Gameplay overhaul and enemies](gameplay.md) | 112 | 0 | 12 |
 | [Brotherhood of Steel](brotherhood.md) | 72 | 0 | 11 |
 | [Minutemen](minutemen.md) | 58 | 0 | 14 |
@@ -28,8 +28,8 @@ Column definitions and allowed values: [data/README.md](../../data/README.md). I
 | [Settlements](settlements.md) | 91 | 0 | 20 |
 | [DLC](dlc.md) | 65 | 0 | 12 |
 | [Quests and locations](quests.md) | 141 | 0 | 44 |
-| [Weapons and armor](weapons-armor.md) | 108 | 0 | 22 |
-| [Immersion and quality of life](immersion.md) | 91 | 0 | 30 |
+| [Weapons and armor](weapons-armor.md) | 109 | 0 | 22 |
+| [Immersion and quality of life](immersion.md) | 92 | 0 | 30 |
 | [Companions](companions.md) | 45 | 0 | 6 |
-| [Visuals: textures, lighting, shaders, LOD](visuals.md) | 30 | 0 | 18 |
+| [Visuals: textures, lighting, shaders, LOD](visuals.md) | 32 | 0 | 18 |
 <!-- END GENERATED -->
