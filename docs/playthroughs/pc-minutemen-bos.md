@@ -104,6 +104,7 @@ The first launch of the playthrough, the same day, led to these changes. The pro
 | Moved before `prp.esp` | Better Landscape Grass, Vivid Fallout - All in One 2K, Vivid Fallout LOD, Valius 2K, Lightweight Lighting, Fallout 4 Particle Patch, Gloomy Glass, Base Face, This Made My Spline Stiff, Terrain Freckles Be Gone, Targeted Textures | See the load-order rule below |
 | Removed (2026-11-08) | Hunkered Down - Commonwealth Overhaul and its PRP patch | Its PRP patch rewrote 480 cells and overlapped The Rooftops (90 cells), Subway Runner - Revival (18, 9 of them in Concord), 3DNPC ExoEm (19) and Immersive Lexington (9). The mod only dresses 30+ locations (shelters, insulation, fewer unattended fires), no scripts or quests, so it left the ongoing save without trouble |
 | Removed (2026-11-08) | Power Armor HUD - paHUD | In power armor the HUD showed only its red elements (gauges, damaged parts) next to FallUI HUD and Immersive HUD. Display only, so it left the save without trouble |
+| Fixed (2026-11-08) | Nina's Proper Pipe Guns Replacer and Revisited | Lunar Fallout Arsenal's install notes ask to move each mod's `Meshes/Weapons` into `Meshes/nina_old` and `Meshes/nina_redux` and to delete their textures; skipped at install, the .45 pipe pistol was invisible. Done by hand |
 
 #### Load-order rule: cell overrides go before PRP
 
