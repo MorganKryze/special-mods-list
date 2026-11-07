@@ -33,7 +33,7 @@ const FX = (() => {
     if (soundOn) sound("press");
     if (!quiet) say(`Sound ${soundOn ? "on" : "off"}.`);
   }
-  const radio = (name, v, label, on) => `<label class="opt radio"><input type="radio" name="${name}" value="${v}"${on ? " checked" : ""}><span>${label}</span></label>`;
+  const radio = (name, v, label, on) => `<label class="opt radio"><input type="radio" name="${name}" value="${v}"${on ? " checked" : ""}><span class="bx" aria-hidden="true"></span><span>${label}</span></label>`;
   function setupSettings() {
     const fx = q("#fx-set"), snd = q("#snd-set");
     fx.insertAdjacentHTML("beforeend", Object.entries(LEVELS).map(([k, l]) => radio("fx", k, l, k === level())).join(""));

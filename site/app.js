@@ -7,6 +7,28 @@ const MODULES = {
   companions: "Companions", visuals: "Visuals: textures, lighting, shaders, LOD",
 };
 const MOD_KEYS = Object.keys(MODULES);
+// One plain line per section, for the MODS overview.
+const MODULE_LINE = {
+  base: "The script extender, the unofficial patch and the frameworks other mods build on.",
+  stability: "Engine and crash fixes, precombine repairs and the tools that keep a long save healthy.",
+  interface: "HUD, menus, map markers and dialogue: an interface you can read.",
+  gameplay: "Combat, enemies, survival needs, perks and the overhauls that rebalance them.",
+  brotherhood: "Quests, troops and fixes for the Brotherhood of Steel.",
+  minutemen: "Garrisons, watchtowers, the Castle and quests for the Minutemen.",
+  institute: "Synths, Coursers, scientists and other endings for the Institute.",
+  railroad: "Agents, safehouses, radiant quests and fixes for the Railroad.",
+  raiders: "Raiders, Gunners, town guards and the hostile factions on the road.",
+  factions: "Endings, faster starts and fixes that cross more than one faction.",
+  settlements: "Building, settlers, attacks, and Sim Settlements 2 with its add-ons.",
+  dlc: "Far Harbor, Nuka-World, Automatron and the workshop packs: fixes and more to do.",
+  quests: "New quests, dungeons and places to explore, and busier towns.",
+  "weapons-armor": "Guns, armor, power armor and the fixes that make gear behave.",
+  immersion: "Random encounters, ambient sound, travellers and small touches of realism.",
+  companions: "New companions, and fixes for the ones you already have.",
+  visuals: "Textures, lighting, weather and shaders: the mods that cost your machine the most.",
+};
+const ESSENTIAL = new Set(["core", "recommended"]);
+const REC_CAP = 8;
 const secNo = k => String(MOD_KEYS.indexOf(k) + 1).padStart(2, "0");
 const TIERS = ["core", "recommended", "optional", "avoid"];
 const TIER_LABEL = { core: "Core", recommended: "Recommended", optional: "Optional", avoid: "Avoid" };
@@ -537,7 +559,7 @@ function setupPlaythroughs(raw) {
    The Pip-Boy shell: tabs, inventory, holotapes, status bar.
    Everything above this line is the catalogue's own logic.
    ===================================================================== */
-const ui = { tab: "stat", sub: "cat", sel: null };
+const ui = { tab: "stat", sub: "cat", sel: null, section: "" };
 const TABS = ["stat", "mods", "tapes", "about"];
 const mqMob = matchMedia("(max-width: 759px)");
 // Scroll a horizontal strip (tabs, steps) so the current item is centred, without moving anything else.
@@ -583,7 +605,7 @@ function setPhosphor(v, quiet) {
 }
 function setupPhosphor() {
   const cur = PHOS[document.documentElement.dataset.phosphor] ? document.documentElement.dataset.phosphor : "green";
-  $("phosphor").innerHTML = `<legend class="lbl">Colour</legend>` + Object.entries(PHOS).map(([k, [n, ink]]) => `<label class="opt radio"><input type="radio" name="phosphor" value="${k}"${k === cur ? " checked" : ""}><span class="sw" style="background:${ink};border-color:${ink}" aria-hidden="true"></span><span>${n}${k === "green" ? " (default)" : ""}</span></label>`).join("");
+  $("phosphor").innerHTML = `<legend class="lbl">Colour</legend>` + Object.entries(PHOS).map(([k, [n, ink]]) => `<label class="opt radio"><input type="radio" name="phosphor" value="${k}"${k === cur ? " checked" : ""}><span class="bx" aria-hidden="true"></span><span class="sw" style="background:${ink};border-color:${ink}" aria-hidden="true"></span><span>${n}${k === "green" ? " (default)" : ""}</span></label>`).join("");
   $("phosphor").addEventListener("change", e => { if (e.target.name === "phosphor") setPhosphor(e.target.value); });
 }
 
@@ -599,8 +621,8 @@ function setTab(t, o = {}) {
   if (changed) { FX.refresh(); placeTabline(); if (mqMob.matches) hideNotice(); }
   // The strip was hidden until now: it appears in place, it slides only between its own items.
   centreStrip(t === "stat" ? $("sp-steps") : t === "mods" ? $("subtabs") : null, true);
-  if (t === "mods" && ui.sub === "cat") requestAnimationFrame(() => FX.bar($("inv"), selRow(), true));
-  if (t === "stat") requestAnimationFrame(() => FX.bar($("sp-attrs"), $("sp-r-" + spSel), true));
+  if (t === "mods" && ui.sub === "cat") requestAnimationFrame(() => FX.bar($("inv"), rowShown(selRow()) ? selRow().closest("li") : null, true));
+  if (t === "stat") requestAnimationFrame(() => FX.bar($("sp-attrs"), spRowEl(spSel), true));
   rememberTab(); syncStatus(); writeHash();
   if (!$("notice").hidden) noticeBtns(noticeExtra);
   if (o.focus) focusIn(t);
@@ -611,7 +633,7 @@ function setSub(s, o = {}) {
   [["cat", "subtab-cat", "sub-cat"], ["list", "subtab-list", "sub-list"]].forEach(([k, b, p]) => { const on = k === ui.sub; $(b).setAttribute("aria-selected", on); $(b).tabIndex = on ? 0 : -1; $(p).hidden = !on; });
   if (ui.sub === "list") closePanel(false);
   centreStrip($("subtabs"), !changed || o.silent);
-  if (ui.sub === "cat") requestAnimationFrame(() => FX.bar($("inv"), selRow(), true));
+  if (ui.sub === "cat") requestAnimationFrame(() => FX.bar($("inv"), rowShown(selRow()) ? selRow().closest("li") : null, true));
   if (changed && !o.silent) { FX.refresh(); if (mqMob.matches) hideNotice(); }
   if (!o.silent) { rememberTab(); syncStatus(); writeHash(); if (!$("notice").hidden) noticeBtns(noticeExtra); }
 }
@@ -638,7 +660,10 @@ function centreStrip(strip, instant, on) {
   if (!track || !a) return;
   const jump = instant || !FX.moving();
   track.classList.toggle("instant", jump);
-  track.style.transform = `translateX(${Math.round(strip.clientWidth / 2 - (a.offsetLeft + a.offsetWidth / 2))}px)`;
+  // Centre the current item, but keep the strip's ends clear of the edge fades, so no word is cut.
+  const pad = 40, sw = strip.clientWidth, tw = track.scrollWidth, ends = [pad, sw - tw - pad];
+  const tx = Math.min(Math.max(sw / 2 - (a.offsetLeft + a.offsetWidth / 2), Math.min(...ends)), Math.max(...ends));
+  track.style.transform = `translateX(${Math.round(tx)}px)`;
   if (jump) { void track.offsetWidth; track.classList.remove("instant"); }
 }
 ["sp-steps", "subtabs"].forEach(id => {
@@ -646,7 +671,7 @@ function centreStrip(strip, instant, on) {
   strip.addEventListener("focusin", e => { if (e.target.closest(".subtab")) centreStrip(strip, false, e.target.closest(".subtab")); });
   strip.addEventListener("focusout", () => setTimeout(() => { if (!strip.contains(document.activeElement)) centreStrip(strip); }));
 });
-function relayout() { placeTabline(true); centreStrip($("sp-steps"), true); centreStrip($("subtabs"), true); FX.bar($("inv"), selRow(), true); FX.bar($("sp-attrs"), $("sp-r-" + spSel), true); }
+function relayout() { placeTabline(true); centreStrip($("sp-steps"), true); centreStrip($("subtabs"), true); FX.bar($("inv"), rowShown(selRow()) ? selRow().closest("li") : null, true); FX.bar($("sp-attrs"), spRowEl(spSel), true); }
 window.addEventListener("resize", () => { cancelAnimationFrame(relayout.raf); relayout.raf = requestAnimationFrame(relayout); });
 window.addEventListener("fxchange", relayout);
 if (document.fonts) document.fonts.ready.then(relayout);
@@ -684,7 +709,10 @@ function writeHash() {
   else if (ui.tab === "stat") {
     if (spTouched || encodeSheet(SP) !== encodeSheet(spDefault())) { p.push("sheet=" + encodeSheet(SP)); if (spStep < SP_STEPS.length - 1) p.push("step=" + spStep); }
   } else if (ui.tab === "mods" && ui.sub === "cat" && openId) p.push("mod=" + openId);
-  else p.push("tab=" + (ui.tab === "mods" ? (ui.sub === "list" ? "list" : "mods") : ui.tab === "tapes" ? "playthroughs" : ui.tab));
+  else {
+    p.push("tab=" + (ui.tab === "mods" ? (ui.sub === "list" ? "list" : "mods") : ui.tab === "tapes" ? "playthroughs" : ui.tab));
+    if (ui.tab === "mods" && ui.sub === "cat" && ui.section) p.push("section=" + ui.section);
+  }
   history.replaceState(null, "", p.length ? "#" + p.join("&") : location.pathname + location.search);
   lastWrittenHash = location.hash;
 }
@@ -719,6 +747,8 @@ function readHash(hp, first, missing = []) {
     if (!ok) announce(`The points in this sheet add up to more than ${SP_BUDGET}, so they were reset.`);
     return;
   }
+  const sec = hp.get("section");
+  if (MODULES[sec] && sec !== ui.section && !hp.get("mod")) { ui.section = sec; render({ quiet: true, view: true }); if (!dest) dest = ["mods", "cat"]; }
   const m = hp.get("mod");
   if (m && BY[m]) { setTab("mods", { sub: "cat" }); selectMod(m, { panel: true, focusDetail: !first }); return; }
   if (!dest && first) { const s = storedTab(); dest = TAB_PARAM[s === "tapes" ? "playthroughs" : s] || ["stat"]; }
@@ -746,7 +776,9 @@ function syncStatus() {
   $("st-nl").nextElementSibling.textContent = pv ? " in the proposed list, not loaded yet" : " in your list";
   $("st-conf").hidden = !c; $("st-conf").textContent = c ? plural(c, "conflict") : "";
   FX.roll($("st-full"), num(full) + (est ? "+" : ""));
-  $("st-bar").style.transform = `scaleX(${Math.min(1, (full + est) / 254)})`;
+  const cw = Math.min(1, full / 254), ew = Math.max(0, Math.min(1 - cw, est / 254));
+  $("st-bar").style.transform = `scaleX(${cw})`;
+  $("st-est").style.left = `calc(2px + (100% - 4px) * ${cw})`; $("st-est").style.width = `calc((100% - 4px) * ${ew})`;
   $("st-plug").classList.toggle("bad", over);
   $("st-plug").setAttribute("aria-label", `Full plugins: ${num(full)}${est ? ` plus ${est} not counted` : ""} of 254${over ? ", over the limit" : ""}`);
   $("sub-n").textContent = R.all.size ? `(${num(R.all.size)})` : "";
@@ -780,10 +812,7 @@ function tierKey() {
   return "custom";
 }
 function setTierKey(v) { if (v === "custom") return; state.tiers = new Set(v === "default" ? DEFAULT_TIERS : v === "all" ? TIERS : [v]); }
-const MORE = ["runtime", "lunar", "ss2", "nodll", "noend"];
-function moreCount() { return (state.profiles.size ? 1 : 0) + (state.perf !== "high" ? 1 : 0) + (state.sort !== "section" ? 1 : 0) + MORE.filter(k => state[k]).length; }
 function syncFilterUI() {
-  $("f-section").value = MODULES[state.section] ? state.section : "";
   const tk = tierKey(); $("f-tier").querySelector('[value="custom"]').hidden = tk !== "custom"; $("f-tier").value = tk;
   $("f-pt").value = PTBY[state.pt] ? state.pt : "";
   $("f-profile").value = [...state.profiles][0] || "";
@@ -799,12 +828,10 @@ function resetFilters(clearSearch) {
   syncFilterUI(); render();
 }
 function setupFilters() {
-  $("f-section").innerHTML = `<option value="">Every section</option>` + MOD_KEYS.map(k => `<option value="${k}">${esc(MODULES[k])}</option>`).join("");
   $("f-profile").innerHTML = `<option value="">Any faction</option>` + PROFILES.map(p => `<option value="${p}">${esc(PROFILE_LABEL[p])}</option>`).join("");
   $("f-pt").innerHTML = `<option value="">Any mod</option>` + PT.map(p => `<option value="${esc(p.id)}">${esc(p.short)} (${p.n ? plural(p.n, "mod") : "no mods yet"}${p.status === "planned" ? ", planned" : ""})</option>`).join("");
   $("f-pt-row").hidden = !PT.length;
   const on = (id, fn) => $(id).addEventListener("change", e => { fn(e.target); render(); });
-  on("f-section", t => state.section = t.value);
   on("f-tier", t => setTierKey(t.value));
   on("f-pt", t => state.pt = t.value);
   on("f-profile", t => state.profiles = new Set(t.value ? [t.value] : []));
@@ -819,15 +846,29 @@ function setupFilters() {
   });
   $("q").addEventListener("keydown", e => {
     if (e.key === "Escape" && e.target.value) { e.preventDefault(); e.stopPropagation(); e.target.value = ""; clearTimeout(qt); state.q = ""; render(); }
-    else if (e.key === "ArrowDown") { const r = selRow() || $("inv").querySelector(".row"); if (r) { e.preventDefault(); r.focus(); } }
+    else if (e.key === "ArrowDown") { const r = (rowShown(selRow()) && selRow()) || $("inv").querySelector(".row, .sec"); if (r) { e.preventDefault(); r.focus(); } }
   });
   $("filters-btn").addEventListener("click", () => {
     const open = !$("toolbar").classList.contains("fopen");
     $("toolbar").classList.toggle("fopen", open); $("filters-btn").setAttribute("aria-expanded", open);
   });
 }
-function updateBars() {
-  $("result-count").innerHTML = `<b>${num(shown.length)}</b> of ${num(MODS.length)} mods`;
+function updateBars(mode = catMode()) {
+  const fc = filterCount();
+  $("filters-btn").textContent = fc ? `Filters (${fc})` : "Filters";
+  $("filters-btn").classList.toggle("on", !!fc);
+  const sec = ui.section && MODULES[ui.section], crumbFocus = $("crumb").contains(document.activeElement);
+  $("crumb").innerHTML = mode === "section" ? `<button class="lnk" data-sec="">${ICON.back}All sections</button><span class="sep" aria-hidden="true">/</span><span class="cr-no" aria-hidden="true">${secNo(ui.section)}</span><h2 class="sec-t" id="sec-h" tabindex="-1">${esc(sec)}</h2><span class="sec-d">${esc(MODULE_LINE[ui.section] || "")}</span>`
+    : mode === "results" && sec ? `<button class="lnk" data-sec="${esc(ui.section)}" data-clearq>${ICON.back}Back to ${esc(sec)}</button>` : "";
+  if (crumbFocus && !$("crumb").contains(document.activeElement)) ($("sec-h") || $("q")).focus({ preventScroll: true });
+  if (mode === "overview") { $("result-count").innerHTML = ""; $("hidden-note").innerHTML = ""; return; }
+  if (mode === "section") {
+    const n = shown.filter(m => m.module === ui.section).length;
+    $("result-count").innerHTML = fc ? `<b>${num(n)}</b> fit your filters` : "";
+    $("hidden-note").innerHTML = fc ? `<button class="lnk" data-reset>Reset filters</button>` : "";
+    return;
+  }
+  $("result-count").innerHTML = `<b>${num(shown.length)}</b> of ${num(MODS.length)} mods${state.q ? ` match “${esc(state.q)}”` : ""}`;
   const notes = [];
   if (!state.tiers.has("avoid")) {
     const n = MODS.filter(m => m.tier === "avoid" && passes(m, "tier")).length;
@@ -837,16 +878,17 @@ function updateBars() {
     const n = MODS.filter(m => !costOf(m) && passes(m, "unrated")).length;
     if (n) notes.push(`${num(n)} not rated ${MACHINES[state.machine].on} hidden. <button class="lnk" data-show="unrated">Show them</button>`);
   }
-  const fc = filterCount();
   if (fc) notes.push(`<button class="lnk" data-reset>Reset filters</button>`);
   $("hidden-note").innerHTML = notes.join(" · ");
-  $("filters-btn").textContent = fc ? `Filters (${fc})` : "Filters";
-  const mc = moreCount(); $("more-sum").textContent = mc ? `More filters (${mc})` : "More filters";
 }
 
-/* ---------- MODS: inventory list ---------- */
+/* ---------- MODS: overview, section and results ---------- */
+// Overview: the 17 sections. Section: its essentials, then "More options", then the mods to avoid.
+// Results: whatever the search and the filters leave, grouped by section.
+const catMode = () => state.q ? "results" : ui.section ? "section" : filterCount() ? "results" : "overview";
 const COST_SHORT = { low: "Low", med: "Med", high: "High" };
 const STSR = { on: ", in your list", auto: ", added for you", off: "" };
+const nxOf = m => NX[m.nexus_id] || {};
 function sortedShown() {
   const arr = MODS.filter(m => passes(m));
   const byName = (a, b) => a.name.localeCompare(b.name);
@@ -855,11 +897,62 @@ function sortedShown() {
   if (state.sort === "updated") return arr.sort((a, b) => String(sortVal(b, "updated")).localeCompare(String(sortVal(a, "updated"))) || byName(a, b));
   return arr.sort((a, b) => a.mi - b.mi || a.ti - b.ti || a.ci - b.ci);
 }
+
+// Pictures come from the mod's Nexus page. Adult mods and mods without one get a neutral placeholder.
+const NOPIC = '<svg class="np" viewBox="0 0 24 18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="1" y="1" width="22" height="16" rx="1"/><path d="M1 14l6-6 5 5 3-3 8 7"/><circle cx="17" cy="5.5" r="1.8"/></svg>';
+function picHTML(m, big) {
+  const n = nxOf(m), url = big ? (n.picture || n.thumbnail) : (n.thumbnail || n.picture);
+  if (n.adult || !url) return `<span class="pic none" data-why="${n.adult ? "adult" : "none"}">${NOPIC}</span>`;
+  return `<span class="pic"><img src="${esc(url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>`;
+}
+function costHTML(m) {
+  if (m.tier === "avoid") return `<span class="cost avoid" aria-hidden="true">Avoid</span>`;
+  const c = costOf(m), k = c ? PERF.indexOf(c) + 1 : 0;
+  return `<span class="cost${c ? "" : " none"}" data-c="${c}" aria-hidden="true"><span class="cm">${[1, 2, 3].map(i => `<i${i <= k ? ' class="f"' : ""}></i>`).join("")}</span>${c ? COST_SHORT[c] : "Unrated"}</span>`;
+}
+const ADD = {
+  off: [svg('<path d="M8 3v10M3 8h10"/>'), "Add"],
+  on: [svg('<path d="M3 8.5l3.2 3L13 4.5"/>'), "In list"],
+  auto: [svg('<path d="M3 8.5l3.2 3L13 4.5"/>'), "Added"],
+};
+const addLabel = (m, st) => st === "on" ? `Remove ${m.name} from my list` : st === "auto" ? `${m.name} was added for you. Keep it in my list` : `Add ${m.name} to my list`;
+function addHTML(m, st) { return `<button class="add" data-toggle="${esc(m.id)}" data-st="${st}" tabindex="-1" aria-label="${esc(addLabel(m, st))}">${ADD[st][0]}<span>${ADD[st][1]}</span></button>`; }
 function rowHTML(m) {
-  const st = stOf(m.id), c = costOf(m);
-  const right = m.tier === "avoid" ? "Avoid" : c ? COST_SHORT[c] : "—";
-  const rsr = m.tier === "avoid" ? ", marked avoid" : c ? `, ${LBL.perf[c].toLowerCase()} cost` : ", cost not rated";
-  return `<li><button class="row" id="r-${esc(m.id)}" data-pick="${esc(m.id)}" data-st="${st}" tabindex="-1"><span class="mk" aria-hidden="true"></span><span class="nm">${esc(m.name)}</span><span class="vh"><span class="ss">${STSR[st]}</span>${rsr}</span><span class="rc" aria-hidden="true">${right}</span></button></li>`;
+  const st = stOf(m.id), c = costOf(m), avoid = m.tier === "avoid";
+  const rsr = avoid ? ", marked avoid" : c ? `, ${LBL.perf[c].toLowerCase()} cost` : ", cost not rated";
+  const line = avoid ? (avoidWhy(m) ? "Avoid: " + avoidWhy(m) : "Marked avoid") : m.summary;
+  return `<li class="mrow${avoid ? " av" : ""}"><button class="row" id="r-${esc(m.id)}" data-pick="${esc(m.id)}" data-st="${st}" tabindex="-1">${picHTML(m)}<span class="rt"><span class="nm">${esc(m.name)}</span><span class="sm">${esc(line)}</span></span><span class="vh"><span class="ss">${STSR[st]}</span>${rsr}</span></button>${costHTML(m)}${avoid ? "" : addHTML(m, st)}</li>`;
+}
+// The picture of a section: its most endorsed essential mod that has one.
+const secPicCache = {};
+function secPic(k) {
+  if (!(k in secPicCache)) secPicCache[k] = MODS.filter(m => m.module === k && ESSENTIAL.has(m.tier) && nxOf(m).thumbnail && !nxOf(m).adult).sort((a, b) => (nxOf(b).endorsements || 0) - (nxOf(a).endorsements || 0))[0] || null;
+  return secPicCache[k];
+}
+function overviewHTML() {
+  return `<div class="ov-h"><h2 class="qh" id="ov-h" tabindex="-1">${num(MODS.length)} mods in ${MOD_KEYS.length} sections</h2><p class="dim">Each section opens on its essentials: the core fixes and the mods we recommend. The others wait under “More options”.</p></div>
+<ul class="secs" aria-label="Sections">${MOD_KEYS.map((k, i) => {
+    const ms = MODS.filter(m => m.module === k), ess = ms.filter(m => ESSENTIAL.has(m.tier)).length, p = secPic(k);
+    return `<li${i ? "" : ' class="first"'}><button class="sec" data-sec="${k}">${p ? picHTML(p) : `<span class="pic none">${NOPIC}</span>`}<span class="sec-b"><span class="sec-no">${i ? String(i + 1).padStart(2, "0") : "01 · Start here"}</span><span class="sec-name">${esc(MODULES[k])}</span><span class="sec-n"><span><b>${num(ess)}</b> essential${ess === 1 ? "" : "s"}</span><span><b>${num(ms.length)}</b> in all</span></span></span><span class="sec-line">${esc(MODULE_LINE[k] || "")}</span></button></li>`;
+  }).join("")}</ul>`;
+}
+function sectionHTML(k) {
+  const inSec = shown.filter(m => m.module === k);
+  const ess = inSec.filter(m => ESSENTIAL.has(m.tier)), more = inSec.filter(m => m.tier === "optional");
+  const avoid = MODS.filter(m => m.module === k && m.tier === "avoid" && passes(m, "tier"));
+  const all = MODS.filter(m => m.module === k);
+  const ul = arr => `<ul>${arr.map(rowHTML).join("")}</ul>`;
+  // Essentials: every core row, then the recommended ones, the most endorsed first; past eight, behind "Show all".
+  const core = ess.filter(m => m.tier === "core");
+  let rec = ess.filter(m => m.tier === "recommended");
+  if (state.sort === "section") rec = [...rec].sort((a, b) => (nxOf(b).endorsements || 0) - (nxOf(a).endorsements || 0) || a.ci - b.ci);
+  const top = rec.slice(0, REC_CAP), rest = rec.slice(REC_CAP);
+  let html = "";
+  if (ess.length) html += `<section class="grp"><h3 class="gh"><span>Essentials</span><span>${num(ess.length)}</span></h3>${ul([...core, ...top])}${rest.length ? `<details class="rec-o"><summary class="lnk"><span>Show all ${num(rec.length)} recommended</span></summary>${ul(rest)}</details>` : ""}</section>`;
+  if (more.length) html += `<details class="grp more-o"${ess.length ? "" : " open"}><summary class="gh"><span>More options</span><span>${num(more.length)}</span></summary>${ul(more)}</details>`;
+  if (avoid.length) html += `<details class="grp avoid-o"${state.tiers.has("avoid") ? " open" : ""}><summary class="lnk"><span>${plural(avoid.length, "mod")} to avoid in this section, and why</span></summary>${ul(avoid)}</details>`;
+  if (!ess.length && !more.length && !avoid.length) html += `<div class="empty"><p class="eh">Nothing here fits your filters</p><p>${plural(all.length, "mod")} in this section in all.</p><div class="row-btns"><button class="btn" data-reset>Reset filters</button></div></div>`;
+  return { html, ids: [...core, ...top, ...rest, ...more, ...avoid].map(m => m.id) };
 }
 function emptyListHTML() {
   const fc = filterCount(), ep = state.pt && PTBY[state.pt] && !PTBY[state.pt].n ? PTBY[state.pt] : null;
@@ -867,36 +960,68 @@ function emptyListHTML() {
   if (ep) return box("No mods on this tape yet", `${esc(ep.title)} is ${ep.status === "planned" ? "planned, and its list is still being written" : "not filled in yet"}. Pick another playthrough, or clear the filter.`, `<button class="btn" data-reset="all">Reset filters</button>`);
   if (state.inlist && !R.all.size) return box("Your list is empty", "Nothing to show with “In my list” ticked. Untick it, or load a holotape first.", `<button class="btn" data-reset="inlist">Untick “In my list”</button><button class="lnk" data-go="tapes">Pick a holotape</button>`);
   if (state.q) return box(`No match for “${esc(state.q)}”`, `Try one word from the name, a shorter word, or the author's name.${fc ? " Your filters may be hiding it too." : ""}`, `<button class="btn" data-reset="search">Clear the search</button>${fc ? `<button class="lnk" data-reset="all">Reset filters too</button>` : ""}`);
-  return box("Nothing fits these filters", "Widen the tier or the cost limit, or pick another section.", `<button class="btn" data-reset="all">Reset filters</button>`);
+  return box("Nothing fits these filters", "Widen the tier or the cost limit.", `<button class="btn" data-reset="all">Reset filters</button>`);
 }
-let countTimer = 0;
+let countTimer = 0, lastMode = "";
 function render(opts = {}) {
   if (!loaded) return;
   const inv = $("inv"), hadFocus = inv.contains(document.activeElement);
   shown = sortedShown();
-  updateBars();
-  if (!shown.length) inv.innerHTML = emptyListHTML();
-  else if (state.sort === "section") {
-    const groups = [];
-    shown.forEach(m => { const g = groups[groups.length - 1]; if (!g || g.k !== m.module) groups.push({ k: m.module, items: [m] }); else g.items.push(m); });
-    inv.innerHTML = `<ul>${groups.map(g => `<li class="grp"><h3 class="gh"><span>${esc(MODULES[g.k] || g.k)}</span><span>${num(g.items.length)}</span></h3><ul>${g.items.map(rowHTML).join("")}</ul></li>`).join("")}</ul>`;
-  } else inv.innerHTML = `<ul>${shown.map(rowHTML).join("")}</ul>`;
-  // The selection follows the list: a mod the filters hide gives way to the first one shown.
-  if (!opts.keepSel && !shown.some(m => m.id === ui.sel)) { ui.sel = shown[0]?.id || null; openId = null; }
+  const mode = catMode(), modeChanged = mode !== lastMode || opts.view;
+  lastMode = mode;
+  updateBars(mode);
+  $("inv-wrap").classList.toggle("ov", mode === "overview");
+  let listed = [];
+  if (mode === "overview") inv.innerHTML = overviewHTML();
+  else if (mode === "section") { const v = sectionHTML(ui.section); inv.innerHTML = v.html; listed = v.ids; }
+  else if (!shown.length) inv.innerHTML = emptyListHTML();
+  else {
+    listed = shown.map(m => m.id);
+    if (state.sort === "section") {
+      const groups = [];
+      shown.forEach(m => { const g = groups[groups.length - 1]; if (!g || g.k !== m.module) groups.push({ k: m.module, items: [m] }); else g.items.push(m); });
+      inv.innerHTML = `<ul class="res">${groups.map(g => `<li class="grp"><h3 class="gh"><span>${esc(MODULES[g.k] || g.k)}</span><span>${num(g.items.length)}</span></h3><ul>${g.items.map(rowHTML).join("")}</ul></li>`).join("")}</ul>`;
+    } else inv.innerHTML = `<ul class="res">${shown.map(rowHTML).join("")}</ul>`;
+  }
+  // The selection follows the list: a mod the view leaves out gives way to the first one shown.
+  if (!opts.keepSel && !listed.includes(ui.sel)) { ui.sel = listed[0] || null; openId = null; }
+  if (modeChanged || opts.view) inv.scrollTop = 0;
   instantBar = true; markSel(); instantBar = false; renderDetail(); writeHash();
-  if (hadFocus) { const r = selRow() || inv.querySelector(".row"); (r || $("q")).focus({ preventScroll: true }); }
-  if (!opts.quiet) { clearTimeout(countTimer); countTimer = setTimeout(() => announce(shown.length ? `${plural(shown.length, "mod")} shown` : $("inv").querySelector(".eh")?.textContent || "No mod shown"), 400); }
+  if (hadFocus) { const r = selRow() || inv.querySelector(".row, .sec"); (r || $("q")).focus({ preventScroll: true }); }
+  if (!opts.quiet) { clearTimeout(countTimer); countTimer = setTimeout(() => announce(mode === "overview" ? `${MOD_KEYS.length} sections` : mode === "section" ? `${MODULES[ui.section]}: ${plural(listed.length, "mod")}` : shown.length ? `${plural(shown.length, "mod")} shown` : $("inv").querySelector(".eh")?.textContent || "No mod shown"), 400); }
+}
+// Open a section of the catalogue, or go back to the overview with "".
+function openSection(k, o = {}) {
+  const from = ui.section;
+  ui.section = MODULES[k] ? k : "";
+  if (o.clearQ && state.q) { state.q = ""; $("q").value = ""; }
+  render({ view: true, quiet: true });
+  FX.refresh(); FX.sound("tab");
+  announce(ui.section ? `${MODULES[ui.section]}. ${MODULE_LINE[ui.section] || ""}` : "All sections.");
+  if (o.focus !== false) {
+    if (ui.section) ($("sec-h") || $("inv")).focus({ preventScroll: true });
+    else (document.querySelector(`#inv .sec[data-sec="${CSS.escape(from)}"]`) || $("ov-h"))?.focus({ preventScroll: false });
+  }
 }
 const selRow = () => ui.sel ? document.getElementById("r-" + ui.sel) : null;
+// A row inside a folded group is not on screen (a closed <details> keeps its content laid out but hidden).
+const rowShown = r => !!r && !!r.offsetParent && !r.closest("details:not([open])");
 function markSel() {
   $("inv").querySelectorAll('.row[aria-current], .row[tabindex="0"]').forEach(r => { r.removeAttribute("aria-current"); r.tabIndex = -1; });
   const r = selRow() || $("inv").querySelector(".row");
-  if (r) { r.tabIndex = 0; if (r.dataset.pick === ui.sel) r.setAttribute("aria-current", "true"); }
-  FX.bar($("inv"), r && r.dataset.pick === ui.sel ? r : null, instantBar);
+  if (r) {
+    r.tabIndex = 0;
+    if (r.dataset.pick === ui.sel) { r.setAttribute("aria-current", "true"); const d = r.closest("details"); if (d && !d.open) d.open = true; }
+  }
+  FX.bar($("inv"), r && r.dataset.pick === ui.sel ? r.closest("li") : null, instantBar);
+  $("inv").querySelectorAll(".mrow.cur").forEach(x => x.classList.remove("cur"));
+  if (r && r.dataset.pick === ui.sel) r.closest("li").classList.add("cur");
 }
 let instantBar = false;
 function selectMod(id, o = {}) {
   if (!BY[id]) return;
+  // Outside a search, a mod opens in its own section.
+  if (catMode() !== "results" && ui.section !== BY[id].module) { ui.section = BY[id].module; ui.sel = id; render({ quiet: true, keepSel: true, view: true }); }
   ui.sel = id; openId = id;
   markSel(); renderDetail();
   const r = selRow();
@@ -914,17 +1039,32 @@ function openMod(id) {
 }
 let detRaf = 0;
 $("inv").addEventListener("keydown", e => {
+  const card = e.target.closest && e.target.closest(".sec");
+  if (card) {
+    // Section cards: arrows move through the grid, row by row.
+    const cards = [...$("inv").querySelectorAll(".sec")], i = cards.indexOf(card);
+    const cols = cards.filter(c => c.offsetTop === cards[0].offsetTop).length || 1;
+    const j = { ArrowRight: i + 1, ArrowLeft: i - 1, ArrowDown: i + cols, ArrowUp: i - cols, Home: 0, End: cards.length - 1 }[e.key];
+    if (j === undefined) return;
+    e.preventDefault();
+    if (j < 0 && e.key === "ArrowUp") { $("q").focus(); return; }
+    cards[Math.max(0, Math.min(cards.length - 1, j))].focus(); FX.sound("row");
+    return;
+  }
   const r = e.target.closest && e.target.closest(".row"); if (!r) return;
-  const rows = [...$("inv").querySelectorAll(".row")], i = rows.indexOf(r);
+  // Rows inside a closed group are skipped.
+  const rows = [...$("inv").querySelectorAll(".row")].filter(rowShown), i = rows.indexOf(r);
   const j = { ArrowDown: i + 1, ArrowUp: i - 1, Home: 0, End: rows.length - 1, PageDown: i + 10, PageUp: i - 10 }[e.key];
   if (j === undefined) return;
   e.preventDefault();
   if (j < 0 && e.key === "ArrowUp") { $("q").focus(); return; }
   const n = rows[Math.max(0, Math.min(rows.length - 1, j))];
   ui.sel = n.dataset.pick; openId = ui.sel;
-  n.scrollIntoView({ block: "nearest" }); markSel(); n.focus({ preventScroll: true }); FX.sound("row");
+  n.closest("li").scrollIntoView({ block: "nearest" }); markSel(); n.focus({ preventScroll: true }); FX.sound("row");
   cancelAnimationFrame(detRaf); detRaf = requestAnimationFrame(() => { renderDetail(); writeHash(); });
 });
+
+$("inv").addEventListener("toggle", () => FX.bar($("inv"), rowShown(selRow()) ? selRow().closest("li") : null, true), true);
 
 /* ---------- MODS: detail ---------- */
 let detailId = null, detailMach = null;
@@ -941,6 +1081,16 @@ function goesInner(m) {
     }).join("");
   };
   return `<div><dt>Needs</dt><dd>${row(m.requires)}</dd></div><div><dt>Patches, added when both are in</dt><dd>${row(m.patches)}</dd></div><div><dt>Never with</dt><dd>${row(m.conflicts, true)}</dd></div>`;
+}
+// The mod's picture in phosphor ink, with a switch to its own colours. Credited to its Nexus page.
+let trueCol = false;
+try { trueCol = sessionStorage.getItem("sml-truecol") === "1"; } catch {}
+function figHTML(m) {
+  const n = nxOf(m), has = !n.adult && (n.picture || n.thumbnail);
+  const sw = has ? `<button class="tcol" data-truecol aria-pressed="${trueCol}">${trueCol ? "Phosphor colours" : "Original colours"}</button>` : "";
+  const cap = has ? `<figcaption><span>Image from the mod's Nexus Mods page</span></figcaption>`
+    : `<figcaption><span>${n.adult ? "No preview: the Nexus page marks this mod as adult content" : "No image on the mod's Nexus page"}</span></figcaption>`;
+  return `<figure class="d-fig${trueCol ? " truecol" : ""}"><div class="fig-box">${picHTML(m, true)}${sw}</div>${cap}</figure>`;
 }
 function detailHTML(m) {
   const n = NX[m.nexus_id] || {};
@@ -961,16 +1111,18 @@ function detailHTML(m) {
   const plugins = m.load_group === "0" ? "No plugin" : m.plugins_full === "" ? "Not counted yet" : `${+m.plugins_full || 0} full, ${+m.plugins_light || 0} light`;
   const dd = (label, val, bad) => `<div><dt>${label}</dt><dd${bad ? ' class="bad"' : ""}>${esc(val)}</dd></div>`;
   let nxs = (n.summary || "").trim(); if (nxs && !/[.!?…]$/.test(nxs)) nxs += "…";
-  const by = [n.author && "by " + n.author, n.version && "version " + n.version, n.updated && "updated " + fmtDate(n.updated, true), n.endorsements != null && num(n.endorsements) + " endorsements", fmtSize(sizeOf(m)) && fmtSize(sizeOf(m))].filter(Boolean).join(" · ");
+  const by = [n.author && "by " + n.author, n.version && "version " + n.version, n.updated && "updated " + fmtDate(n.updated, true), n.endorsements != null && num(n.endorsements) + " endorsements", fmtSize(sizeOf(m)) && fmtSize(sizeOf(m))].filter(Boolean).map(x => `<span>${esc(x)}</span>`).join(" · ");
   const src = list(m.evidence), why = m.tier === "avoid" ? avoidWhy(m) : "";
   const machines = state.machine === "pc" ? ["pc", "mac"] : ["mac", "pc"];
   return `<div class="d-back"><button class="lnk" data-back>${ICON.back}Back to the list</button></div>
 <p class="d-where"><span>${esc(MODULES[m.module] || m.module)}</span><span class="tier">${TIER_LABEL[m.tier] || esc(m.tier)}</span></p>
 <h2 class="d-title" id="d-title" tabindex="-1">${esc(m.name)}</h2>
-${by ? `<p class="d-by">${esc(by)}</p>` : ""}
 ${m.tier === "avoid" ? `<p class="d-lead bad">Avoid${why ? ": " + esc(why) : ""}.</p>` : ""}
 <p class="d-lead">${esc(m.summary)}</p>
 <div class="d-act"><button class="btn dtoggle" data-toggle="${esc(m.id)}" data-st="">Add to list</button>${nexusUrl(m) ? `<a class="lnk" href="${nexusUrl(m)}" rel="noopener">Open on Nexus Mods${ICON.ext}</a>` : ""}<p class="d-eff" id="d-eff" aria-live="polite"></p></div>
+${figHTML(m)}
+${by ? `<p class="d-by">${by}</p>` : ""}
+${nxs ? `<div class="d-author"><p class="lbl">In the author's words</p><p>${esc(nxs)}</p></div>` : ""}
 <h3 class="h3">Stats</h3>
 <dl class="stats">
   ${dd("Runtime 1.11.240", lab(LBL.rtLong, m.runtime_1_11_240), m.runtime_1_11_240 === "no")}
@@ -990,7 +1142,6 @@ ${m.tier === "avoid" ? `<p class="d-lead bad">Avoid${why ? ": " + esc(why) : ""}
 <h3 class="h3">What to watch</h3>${watch}
 <h3 class="h3">Goes with</h3><p class="gw-key" aria-hidden="true"><span><i class="mk on"></i>In your list</span><span><i class="mk auto"></i>Added for you</span></p><dl class="stats gw" id="d-goes">${goesInner(m)}</dl>
 ${PT.length ? `<h3 class="h3">Playthroughs</h3>${ptDetail(m)}` : ""}
-${nxs ? `<h3 class="h3">From the Nexus page</h3><p class="prose">${esc(nxs)}</p>` : ""}
 <h3 class="h3">Sources</h3>${src.length ? `<ol class="d-src">${src.map(u => `<li><a href="${esc(u)}" rel="noopener">${esc(srcLabel(u, m))}</a></li>`).join("")}</ol>` : `<p class="dim">No sources recorded.</p>`}
 ${m.checked_on ? `<p class="d-foot">Checked on ${fmtDate(m.checked_on, true)}.</p>` : ""}`;
 }
@@ -1021,7 +1172,10 @@ function closePanel(restore = true) {
   openId = null; writeHash();
   if (restore) { const r = selRow() || panelReturn; (r && document.contains(r) ? r : $("q")).focus({ preventScroll: false }); }
 }
-mqMob.addEventListener("change", () => closePanel(false));
+mqMob.addEventListener("change", () => { closePanel(false); searchHint(); });
+// The search hint is shorter where the field is narrow.
+function searchHint() { $("q").placeholder = mqMob.matches ? "Search every mod" : "Search every mod: name, author or what it does"; }
+searchHint();
 
 /* In-place updates after a list change */
 function syncToggles() {
@@ -1034,6 +1188,10 @@ function syncToggles() {
   document.querySelectorAll("#inv .row").forEach(r => {
     const st = stOf(r.dataset.pick); if (r.dataset.st === st) return;
     r.dataset.st = st; r.querySelector(".ss").textContent = STSR[st];
+  });
+  document.querySelectorAll("#inv button.add[data-toggle]").forEach(b => {
+    const st = stOf(b.dataset.toggle); if (b.dataset.st === st) return;
+    b.dataset.st = st; b.innerHTML = `${ADD[st][0]}<span>${ADD[st][1]}</span>`; b.setAttribute("aria-label", addLabel(BY[b.dataset.toggle], st));
   });
 }
 
@@ -1086,7 +1244,7 @@ function renderReq() {
       i++;
       let why = "";
       if (!r.chosen.has(m.id)) { const w = whyAuto(m.id); why = w.names.length ? `<small>${w.kind === "patch" ? "Patch for " : "Needed by "}${esc(joinAnd(w.names))}</small>` : `<small>Added for you</small>`; }
-      return `<li class="m"><span class="no" aria-hidden="true">${i}</span><span><button class="lo-name" data-open="${esc(m.id)}">${esc(m.name)}</button>${why}</span>${r.chosen.has(m.id) ? `<button class="rm" data-toggle="${esc(m.id)}" aria-label="Remove ${esc(m.name)}">${ICON.x}</button>` : "<span></span>"}</li>`;
+      return `<li class="m"><span class="no" aria-hidden="true">${i}</span>${picHTML(m)}<span class="lo-t"><button class="lo-name" data-open="${esc(m.id)}">${esc(m.name)}</button>${why}</span>${r.chosen.has(m.id) ? `<button class="rm" data-toggle="${esc(m.id)}" aria-label="Remove ${esc(m.name)}">${ICON.x}</button>` : "<span></span>"}</li>`;
     }).join("")}</ol></li>`).join("");
   }
   ["x-csv", "x-txt", "x-link", "x-clear"].forEach(id => $(id).disabled = !n);
@@ -1189,45 +1347,60 @@ ${stepNav()}</div>
   if (spStep === 3) {
     const counts = buildSheet(SP, true).perAttr, left = SP_BUDGET - spSpent(SP);
     return `<div class="special"><div>${qHead(3, `Spread ${SP_BUDGET} points over what you care about`)}
-<ul class="attrs" id="sp-attrs" aria-label="Interests">${SPECIAL.map(x => `<li><button class="attr" data-sp="pick" data-k="${x.k}" id="sp-r-${x.k}"${x.k === spSel ? ' aria-current="true"' : ""} tabindex="${x.k === spSel ? 0 : -1}"><span class="lt" aria-hidden="true">${x.k}</span><span class="an">${x.name}<span class="dim">${esc(x.title)}</span></span><span class="av roll" id="sp-v-${x.k}">${SP.pts[x.k]}</span><span class="vh"> points</span></button></li>`).join("")}</ul>
-${stepNav()}
+<div class="attrs-h"><p class="pool" id="sp-pool">Points left <b class="roll" id="sp-left">${num(left)}</b> of ${SP_BUDGET}</p>${stepNav()}</div>
+<ul class="attrs" id="sp-attrs" aria-label="Interests">${SPECIAL.map(x => spRowHTML(x, left)).join("")}</ul>
 <p class="keys" aria-hidden="true">Up and down: choose an interest. Left and right: change its points.</p></div>
-<section class="sp-right" aria-labelledby="sp-a-h" data-k="${spSel}">${spRightHTML(counts, left)}</section></div>`;
+<section class="sp-right" aria-labelledby="sp-a-h" data-k="${spSel}">${spRightHTML(counts)}</section></div>`;
   }
   return spResultHTML(spResult = buildSheet(SP));
 }
-function spRightHTML(counts, left) {
+// One row per interest: the name selects it, the arrows beside the value change it (as on the game's
+// character screen). The arrows stay out of the tab order: Left and Right on the row do the same.
+const ARROW = { dec: '<svg viewBox="0 0 10 12" aria-hidden="true"><path d="M8.5 1 1.5 6l7 5z" fill="currentColor"/></svg>', inc: '<svg viewBox="0 0 10 12" aria-hidden="true"><path d="M1.5 1l7 5-7 5z" fill="currentColor"/></svg>' };
+function spRowHTML(x, left) {
+  const v = SP.pts[x.k], on = x.k === spSel;
+  return `<li class="arow" id="sp-li-${x.k}"><button class="attr" data-sp="pick" data-k="${x.k}" id="sp-r-${x.k}"${on ? ' aria-current="true"' : ""} tabindex="${on ? 0 : -1}"><span class="lt" aria-hidden="true">${x.k}</span><span class="an">${x.name}<span class="dim">${esc(x.title)}</span></span><span class="vh" id="sp-sr-${x.k}">, ${plural(v, "point")}</span></button>`
+    + `<span class="stepper"><button class="arr" data-sp="dec" data-k="${x.k}" id="sp-dec-${x.k}" tabindex="-1" aria-label="Lower ${x.name}"${v <= SP_MIN ? ' aria-disabled="true"' : ""}>${ARROW.dec}</button>`
+    + `<span class="av roll" id="sp-v-${x.k}" aria-hidden="true">${v}</span>`
+    + `<button class="arr" data-sp="inc" data-k="${x.k}" id="sp-inc-${x.k}" tabindex="-1" aria-label="Raise ${x.name}"${v >= SP_MAX || left <= 0 ? ' aria-disabled="true"' : ""}>${ARROW.inc}</button></span></li>`;
+}
+const spRowEl = k => $("sp-li-" + k);
+function spRightHTML(counts) {
   const x = SPECIAL.find(s => s.k === spSel), v = SP.pts[x.k];
   return `<p class="big" id="sp-big" aria-hidden="true"><span class="ab">${ABBR[x.k]}</span><span class="bn roll">${v}</span></p>
 <h3 id="sp-a-h">${x.name}: ${esc(x.title.toLowerCase())}</h3>
 <p class="sp-text">${esc(x.text)}</p>
 <p class="band" id="sp-band">${esc(spBand(x, counts))}</p>
 <div class="pips" aria-hidden="true">${Array.from({ length: SP_MAX }, (_, i) => `<i class="${i < v ? "on" : ""}${i === 3 || i === 6 ? " cut" : ""}"></i>`).join("")}</div>
-<p class="small dim sp-legend">1 to 3: core fixes only. 4 to 6: adds the mods we recommend. 7 to 10: adds the optional mods from our playthroughs too.</p>
-<div class="ctrl"><button class="btn sq" data-sp="dec" data-k="${x.k}" aria-label="Lower ${x.name}"${v <= SP_MIN ? ' aria-disabled="true"' : ""}>−</button><button class="btn sq" data-sp="inc" data-k="${x.k}" aria-label="Raise ${x.name}"${v >= SP_MAX || left <= 0 ? ' aria-disabled="true"' : ""}>+</button><p class="pool" id="sp-pool">Points left <b class="roll" id="sp-left">${num(left)}</b> of ${SP_BUDGET}</p></div>`;
+<p class="small dim sp-legend">1 to 3: core fixes only. 4 to 6: adds the mods we recommend. 7 to 10: adds the optional mods from our playthroughs too.</p>`;
 }
 function spSyncPoints() {
-  SPECIAL.forEach(x => FX.roll($("sp-v-" + x.k), SP.pts[x.k]));
+  const left = SP_BUDGET - spSpent(SP);
+  SPECIAL.forEach(x => {
+    const v = SP.pts[x.k]; FX.roll($("sp-v-" + x.k), v);
+    const sr = $("sp-sr-" + x.k); if (sr) sr.textContent = `, ${plural(v, "point")}`;
+    $("sp-dec-" + x.k)?.setAttribute("aria-disabled", String(v <= SP_MIN));
+    $("sp-inc-" + x.k)?.setAttribute("aria-disabled", String(v >= SP_MAX || left <= 0));
+  });
+  FX.roll($("sp-left"), num(left));
   const r = document.querySelector(".sp-right"); if (!r) return;
-  const counts = buildSheet(SP, true).perAttr, left = SP_BUDGET - spSpent(SP), x = SPECIAL.find(s => s.k === spSel), v = SP.pts[spSel];
+  const counts = buildSheet(SP, true).perAttr, x = SPECIAL.find(s => s.k === spSel), v = SP.pts[spSel];
   if (r.dataset.k === spSel) {
     // Same interest: update in place so the numbers roll and focus stays put.
-    FX.roll(r.querySelector(".bn"), v); FX.roll($("sp-left"), num(left));
+    FX.roll(r.querySelector(".bn"), v);
     $("sp-band").textContent = spBand(x, counts);
     r.querySelectorAll(".pips i").forEach((p, i) => p.classList.toggle("on", i < v));
-    r.querySelector('[data-sp="dec"]').setAttribute("aria-disabled", String(v <= SP_MIN));
-    r.querySelector('[data-sp="inc"]').setAttribute("aria-disabled", String(v >= SP_MAX || left <= 0));
     return;
   }
   r.dataset.k = spSel;
-  r.innerHTML = spRightHTML(counts, left);
+  r.innerHTML = spRightHTML(counts);
   FX.shift(r, 0);
 }
 function spPickAttr(k, focus) {
   spSel = k;
   document.querySelectorAll("#sp-attrs .attr").forEach(b => { const on = b.dataset.k === k; b.tabIndex = on ? 0 : -1; if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
   spSyncPoints();
-  FX.bar($("sp-attrs"), $("sp-r-" + k));
+  FX.bar($("sp-attrs"), spRowEl(k));
   if (focus) { $("sp-r-" + k).focus(); FX.sound("row"); }
 }
 function spResultHTML(res) {
@@ -1275,7 +1448,7 @@ function spRender(o = {}) {
   box.innerHTML = spStepHTML();
   centreStrip(strip, !o.anim);
   if (o.anim) FX.shift(box, o.dir || 1);
-  requestAnimationFrame(() => FX.bar($("sp-attrs"), $("sp-r-" + spSel), true));
+  requestAnimationFrame(() => FX.bar($("sp-attrs"), spRowEl(spSel), true));
   $("sp-scroll").scrollTop = 0;
   if (o.focus) $("sp-h").focus({ preventScroll: true });
   syncStatus();
@@ -1316,7 +1489,12 @@ $("panel-stat").addEventListener("click", e => {
   else if (ds.sp === "next") spGo(spStep + 1);
   else if (ds.sp === "use") spUse();
   else if (ds.sp === "back") { if (spStep === 0) spStart(); else spGo(spStep - 1); }
-  else if (ds.sp === "inc" || ds.sp === "dec") spPoint(ds.k, ds.sp === "inc" ? 1 : -1);
+  else if (ds.sp === "inc" || ds.sp === "dec") {
+    // An arrow on another row selects that row first, then the row keeps the focus for the arrow keys.
+    if (ds.k !== spSel) spPickAttr(ds.k, false);
+    $("sp-r-" + ds.k)?.focus({ preventScroll: true });
+    spPoint(ds.k, ds.sp === "inc" ? 1 : -1);
+  }
   else if (ds.sp === "pick") spPickAttr(ds.k, false);
   else if (ds.sp === "near") { applyPreset("pt:" + ds.pt); setTab("mods", { sub: "list", focus: true }); noticeBtns({}); }
   else if (ds.sp === "copy") {
@@ -1359,9 +1537,16 @@ document.addEventListener("click", e => {
   const go = e.target.closest("[data-go]");
   if (go) { goTo(go.dataset.go); return; }
   if (e.target.closest("[data-retry]")) { load(); return; }
-  const t = e.target.closest("[data-toggle],[data-open],[data-pick],[data-back],[data-reset],[data-show],[data-notice],[data-keep],[data-machine]");
+  const t = e.target.closest("[data-toggle],[data-open],[data-pick],[data-back],[data-reset],[data-show],[data-notice],[data-keep],[data-machine],[data-sec],[data-truecol]");
   if (!t) return;
   const ds = t.dataset;
+  if (ds.sec !== undefined) { openSection(ds.sec, { clearQ: ds.clearq !== undefined }); return; }
+  if (ds.truecol !== undefined) {
+    trueCol = !trueCol; try { sessionStorage.setItem("sml-truecol", trueCol ? "1" : "0"); } catch {}
+    t.closest(".d-fig")?.classList.toggle("truecol", trueCol); t.setAttribute("aria-pressed", trueCol); t.textContent = trueCol ? "Phosphor colours" : "Original colours";
+    announce(trueCol ? "Picture in its original colours." : "Picture in phosphor colours.");
+    return;
+  }
   if (ds.toggle) toggle(ds.toggle);
   else if (ds.open) { e.preventDefault(); openMod(ds.open); }
   else if (ds.pick) selectMod(ds.pick, { panel: true, scroll: false });
@@ -1405,7 +1590,7 @@ document.addEventListener("keydown", e => {
         const i = TABS.indexOf(ui.tab), t = TABS[(i + (e.key === "ArrowRight" ? 1 : TABS.length - 1)) % TABS.length];
         setTab(t); FX.sound("tab"); return;
       }
-      if (ui.tab === "mods" && ui.sub === "cat") { const r = selRow() || $("inv").querySelector(".row"); if (r) { e.preventDefault(); r.focus(); } return; }
+      if (ui.tab === "mods" && ui.sub === "cat") { const r = (rowShown(selRow()) && selRow()) || $("inv").querySelector(".row, .sec"); if (r) { e.preventDefault(); r.focus(); } return; }
       if (ui.tab === "stat" && $("sp-attrs")) { e.preventDefault(); $("sp-r-" + spSel).focus(); return; }
     }
   }
@@ -1419,7 +1604,9 @@ $("notice").addEventListener("focusout", () => armNoticeTimer());
 // A Nexus image that fails to load leaves no broken frame behind.
 document.addEventListener("error", e => {
   const i = e.target; if (!i || i.tagName !== "IMG") return;
-  i.closest(".d-pic")?.remove();
+  const p = i.closest(".pic"); if (!p) return;
+  p.classList.add("none"); p.dataset.why = "none"; i.replaceWith(document.createRange().createContextualFragment(NOPIC));
+  const f = p.closest(".d-fig"); if (f) f.querySelector("figcaption").innerHTML = "<span>The image on the mod's Nexus page could not be loaded</span>";
 }, true);
 
 /* ---------- Exports ---------- */

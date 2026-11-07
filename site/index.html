@@ -19,14 +19,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="app.css?v=6">
+<link rel="stylesheet" href="app.css?v=8">
 </head>
 <body>
 <a class="skip" id="skip" href="#panels">Skip to content</a>
 <div class="bezel">
-<div class="device" aria-hidden="true"><i class="grille g-top"></i><i class="grille g-bot"></i><i class="knob"></i><i class="dial"></i><i class="led l1 on"></i><i class="led l2"></i><i class="toggle t1"></i><i class="toggle t2"></i></div>
+<div class="face">
+<div class="device" aria-hidden="true"><i class="screw s1"></i><i class="screw s2"></i><i class="screw s3"></i><i class="screw s4"></i><i class="plate"><b></b></i><i class="knob k1"></i><i class="knob k2"></i><i class="vent"></i><i class="slot"></i></div>
 <div class="frame">
-<i class="screw sc1" aria-hidden="true"></i><i class="screw sc2" aria-hidden="true"></i><i class="screw sc3" aria-hidden="true"></i><i class="screw sc4" aria-hidden="true"></i>
+<div class="tray">
 <div class="screen" id="screen">
   <header class="hud">
     <h1>Special Mods List <span class="hd">· Fallout 4 mod catalogue</span></h1>
@@ -59,37 +60,32 @@
       <div class="cat" id="sub-cat" role="tabpanel" aria-labelledby="subtab-cat">
         <div class="toolbar" id="toolbar">
           <div class="tb-main">
-            <div class="search"><label class="lbl" for="q">Search <span class="vh">mods</span><span aria-hidden="true" class="kbd"> (press /)</span></label><input id="q" type="search" placeholder="Name, author or what it does" autocomplete="off" spellcheck="false"></div>
+            <div class="search"><label class="vh" for="q">Search every mod</label><svg class="ico sico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5l3.5 3.5"/></svg><input id="q" type="search" placeholder="Search every mod: name, author or what it does" autocomplete="off" spellcheck="false"><span aria-hidden="true" class="kbd">/</span></div>
             <button class="btn fbtn" id="filters-btn" aria-controls="fbody" aria-expanded="false">Filters</button>
-            <div class="fbody" id="fbody">
-              <label class="sel"><span class="lbl">Section</span><select id="f-section"></select></label>
-              <label class="sel"><span class="lbl">Tier</span><select id="f-tier">
-                <option value="default">Core to optional</option><option value="core">Core only</option><option value="recommended">Recommended only</option><option value="optional">Optional only</option><option value="avoid">Avoid only</option><option value="all">Every tier</option><option value="custom" hidden>Custom</option>
-              </select></label>
-              <label class="sel" id="f-pt-row"><span class="lbl">Playthrough</span><select id="f-pt"><option value="">Any mod</option></select></label>
+          </div>
+          <div class="fbody" id="fbody">
+            <label class="sel"><span class="lbl">Tier</span><select id="f-tier">
+              <option value="default">Core to optional</option><option value="core">Core only</option><option value="recommended">Recommended only</option><option value="optional">Optional only</option><option value="avoid">Avoid only</option><option value="all">Every tier</option><option value="custom" hidden>Custom</option>
+            </select></label>
+            <label class="sel" id="f-pt-row"><span class="lbl">Playthrough</span><select id="f-pt"><option value="">Any mod</option></select></label>
+            <label class="sel"><span class="lbl">Playing as</span><select id="f-profile"></select></label>
+            <label class="sel"><span class="lbl" id="perf-legend">Cost on a base M3 Mac</span><select id="f-perf"><option value="high">Any cost</option><option value="med">Up to medium</option><option value="low">Low only</option></select></label>
+            <label class="sel"><span class="lbl">Sort by</span><select id="f-sort"><option value="section">Section and tier</option><option value="name">Name</option><option value="cost">Cost, lowest first</option><option value="updated">Last updated</option></select></label>
+            <div class="checks">
               <label class="chk"><input type="checkbox" id="f-inlist"><span>In my list</span></label>
               <label class="chk"><input type="checkbox" id="f-fits"><span>Fits my machine</span></label>
+              <label class="chk"><input type="checkbox" id="f-runtime"><span>Works on 1.11.240</span></label>
+              <label class="chk"><input type="checkbox" id="f-lunar"><span>Works with Lunar</span></label>
+              <label class="chk"><input type="checkbox" id="f-ss2"><span>Works with SS2</span></label>
+              <label class="chk"><input type="checkbox" id="f-nodll"><span>No F4SE DLL</span></label>
+              <label class="chk"><input type="checkbox" id="f-noend"><span>No ending lock</span></label>
             </div>
+            <p class="hint" id="perf-hint"></p>
+            <p class="hint">Lunar and SS2 filters hide mods we know conflict. Most mods are not checked against them yet.</p>
           </div>
-          <div class="countline">
-          <details class="more" id="more">
-                <summary id="more-sum">More filters</summary>
-                <div class="more-in">
-                  <label class="sel"><span class="lbl">Playing as</span><select id="f-profile"></select></label>
-                  <label class="sel"><span class="lbl" id="perf-legend">Cost on a base M3 Mac</span><select id="f-perf"><option value="high">Any cost</option><option value="med">Up to medium</option><option value="low">Low only</option></select></label>
-                  <label class="sel"><span class="lbl">Sort by</span><select id="f-sort"><option value="section">Section and tier</option><option value="name">Name</option><option value="cost">Cost, lowest first</option><option value="updated">Last updated</option></select></label>
-                  <label class="chk"><input type="checkbox" id="f-runtime"><span>Works on 1.11.240</span></label>
-                  <label class="chk"><input type="checkbox" id="f-lunar"><span>Works with Lunar</span></label>
-                  <label class="chk"><input type="checkbox" id="f-ss2"><span>Works with SS2</span></label>
-                  <label class="chk"><input type="checkbox" id="f-nodll"><span>No F4SE DLL</span></label>
-                  <label class="chk"><input type="checkbox" id="f-noend"><span>No ending lock</span></label>
-                  <p class="hint" id="perf-hint"></p>
-                  <p class="hint">Lunar and SS2 filters hide mods we know conflict. Most mods are not checked against them yet.</p>
-                </div>
-              </details>
-          <span id="result-count" aria-live="off">Loading…</span><span id="hidden-note"></span><span class="legend" aria-hidden="true"><span><i class="mk on"></i>In my list</span><span><i class="mk auto"></i>Added for you</span></span></div>
+          <div class="countline"><span id="crumb"></span><span id="result-count" aria-live="off">Loading…</span><span id="hidden-note"></span></div>
         </div>
-        <div class="inv">
+        <div class="inv ov" id="inv-wrap">
           <div class="scroll inv-list" id="inv" aria-label="Mods"><p class="loading">Loading the catalogue…</p></div>
           <section class="scroll detail" id="detail" aria-label="Mod details"></section>
         </div>
@@ -103,7 +99,13 @@
             <ol id="picked"></ol>
           </div>
           <section class="scroll sum" aria-labelledby="ml-h">
-            <h2 class="h3" id="ml-h">Summary</h2>
+            <div class="sum-h"><h2 class="h3" id="ml-h">Summary</h2>
+            <div class="xbtns" role="group" aria-label="Export your list">
+              <button class="btn primary" id="x-csv">Download CSV</button>
+              <button class="btn" id="x-txt">Copy load order</button>
+              <button class="btn" id="x-link">Copy share link</button>
+              <button class="btn" id="x-clear">Clear list</button>
+            </div></div>
             <div class="gauge">
               <p class="num"><b class="roll" id="ml-n">0</b> <span id="ml-sub">mods</span></p>
               <p class="small" id="ml-who"></p>
@@ -121,12 +123,7 @@
               <div><dt>Conflicts</dt><dd id="s-conf">0</dd></div>
             </dl>
             <p class="small" id="mix"></p>
-            <div class="xbtns">
-              <button class="btn primary" id="x-csv">Download CSV</button>
-              <button class="btn" id="x-txt">Copy load order</button>
-              <button class="btn" id="x-link">Copy share link</button>
-              <button class="btn" id="x-clear">Clear list</button>
-            </div>
+
           </section>
         </div>
       </div>
@@ -193,14 +190,16 @@
   <div class="boot" id="boot" aria-hidden="true" hidden><div id="boot-text"></div><p class="skiphint">Press any key to skip</p><i class="boot-line"></i></div>
   <footer class="status" aria-label="Status">
     <div class="cell" id="st-mods"><b class="roll" id="st-n">0</b><span><span id="st-nl">mods</span><span class="vh"> in your list</span></span><span class="conf bad" id="st-conf" hidden></span></div>
-    <div class="cell" id="st-plug"><span class="lbl-p">Plugins</span> <span><b class="roll" id="st-full">0</b>/254</span><span class="bar" aria-hidden="true"><i id="st-bar" style="width:0"></i></span></div>
+    <div class="cell" id="st-plug"><span class="lbl-p">Plugins</span> <span><b class="roll" id="st-full">0</b>/254</span><span class="bar" aria-hidden="true"><i id="st-bar" style="width:0"></i><i class="est" id="st-est" style="left:2px;width:0"></i></span></div>
     <div class="cell" id="st-mach" role="group" aria-label="Show costs for"><span class="lbl-l" aria-hidden="true">Costs for</span><span class="seg"><button data-machine="mac" aria-pressed="true">Mac</button><button data-machine="pc" aria-pressed="false">PC</button></span></div>
   </footer>
 </div>
 </div>
 </div>
+</div>
+</div>
 <div id="sr-status" class="vh" role="status"></div>
-<script src="fx.js?v=6"></script>
-<script src="app.js?v=6"></script>
+<script src="fx.js?v=8"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>
