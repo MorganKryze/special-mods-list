@@ -19,7 +19,7 @@ Machine: Ryzen 7 9800X3D, RTX 5070 Ti 16 GB, 32 GB, 3440×1440 up to 180 Hz with
 | System | NixOS, Proton 11.0-2 |
 | Game | 1.11.240 (Steam build 24564252), F4SE 0.7.9 |
 | Mod Organizer 2 profile | "Partie PC" |
-| Plugins | 224 active at the test: 76 full, 148 light (242 after the [quality-of-life additions](#quality-of-life-additions-2026-11-07)) |
+| Plugins | 224 active at the test: 76 full, 148 light (242 after the [quality-of-life additions](#quality-of-life-additions-2026-11-07), 241 after the [first-launch fixes](#after-the-first-launch-2026-11-07)) |
 | F4SE DLLs | 29, all "loaded correctly" in `f4se.log` |
 | Crash logs | None |
 
@@ -81,7 +81,7 @@ Added after the test, the same day: 25 mods, which bring the profile to 242 acti
 | Gear | Tumbajamba's RobCo Combat Armor and Battle Suit | 1.0 (archived); FOMOD without the "Armor Availability" leveled-list option, to leave Lunar's leveled lists alone: crafting only |
 | Settlements | Longer Power Lines | 3x |
 
-Two overlaps the catalogue already flags are now both installed, and not checked yet: Classic Holstered Weapons with Visible Favorites, and Cartographers Map Markers with Unused Map Markers.
+Two overlaps the catalogue already flags were both installed: Classic Holstered Weapons with Visible Favorites, and Cartographers Map Markers with Unused Map Markers. Both duplicates were removed after the first launch (below).
 
 | Decision | Mods | Why |
 | --- | --- | --- |
@@ -92,11 +92,46 @@ Two overlaps the catalogue already flags are now both installed, and not checked
 
 Launch: the Steam shortcut now starts the game through Mod Organizer 2 straight into F4SE, with the launch options `mo2.sh %command% -p "Partie PC" "moshortcut://:F4SE"`. The DXVK HUD is off by default.
 
+### After the first launch (2026-11-07)
+
+The first launch of the playthrough, the same day, led to these changes. The profile now has 241 active plugins.
+
+| Change | Mods | Why |
+| --- | --- | --- |
+| Removed | MCM Booster | Crashed the game at the main menu. The Addictol crash log shows `EXCEPTION_ACCESS_VIOLATION` in `Scaleform::GFx::Value::ObjectInterface::GetMember` with `MainMenu` on the stack, looking for `BackgroundAndBracketsInstalledContentTopic_mc.InstalledContentPanelBackground_mc`. MCM Booster ships `Interface/MainMenu.swf`, the only mod in the list to do so. The catalogue now marks it `avoid` and `no` on 1.11.240 |
+| Removed | Classic Holstered Weapons | Duplicate of Visible Favorites |
+| Removed | Unused Map Markers | Duplicate of Cartographers Map Markers. No plugin depends on it, so removing it from an ongoing save only triggers the missing plugin warning |
+| Moved before `prp.esp` | Better Landscape Grass, Vivid Fallout - All in One 2K, Vivid Fallout LOD, Valius 2K, Lightweight Lighting, Fallout 4 Particle Patch, Gloomy Glass, Base Face, This Made My Spline Stiff, Terrain Freckles Be Gone, Targeted Textures | See the load-order rule below |
+
+#### Load-order rule: cell overrides go before PRP
+
+Plugins that only change textures, lighting, grass or particles can still carry CELL overrides. They must load **before** `prp.esp`, so that PRP's previs data wins in those cells. With Better Landscape Grass loaded after PRP, 4 Sanctuary cells got their vanilla previs data back, and the Sanctuary bridge and walls vanished along with their collision: the player fell through. Moving the plugins in the table above before PRP fixed it.
+
+Flutter Flicker Fixer For Foliage is the exception: its file is itself a PRP file, so it stays after PRP.
+
+#### Known issue: overlapping PRP patches
+
+The PRP patches that load after PRP were each built for one mod. Where two of them edit the same cell, the last one loaded wins there, and the other mod's previs is lost in that cell. Overlaps found in this profile:
+
+| Patches | Shared cells |
+| --- | --- |
+| Hunkered Down and The Rooftops | 90 |
+| Hunkered Down and Tales From The Commonwealth (3DNPC) ExoEm | 19 |
+| Hunkered Down and Subway Runner - Revival | 18: 9 in Concord (grid -16..-14, 17..19), 9 in Boston (around -4..-2, -10..-8) |
+| The Rooftops and Tales From The Commonwealth (3DNPC) ExoEm | 18 |
+| Diamond City Expansion PRP patch, `DiamondCity-PreVis` and `DiamondCity-PreVis-Ambience` | 18-19 |
+| Hunkered Down and Immersive And Extended Lexington | 9 |
+| Immersive And Extended Lexington and The Rooftops | 9 |
+| Subway Runner - Revival and The Rooftops | 9 |
+
+In Concord, objects disappear depending on the view angle. The cause is not confirmed yet; the overlap between the Hunkered Down and Subway Runner - Revival patches is the lead. No fix has been made.
+
 ### Still to do
 
 - Object LOD: FOLIP and the LOD resources are installed, but xLODGen has not been run yet.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
-- The quality-of-life additions: `f4se.log` for their four DLLs and a first in-game session.
+- The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
+- The overlapping PRP patches: confirm what makes objects disappear in Concord.
 - FIS - FallUI Item Sorter and its icon mods, with the Complex Item Sorter xEdit run at the same time as xLODGen.
 
 ## What changes from the macOS playthrough
