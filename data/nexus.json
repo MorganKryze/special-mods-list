@@ -1,4 +1,30 @@
 {
+  "212": {
+    "name": "Enhanced Blood Textures",
+    "author": "dDefinder",
+    "summary": "High-resolution blood decals that complement the violence level of the Fallout series",
+    "picture": "https://staticdelivery.nexusmods.com/mods/1151/images/212-0-1451356951.png",
+    "thumbnail": "https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/212-0-1451356951.png",
+    "category": "Models and Textures",
+    "adult": true,
+    "version": "1.01",
+    "updated": "2021-08-11",
+    "endorsements": 132997,
+    "downloads": 5681432,
+    "main_files": [
+      {
+        "name": "EBT_Basic v101",
+        "version": "1.01",
+        "size_bytes": 143296254
+      },
+      {
+        "name": "EBT_Standard WIP v101 Update 5a",
+        "version": "1.01",
+        "size_bytes": 161944145
+      }
+    ],
+    "synced_on": "2026-11-07"
+  },
   "218": {
     "name": "Customize Legendary Enemy Spawning",
     "author": "The Iron Rose",
@@ -168,6 +194,27 @@
         "name": "Main file",
         "version": "3.9",
         "size_bytes": 1915536
+      }
+    ],
+    "synced_on": "2026-11-07"
+  },
+  "1215": {
+    "name": "Improved Map with Visible Roads",
+    "author": "mm137",
+    "summary": "A much better high contrast world map with roads, topography, and waterline all clearly visible.  Optional number grid and regions.",
+    "picture": "https://staticdelivery.nexusmods.com/mods/1151/images/1215-2-1450164932.jpg",
+    "thumbnail": "https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/1215-2-1450164932.jpg",
+    "category": "Models and Textures",
+    "adult": false,
+    "version": "2.0",
+    "updated": "2016-09-06",
+    "endorsements": 138891,
+    "downloads": 5540782,
+    "main_files": [
+      {
+        "name": "Improved Map with Visible Roads 2.0",
+        "version": "2.0",
+        "size_bytes": 7037449
       }
     ],
     "synced_on": "2026-11-07"
@@ -25198,6 +25245,32 @@
     ],
     "synced_on": "2026-11-07"
   },
+  "104540": {
+    "name": "Tumbajamba's RobCo Combat Armor and Battle Suit",
+    "author": "tumbajamba and shreddah4",
+    "summary": "This mod introduces a brand new set of RobCo Combat Armor and a heavy-duty RobCo Battle Suit (Power Armor). Includes Light, Sturdy, and Heavy versions, complete with various equipment add-ons. Flagged as ESL.",
+    "picture": "https://staticdelivery.nexusmods.com/mods/1151/images/104540/104540-1778239121-2123232658.png",
+    "thumbnail": "https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/104540/104540-1778239121-2123232658.png",
+    "category": "Armour",
+    "adult": false,
+    "version": "1.0",
+    "updated": "2026-05-08",
+    "endorsements": 463,
+    "downloads": 41911,
+    "main_files": [
+      {
+        "name": "Tumbajamba's RobCo Armor 1.0 - Loose",
+        "version": "1.0",
+        "size_bytes": 5324940
+      },
+      {
+        "name": "Tumbajamba's RobCo Armor 1.0",
+        "version": "1.0",
+        "size_bytes": 3151787
+      }
+    ],
+    "synced_on": "2026-11-07"
+  },
   "104699": {
     "name": "No Railroad Checkpoints",
     "author": "Glitchfinder",
@@ -25215,6 +25288,53 @@
         "name": "No Railroad Checkpoints",
         "version": "1.00",
         "size_bytes": 7699
+      }
+    ],
+    "synced_on": "2026-11-07"
+  },
+  "104858": {
+    "name": "Animated Coffee Drinking - With buffs and Coffee Crafting",
+    "author": "Itchytreasuresack",
+    "summary": "(ESL AVAILABLE) Place a coffee pot, that you and settlers can use to drink coffee and get a buff, you may also craft coffee to take in to the wasteland! + An optional custom Coffee survival system! Also optional full integration of coffee",
+    "picture": "https://staticdelivery.nexusmods.com/mods/1151/images/104858/104858-1779534677-173159356.png",
+    "thumbnail": "https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/104858/104858-1779534677-173159356.png",
+    "category": "Crafting - Home/Settlement",
+    "adult": false,
+    "version": "1.2-Rev2",
+    "updated": "2026-10-27",
+    "endorsements": 115,
+    "downloads": 4569,
+    "main_files": [
+      {
+        "name": "Animated Coffee Drinking V1.2 (ESL - LOOSE FILES)",
+        "version": "1.2-Rev2",
+        "size_bytes": 3091434
+      },
+      {
+        "name": "Animated Coffee Drinking V1.2 (ESP and BA2'S)",
+        "version": "1.2-Rev2",
+        "size_bytes": 4528747
+      }
+    ],
+    "synced_on": "2026-11-07"
+  },
+  "105129": {
+    "name": "Explosion VFX Pack",
+    "author": "weirdhoney2310",
+    "summary": "Changes various visual effects of explosions. Mesh replacer with custom textures. ESL-flagged.",
+    "picture": "https://staticdelivery.nexusmods.com/mods/1151/images/105129/105129-1779458822-2072622814.png",
+    "thumbnail": "https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/105129/105129-1779458822-2072622814.png",
+    "category": "Visuals and Graphics",
+    "adult": false,
+    "version": "9.0.0",
+    "updated": "2026-05-28",
+    "endorsements": 358,
+    "downloads": 17020,
+    "main_files": [
+      {
+        "name": "Explosion VFX Pack",
+        "version": "9.0.0",
+        "size_bytes": 2317266
       }
     ],
     "synced_on": "2026-11-07"
