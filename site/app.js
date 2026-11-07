@@ -651,6 +651,7 @@ function placeTabline(instant) {
   set(".br-l", `translateX(${x0}px)`);
   set(".br-r", `translateX(${x1 - 2}px)`);
   set(".br-t", `translateX(${x0}px) scaleX(${(x1 - x0) / 100})`);
+  FX.crtTabline(x0, x1);
   if (jump) { void line.offsetWidth; line.classList.remove("instant"); }
 }
 // Sub-tabs slide so the current one sits in the centre, as in the game. A focused item is brought in view too.
@@ -668,7 +669,9 @@ function centreStrip(strip, instant, on) {
 }
 ["sp-steps", "subtabs"].forEach(id => {
   const strip = $(id);
-  strip.addEventListener("focusin", e => { if (e.target.closest(".subtab")) centreStrip(strip, false, e.target.closest(".subtab")); });
+  // Only keyboard focus slides the strip. A pointer press focuses the button too, and sliding it then would
+  // move it out from under the pointer before the release, so the click would land on its neighbour.
+  strip.addEventListener("focusin", e => { const t = e.target.closest(".subtab"); if (t && t.matches(":focus-visible")) centreStrip(strip, false, t); });
   strip.addEventListener("focusout", () => setTimeout(() => { if (!strip.contains(document.activeElement)) centreStrip(strip); }));
 });
 function relayout() { placeTabline(true); centreStrip($("sp-steps"), true); centreStrip($("subtabs"), true); FX.bar($("inv"), rowShown(selRow()) ? selRow().closest("li") : null, true); FX.bar($("sp-attrs"), spRowEl(spSel), true); }
@@ -996,7 +999,7 @@ function openSection(k, o = {}) {
   ui.section = MODULES[k] ? k : "";
   if (o.clearQ && state.q) { state.q = ""; $("q").value = ""; }
   render({ view: true, quiet: true });
-  FX.refresh(); FX.sound("tab");
+  FX.refresh();
   announce(ui.section ? `${MODULES[ui.section]}. ${MODULE_LINE[ui.section] || ""}` : "All sections.");
   if (o.focus !== false) {
     if (ui.section) ($("sec-h") || $("inv")).focus({ preventScroll: true });
@@ -1274,20 +1277,40 @@ function syncPresets() {
 
 
 /* ---------- PLAYTHROUGHS ---------- */
-const REELS = `<div class="reels" aria-hidden="true"><span class="reel"></span><span class="reel"></span></div>`;
+// An original holotape, drawn from the game's: a flat cartridge a little wider than tall, a reel
+// window top-left, the body wrapping round it as an L, a big label bottom-right, a steel clip on the
+// top edge, a shoulder on the top right, two screws, and its thin side with the read slot below.
+const HOLO = `<svg class="holo-svg" viewBox="0 0 250 222" aria-hidden="true" focusable="false">
+<path class="h-side" d="M10 196 V204 Q10 214 22 214 H228 Q240 214 240 204 V196"/>
+<rect class="h-slot" x="98" y="203" width="54" height="5" rx="1.5"/>
+<path class="h-notch" d="M40 205 h10 M200 205 h10"/>
+<path class="h-body" d="M24 16 H166 L174 9 H224 Q240 9 240 25 V184 Q240 200 224 200 H26 Q10 200 10 184 V32 Q10 16 24 16 Z"/>
+<path class="h-clip" d="M96 16 V7 H146 V16"/>
+<path class="h-ribs" d="M104 9 v6 M111 9 v6 M118 9 v6 M125 9 v6 M132 9 v6 M139 9 v6"/>
+<path class="h-label" d="M80 78 Q80 60 98 60 H228 V188 H80 Z"/>
+<circle class="h-ring" cx="47" cy="52" r="27"/>
+<circle class="h-win" cx="47" cy="52" r="20"/>
+<g class="h-hub"><circle cx="47" cy="52" r="7"/><path d="M47 45 V40 M53 56 L57 59 M41 56 L37 59"/></g>
+<path class="h-grip" d="M20 112 H62 M20 120 H62 M20 128 H62 M20 136 H62"/>
+<circle class="h-screw" cx="25" cy="184" r="4"/><path class="h-screw" d="M22.5 186 L27.5 182"/>
+<circle class="h-screw" cx="224" cy="26" r="4"/><path class="h-screw" d="M221.5 28 L226.5 24"/>
+</svg>`;
+function tapeHTML({ id, title, meta, tag, cls, label2 }) {
+  return `<div class="holo${cls ? " " + cls : ""}">${HOLO}<div class="tlabel"><span class="tt" id="tt-${id}">${esc(title)}</span><span class="tm">${meta}${tag ? `<span class="tag">${tag}</span>` : ""}</span>${label2 ? `<span class="tm tm2">${label2}</span>` : ""}<span class="ld" aria-hidden="true"><i class="mk on"></i>Loaded in your list</span><span class="lq" aria-hidden="true">Loading <i></i><i></i><i></i></span></div></div>`;
+}
 function renderTapes() {
   $("tapes").innerHTML = PT.map(p => {
     const planned = p.status === "planned", id = esc(p.id);
     return `<article class="tcard${planned ? " planned" : ""}" data-pt="${id}" aria-labelledby="tt-${id}">
-<div class="tape"><div class="tlabel"><span class="tt" id="tt-${id}">${esc(p.title)}</span><span class="tm">${esc(p.kind)} · ${p.n ? plural(p.n, "mod") : "no mods yet"}${planned ? `<span class="tag">Planned</span>` : ""}</span><span class="ld" aria-hidden="true"><i class="mk on"></i>Loaded in your list</span><span class="lq" aria-hidden="true">Loading <i></i><i></i><i></i></span></div>${REELS}</div>
-<div class="tinfo"><p class="ts">${planned ? `Planned, not played yet${p.n ? ": the list may still change" : ""}` : "Played"}</p>
-<div class="row-btns"><button class="btn primary preset" data-preset="pt:${id}" aria-pressed="false"${p.n ? "" : ' aria-disabled="true"'}>${p.n ? "Load this tape" : "Nothing to load yet"}<span class="vh">: ${esc(p.title)}</span></button>${p.doc ? `<a class="lnk" href="${esc(p.doc)}" rel="noopener">Read the write-up<span class="vh">: ${esc(p.title)}</span></a>` : ""}</div>
-<div class="tdesc">${p.machine ? `<p class="sm">Built for ${esc(p.machine)}.</p>` : ""}${p.summary ? `<p class="sm">${esc(p.summary)}</p>` : ""}</div></div></article>`;
+${tapeHTML({ id, title: p.title, meta: `${esc(p.kind)} · ${p.n ? plural(p.n, "mod") : "no mods yet"}`, tag: planned ? "Planned" : "" })}
+<div class="tinfo"><p class="ts">${planned ? `Planned, not played yet${p.n ? ": the list may still change" : ""}` : "Played from start to end"}</p>
+<div class="tdesc">${p.machine ? `<p class="sm"><span class="dim">Built for</span> ${esc(p.machine)}</p>` : ""}${p.summary ? `<p class="sm">${esc(p.summary)}</p>` : ""}</div>
+<div class="row-btns"><button class="btn primary preset" data-preset="pt:${id}" aria-pressed="false"${p.n ? "" : ' aria-disabled="true"'}>${p.n ? "Load this tape" : "Nothing to load yet"}<span class="vh">: ${esc(p.title)}</span></button>${p.doc ? `<a class="lnk" href="${esc(p.doc)}" rel="noopener">Read the write-up<span class="vh">: ${esc(p.title)}</span></a>` : ""}</div></div></article>`;
   }).join("") + `<article class="tcard blank" aria-labelledby="tt-blank">
-<div class="tape"><div class="tlabel"><span class="tt" id="tt-blank">Blank tape</span><span class="tm">Your own list</span><span class="tm">Answer four questions</span></div>${REELS}</div>
+${tapeHTML({ id: "blank", title: "Blank tape", meta: "Your own list", label2: "Four questions", cls: "blank" })}
 <div class="tinfo"><p class="ts">Built from your answers</p>
-<div class="row-btns"><button class="btn" data-go="sheet">Fill the sheet</button></div>
-<div class="tdesc"><p class="sm">Your machine, your ending, two frameworks and what you care about. The list is built from the catalogue's own ratings, the same way every time.</p></div></div></article>`;
+<div class="tdesc"><p class="sm">Your machine, your ending, two frameworks and what you care about. The list is built from the catalogue's own ratings, the same way every time.</p></div>
+<div class="row-btns"><button class="btn" data-go="sheet">Fill the S.P.E.C.I.A.L. sheet</button></div></div></article>`;
   syncPresets();
 }
 function spinTape(id) {
@@ -1579,7 +1602,7 @@ const NAV_KEYS = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Home", "En
 document.addEventListener("keydown", e => { if (NAV_KEYS.includes(e.key)) document.documentElement.classList.add("kbnav"); }, true);
 document.addEventListener("mousemove", () => document.documentElement.classList.remove("kbnav"), { passive: true });
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && $("sub-cat").classList.contains("panel-open")) { e.preventDefault(); closePanel(); return; }
+  if (e.key === "Escape" && $("sub-cat").classList.contains("panel-open")) { e.preventDefault(); closePanel(); FX.sound("back"); return; }
   // Left and right switch tabs, up and down move through the list, unless a field or a list already uses the key.
   if (!e.defaultPrevented && !e.metaKey && !e.ctrlKey && !e.altKey && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) {
     const a = document.activeElement;

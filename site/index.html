@@ -19,22 +19,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="app.css?v=8">
+<link rel="stylesheet" href="app.css?v=10">
 </head>
 <body>
 <a class="skip" id="skip" href="#panels">Skip to content</a>
 <div class="bezel">
 <div class="face">
-<div class="device" aria-hidden="true"><i class="screw s1"></i><i class="screw s2"></i><i class="screw s3"></i><i class="screw s4"></i><i class="plate"><b></b></i><i class="knob k1"></i><i class="knob k2"></i><i class="vent"></i><i class="slot"></i></div>
+<div class="device" aria-hidden="true"><i class="screw s1"></i><i class="screw s2"></i><i class="screw s3"></i><i class="screw s4"></i><i class="plate"><b></b></i><i class="knob k1"></i><i class="knob k2"></i><i class="vent"></i><i class="slot"></i><i class="chip c1"></i><i class="chip c2"></i><i class="chip c3"></i><i class="chip c4"></i><i class="chip c5"></i><i class="scuff u1"></i><i class="scuff u2"></i><i class="scratch"></i>
+<div class="stk stk-qa"><span class="q-top">Vault-Tec</span><span class="q-big">Inspected</span><span class="q-row"><span class="q-mark"></span><span>Quality assurance<br>Dept. 111 · Passed</span></span></div>
+<div class="stk stk-tag"><span class="t-top">Property of Vault-Tec</span><span class="t-no">Asset № 2077-0111</span></div></div>
 <div class="frame">
 <div class="tray">
 <div class="screen" id="screen">
+<div class="crt" id="crt">
   <header class="hud">
     <h1>Special Mods List <span class="hd">· Fallout 4 mod catalogue</span></h1>
     <div class="hud-r"><p class="hd" id="hud-date">Runtime 1.11.240</p><button id="hud-fx" data-setting="fx">Effects <b>Full</b></button><button id="hud-snd" data-setting="sound" aria-pressed="false">Sound <b>Off</b></button></div>
   </header>
   <div class="tabbar">
-    <div class="tabline instant" id="tabline" aria-hidden="true"><i class="tl-a"></i><i class="tl-b"></i><i class="br-l"></i><i class="br-r"></i><i class="br-t"></i></div>
+    <div class="tabline instant" id="tabline" aria-hidden="true"><i class="tl-a"></i><i class="tl-b"></i><i class="br-l"></i><i class="br-r"></i><i class="br-t"></i><svg class="tl-curve" preserveAspectRatio="none"><defs><clipPath id="tl-gap"><rect class="g1" x="0" y="-50" width="0" height="999"/><rect class="g2" x="0" y="-50" width="0" height="999"/></clipPath></defs><path clip-path="url(#tl-gap)" d=""/></svg></div>
     <div class="tabs" role="tablist" aria-label="Sections" id="tabs">
       <button class="tab" role="tab" id="tab-stat" aria-controls="panel-stat" aria-selected="true">Stat</button>
       <button class="tab" role="tab" id="tab-mods" aria-controls="panel-mods" aria-selected="false" tabindex="-1">Mods</button>
@@ -133,14 +136,22 @@
     <section class="panel" id="panel-tapes" role="tabpanel" aria-labelledby="tab-tapes" tabindex="-1" hidden>
       <div class="scroll body">
         <div class="tapes-h">
-          <h2 class="qh" id="tapes-h" tabindex="-1">Pick a holotape</h2>
-          <p class="dim">Each tape is a mod list that holds together on Fallout 4 1.11.240. Loading one replaces your list, and you can undo it.</p>
+          <h2 class="qh" id="tapes-h" tabindex="-1">Ready-made playthroughs</h2>
+          <p>Each holotape holds a whole mod list we built for one machine and one story, and checked together on Fallout 4 1.11.240. Loading one replaces your list; you can undo it.</p>
         </div>
         <div class="tapes" id="tapes"><p class="loading">Loading the playthroughs…</p></div>
-        <div class="tapes-more">
-          <button class="lnk preset" data-preset="core" aria-pressed="false" id="core-btn">Load only the core fixes</button>
-          <button class="lnk" data-go="mods">Or browse all <span class="n-total">…</span> mods</button>
-        </div>
+        <section class="tp-how" aria-labelledby="tp-how-h">
+          <h3 class="h3" id="tp-how-h">What loading a tape does</h3>
+          <ol class="tp-steps">
+            <li><b>Your list becomes the tape's list.</b> The mods you had are replaced. Undo brings them back.</li>
+            <li><b>Requirements and patches come with it.</b> Each mod brings what it needs, and the patches for mods that are both in.</li>
+            <li><b>It stays yours.</b> Open MY LIST to see the load order, add or remove mods, and export the list.</li>
+          </ol>
+          <div class="tapes-more">
+            <button class="lnk preset" data-preset="core" aria-pressed="false" id="core-btn">Load only the core fixes</button>
+            <button class="lnk" data-go="mods">Or browse all <span class="n-total">…</span> mods</button>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -169,8 +180,8 @@
             </dl>
             <h2 class="h3" id="settings-h">Screen</h2>
             <div class="setting"><fieldset class="opts swatches" id="phosphor"><legend class="lbl">Colour</legend></fieldset></div>
-            <div class="setting"><fieldset class="opts" id="fx-set"><legend class="lbl">Effects</legend></fieldset><p class="small">Full: scan band, grain and screen refresh. Reduced: no movement. Off: a plain screen.</p></div>
-            <div class="setting"><fieldset class="opts" id="snd-set"><legend class="lbl">Sound</legend></fieldset><p class="small">Short clicks for tabs, rows and buttons. Made in your browser, nothing is downloaded.</p></div>
+            <div class="setting"><fieldset class="opts" id="fx-set"><legend class="lbl">Effects</legend></fieldset><p class="small">Full: the tube's curve, scan band, grain and screen refresh. Reduced: no movement and straight lines. Off: a plain screen.</p></div>
+            <div class="setting"><fieldset class="opts" id="snd-set"><legend class="lbl">Sound</legend></fieldset><p class="small">Clicks, chirps, terminal keys, the holotape deck and a faint tube hum, in the spirit of the game's terminals. Synthesised in your browser: no recording is used and nothing is downloaded.</p></div>
             <h2 class="h3">Links</h2>
             <ul class="links">
               <li><a href="https://github.com/MorganKryze/special-mods-list/tree/main/data">The data: mods.csv, nexus.json, playthroughs.json</a></li>
@@ -186,20 +197,21 @@
   </div>
 
   <div id="notice" hidden role="region" aria-label="Message"><p id="notice-text"></p><span class="nbtns" id="notice-btns"></span></div>
-  <div class="fx" aria-hidden="true"><div class="fx-band"></div><div class="fx-grain"></div><div class="fx-glass"></div><div class="fx-refresh"></div><div class="fx-sweep"></div></div>
-  <div class="boot" id="boot" aria-hidden="true" hidden><div id="boot-text"></div><p class="skiphint">Press any key to skip</p><i class="boot-line"></i></div>
   <footer class="status" aria-label="Status">
     <div class="cell" id="st-mods"><b class="roll" id="st-n">0</b><span><span id="st-nl">mods</span><span class="vh"> in your list</span></span><span class="conf bad" id="st-conf" hidden></span></div>
     <div class="cell" id="st-plug"><span class="lbl-p">Plugins</span> <span><b class="roll" id="st-full">0</b>/254</span><span class="bar" aria-hidden="true"><i id="st-bar" style="width:0"></i><i class="est" id="st-est" style="left:2px;width:0"></i></span></div>
     <div class="cell" id="st-mach" role="group" aria-label="Show costs for"><span class="lbl-l" aria-hidden="true">Costs for</span><span class="seg"><button data-machine="mac" aria-pressed="true">Mac</button><button data-machine="pc" aria-pressed="false">PC</button></span></div>
   </footer>
 </div>
+  <div class="fx" aria-hidden="true"><div class="fx-band"></div><div class="fx-grain"></div><div class="fx-glass"></div><div class="fx-refresh"></div><div class="fx-sweep"></div></div>
+  <div class="boot" id="boot" aria-hidden="true" hidden><div id="boot-text"></div><p class="skiphint">Press any key to skip</p><i class="boot-line"></i></div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="sr-status" class="vh" role="status"></div>
-<script src="fx.js?v=8"></script>
-<script src="app.js?v=8"></script>
+<script src="fx.js?v=10"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>

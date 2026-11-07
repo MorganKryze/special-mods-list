@@ -180,8 +180,91 @@ b, strong { font-weight: 700; }
   /* The vignette: an inset shadow, painted above the background and below the content. */
   box-shadow: inset 0 0 140px rgba(0, 0, 0, .8), inset 0 0 28px rgba(0, 0, 0, .65), 0 0 0 2px #050505;
 }
+/* The content layer. */
+.crt { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+/* The tube's curve, full effects only: the screen's own lines are drawn bowed (barrel), nil in the
+   middle and growing towards the edges: the scanlines (a static image drawn for the screen's size),
+   the line under the tabs and the edges of the status bar. The text and controls are not resampled,
+   so they stay pixel-sharp and every click lands exactly where it is seen. See fx.js. */
+html[data-fx="full"] .screen { background-image: var(--scan, repeating-linear-gradient(0deg, rgba(0, 0, 0, .22) 0 1px, transparent 1px 3px)), radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--ink) 6%, var(--bg)) 0%, var(--bg) 75%); background-size: 100% 100%, auto; }
+.tl-curve { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; display: none; }
+.tl-curve path { fill: none; stroke: var(--ink); stroke-width: 2; }
+.tl-curve rect { transition: x .26s var(--ease-out), width .26s var(--ease-out); }
+.tabline.instant .tl-curve rect { transition: none; }
+html[data-fx="full"] .tl-curve { display: block; }
+html[data-fx="full"] .tl-a, html[data-fx="full"] .tl-b { display: none; }
+/* The tab outline's sides stop where the bowed line passes under the tabs. */
+html[data-fx="full"] .br-l, html[data-fx="full"] .br-r { bottom: calc(var(--tl-lift, 0px) * -1); }
+html[data-fx="full"] .status { clip-path: var(--status-bow, none); }
 /* Phosphor bloom on large text only. */
 .tab, .qh, .d-title, .big, .eh, .tlabel .tt, .gauge .num b, .cell b, .tally dd, .kv dd { text-shadow: var(--bloom); }
+
+/* ---------- Wear: chipped paint, grime, scuffs, a glass scratch, two stickers ----------
+   Years of use, kept quiet and lit from the same top-left light: bare metal shows where the rolled
+   edge was knocked, grime sits in the corners and around the knobs, the paint has yellowed in patches.
+   The stickers are drawn here (type and a simple mark of our own), never over the screen content. */
+.device { z-index: 2; }
+.bezel { background-image:
+    radial-gradient(28% 22% at 12% 88%, rgba(150, 132, 84, .16), transparent 70%),
+    radial-gradient(22% 30% at 94% 30%, rgba(150, 132, 84, .12), transparent 70%),
+    radial-gradient(30% 18% at 60% 2%, rgba(40, 34, 24, .18), transparent 70%),
+    radial-gradient(140% 120% at 0% 0%, rgba(240, 248, 244, .14), transparent 55%),
+    linear-gradient(180deg, #74837f 0%, #66746f 50%, #515d5a 100%); }
+.face::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(16% 22% at 0% 100%, rgba(22, 17, 10, .45), transparent 70%),
+    radial-gradient(14% 18% at 100% 100%, rgba(22, 17, 10, .4), transparent 70%),
+    radial-gradient(12% 16% at 0% 0%, rgba(22, 17, 10, .3), transparent 70%),
+    radial-gradient(12% 16% at 100% 0%, rgba(22, 17, 10, .3), transparent 70%),
+    radial-gradient(30% 12% at 50% 100%, rgba(255, 238, 210, .05), transparent 70%); }
+/* Chips in the paint along the rolled edge: bare steel, its top-left wall in shadow. */
+.chip { --w: clamp(14px, 1.2vw, 24px); width: var(--w); height: calc(var(--w) * .55);
+  background: linear-gradient(140deg, #4c524f 0 22%, #9da29c 45%, #868b85 100%);
+  clip-path: polygon(8% 30%, 30% 0, 62% 12%, 100% 6%, 88% 58%, 100% 100%, 46% 84%, 14% 100%, 0 62%); opacity: .85; }
+.c1 { left: 21%; top: calc(var(--rim) * -.62); }
+.c2 { left: 63%; top: calc(var(--rim) * -.5); --w: clamp(7px, .6vw, 12px); transform: rotate(160deg); }
+.c3 { left: calc(var(--rim) * -.66); top: 58%; transform: rotate(80deg); }
+.c4 { left: calc(100% + var(--rim) * .3); top: 76%; transform: rotate(-100deg); --w: clamp(12px, 1.1vw, 22px); }
+.c5 { left: 38%; top: calc(100% + var(--rim) * .3); transform: rotate(10deg); }
+/* Scuffs: thin bright marks where things were dragged across the vinyl. */
+.scuff { width: clamp(40px, 3.4vw, 70px); height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 246, 230, .16) 30%, rgba(255, 246, 230, .06) 70%, transparent);
+  box-shadow: 4px 3px 0 -0px rgba(255, 246, 230, .05); }
+.u1 { left: calc(100% - var(--side) * .82); top: 82%; transform: rotate(-14deg); }
+.u2 { left: calc(var(--side) * .12); top: 34%; transform: rotate(9deg); width: clamp(26px, 2.2vw, 46px); }
+/* A scratch on the glass, along its left edge, clear of the text. */
+.scratch { left: calc(var(--side) + var(--lip) + var(--tray) + 5px); top: calc(var(--top) + 62%); width: 18px; height: clamp(40px, 6vh, 70px);
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 60' preserveAspectRatio='none'><path d='M4 1 C 7 18, 9 34, 13 59' stroke='%23d8e8e0' stroke-opacity='.16' stroke-width='.6' fill='none'/><path d='M7 24 C 8 30, 9 35, 10 39' stroke='%23d8e8e0' stroke-opacity='.12' stroke-width='.5' fill='none'/></svg>") 0 0 / 100% 100% no-repeat; }
+.knob { box-shadow: 0 0 0 1px rgba(0, 0, 0, .6), 2px 4px 7px rgba(0, 0, 0, .55), 0 0 calc(var(--k) * .3) calc(var(--k) * .08) rgba(24, 18, 10, .45), inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -2px 3px rgba(0, 0, 0, .35); }
+
+/* Stickers: 1950s corporate, navy and yellow, faded and worn. */
+.stk { position: absolute; display: flex; flex-direction: column; font-family: Futura, "Century Gothic", "Avenir Next", "Trebuchet MS", var(--sans); text-transform: uppercase; line-height: 1;
+  filter: saturate(.78) brightness(.9); }
+.stk::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(255, 250, 235, .12), transparent 55%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='w'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .95  0 0 0 0 .92  0 0 0 0 .84  0 0 0 2.2 -1.45'/></filter><rect width='100%25' height='100%25' filter='url(%23w)'/></svg>"),
+    linear-gradient(118deg, transparent 47%, rgba(255, 250, 235, .22) 47.5% 48%, transparent 48.5%); }
+/* Inspection sticker, bottom-left, cropped by the edge of the casing. */
+.stk-qa { --w: min(calc(var(--rim) + var(--side) * .85 + 22px), 190px);
+  width: var(--w); height: calc(var(--w) * .66); left: calc(var(--rim) * -1 - 22px); top: calc(100% - var(--w) * .5 + var(--rim) * .55);
+  transform: rotate(-8deg); padding: calc(var(--w) * .07) calc(var(--w) * .08) 0 calc(var(--w) * .2); gap: calc(var(--w) * .035);
+  background: #213f74; border-radius: calc(var(--w) * .06); box-shadow: inset 0 0 0 calc(var(--w) * .022) #213f74, inset 0 0 0 calc(var(--w) * .04) #e8bd3a, 1px 2px 3px rgba(0, 0, 0, .45);
+  color: #f0c63e; font-weight: 700; }
+.q-top { font-size: calc(var(--w) * .07); letter-spacing: .2em; opacity: .9; }
+.q-big { font-size: calc(var(--w) * .145); font-style: italic; letter-spacing: .02em; }
+.q-row { display: flex; align-items: center; gap: calc(var(--w) * .04); font-size: calc(var(--w) * .052); letter-spacing: .08em; line-height: 1.25; font-weight: 500; }
+.q-mark { flex: none; width: calc(var(--w) * .12); height: calc(var(--w) * .12); border-radius: 50%; background: #f0c63e; position: relative; }
+.q-mark::after { content: ""; position: absolute; left: 30%; top: 18%; width: 26%; height: 46%; border: solid #213f74; border-width: 0 calc(var(--w) * .018) calc(var(--w) * .018) 0; transform: rotate(40deg); }
+/* Asset tag on the bottom strip, its corner peeling back. */
+.stk-tag { --h: clamp(24px, calc(var(--bot) - 18px), 46px); --w: calc(var(--h) * 3.6); width: var(--w); height: var(--h);
+  left: calc(100% - var(--side) - var(--lip) - var(--w) - 14px); top: calc(100% - var(--bot) / 2 - var(--h) / 2); transform: rotate(1.5deg);
+  justify-content: center; padding: 0 calc(var(--h) * .3); gap: calc(var(--h) * .1); background: #e2b93c; color: #1f3561; font-weight: 700;
+  clip-path: polygon(0 0, calc(100% - var(--h) * .42) 0, 100% calc(var(--h) * .42), 100% 100%, 0 100%); box-shadow: inset 0 0 0 1px rgba(31, 53, 97, .55); }
+.stk-tag::before { content: ""; position: absolute; right: 0; top: 0; width: calc(var(--h) * .42); height: calc(var(--h) * .42);
+  background: linear-gradient(225deg, transparent 50%, #efe6cc 50%, #d8ceb2); filter: drop-shadow(-1px 1px 1px rgba(0, 0, 0, .45)); }
+.t-top { font-size: calc(var(--h) * .27); letter-spacing: .12em; }
+.t-no { font-size: calc(var(--h) * .25); letter-spacing: .08em; font-weight: 500; }
+@media (max-height: 900px) { .stk-tag { --h: clamp(22px, calc(var(--bot) - 16px), 30px); } }
 
 /* ---------- Screen life: overlay layers, transform and opacity only ---------- */
 .fx { position: absolute; inset: 0; z-index: 40; pointer-events: none; overflow: hidden; }
@@ -679,43 +762,57 @@ html[data-fx="off"] .pic img { -webkit-mask-image: none; mask-image: none; }
 #mix { margin-top: 12px; color: var(--dim); }
 
 /* ---------- PLAYTHROUGHS: holotapes ---------- */
-.tapes-h { margin: 8px 0 32px; max-width: 70ch; }
+.tapes-h { margin: 8px 0 32px; max-width: 72ch; }
 .tapes-h .qh { margin-bottom: 8px; }
-/* Cards share row tracks (subgrid), so tapes, status lines and buttons line up across the three. */
-.tapes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); grid-auto-rows: auto; gap: 0 40px; }
-.tcard { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 16px; min-width: 0; margin-bottom: 48px; }
+.tapes-h p { color: var(--dim); }
+/* Cards share row tracks (subgrid), so tapes, status lines and buttons line up across them. */
+.tapes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); grid-auto-rows: auto; gap: 0 48px; }
+.tcard { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 12px; min-width: 0; margin-bottom: 40px; }
 .tinfo { display: contents; }
-.tdesc { display: grid; gap: 8px; align-content: start; }
-.tape { position: relative; border: 2px solid var(--ink); border-radius: 16px 16px 4px 4px; padding: 12px 12px 32px; }
-/* The tape head slot, drawn as a full outline. */
-.tape::after { content: ""; position: absolute; left: 50%; bottom: 6px; width: 96px; height: 14px; transform: translateX(-50%); border: 2px solid var(--ink); border-radius: 2px; }
-.tcard.planned .tape, .tcard.blank .tape { border-color: var(--line); }
-.tcard.planned .tape::after, .tcard.blank .tape::after { border-color: var(--line); }
-.tcard.planned .reel, .tcard.blank .reel { opacity: .6; }
-.tlabel { background: var(--tint); padding: 12px 16px; min-height: 128px; display: flex; flex-direction: column; gap: 8px; }
-.tlabel .tt { font-size: var(--t-l); font-weight: 700; line-height: 1.25; }
-.tlabel .tm { font-size: var(--t-xs); }
-.tlabel .tm + .tm { margin-top: auto; }
-.tag { display: inline-block; margin-left: 8px; padding: 0 6px; border: 1px solid currentColor; font-size: var(--t-xs); font-weight: 700; letter-spacing: .08em; }
-.tlabel .ld { margin-top: auto; font-size: var(--t-xs); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; display: none; align-items: center; gap: 8px; }
-.tcard.loaded .tlabel, .tcard.loading .tlabel { background: var(--ink); color: var(--bg); border-color: var(--ink); text-shadow: none; }
-.tcard.loaded .tlabel .tt, .tcard.loading .tlabel .tt { text-shadow: none; }
-.tcard.loaded .tlabel .ld { display: flex; }
-/* Loading sequence: three cells fill in turn, then the label reads Loaded. */
-.tcard .lq { display: none; align-items: center; gap: 8px; margin-top: auto; font-size: var(--t-xs); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.tcard.loading .lq { display: flex; }
-.tcard.loading .ld { display: none !important; }
-.lq i { width: 12px; height: 12px; border: 2px solid currentColor; }
+.tdesc { display: grid; gap: 6px; align-content: start; }
+.tinfo .ts { font-size: var(--t-xs); margin-top: 8px; }
+.tinfo p.sm { font-size: var(--t-s); line-height: 1.55; }
+.tinfo .row-btns { margin: 4px 0 0; gap: 8px 24px; align-self: start; }
+/* The holotape: drawn in phosphor lines, its label carrying the playthrough. */
+.holo { position: relative; aspect-ratio: 250 / 222; max-width: 264px; width: 100%; }
+.holo-svg { display: block; width: 100%; height: 100%; overflow: visible; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.h-body { fill: color-mix(in srgb, var(--ink) 6%, var(--bg)); }
+.h-side { fill: color-mix(in srgb, var(--ink) 3%, var(--bg)); stroke-width: 1.5; }
+.h-slot, .h-notch { stroke-width: 1.5; }
+.h-clip { fill: color-mix(in srgb, var(--ink) 10%, var(--bg)); }
+.h-ribs, .h-grip { stroke-width: 1.5; opacity: .7; }
+.h-label { fill: color-mix(in srgb, var(--ink) 12%, var(--bg)); }
+.h-ring { fill: var(--bg); }
+.h-win { fill: color-mix(in srgb, var(--ink) 14%, var(--bg)); stroke-width: 1.5; }
+.h-hub { stroke-width: 1.5; transform-box: view-box; transform-origin: 47px 52px; }
+.h-hub circle { fill: var(--bg); }
+.h-screw { stroke-width: 1.2; }
+.holo .tlabel { position: absolute; left: 34.5%; top: 29.5%; width: 55%; height: 54%; display: flex; flex-direction: column; gap: 4px; padding: 2px 2px; }
+.holo .tt { font-size: 15px; font-weight: 700; line-height: 1.2; text-shadow: var(--bloom); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.holo .tm { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
+.holo .tm2 { margin-top: auto; }
+.tag { display: inline-block; margin-left: 6px; padding: 0 5px; border: 1px solid currentColor; font-size: 12px; font-weight: 700; letter-spacing: .08em; }
+.holo .ld, .holo .lq { margin-top: auto; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; display: none; align-items: center; gap: 8px; }
+.tcard.loaded .holo .ld { display: flex; }
+.tcard.loading .holo .lq { display: flex; }
+.tcard.loading .holo .ld { display: none !important; }
+.lq i { width: 10px; height: 10px; border: 1px solid currentColor; }
 .lq i.f { background: currentColor; }
-.reels { display: flex; justify-content: space-between; padding: 0 56px; margin-top: 8px; }
-.reel { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--ink);
-  background: radial-gradient(circle, var(--bg) 0 5px, var(--ink) 5px 8px, transparent 8px), conic-gradient(from 0deg, var(--ink) 0 14deg, transparent 14deg 120deg, var(--ink) 120deg 134deg, transparent 134deg 240deg, var(--ink) 240deg 254deg, transparent 254deg); }
-html[data-fx="full"] .tcard.loading .reel { animation: reel .7s linear infinite; }
+/* Loaded: the label lights up, as the game marks the tape in the deck. */
+.tcard.loaded .h-label, .tcard.loading .h-label { fill: var(--ink); }
+.tcard.loaded .tlabel, .tcard.loading .tlabel { color: var(--bg); }
+.tcard.loaded .tlabel .tt, .tcard.loading .tlabel .tt { text-shadow: none; }
+html[data-fx="full"] .tcard.loading .h-hub { animation: reel .7s linear infinite; }
 @keyframes reel { to { transform: rotate(360deg); } }
-.tinfo .ts { font-size: var(--t-xs); }
-.tinfo p.sm { font-size: var(--t-s); color: var(--dim); line-height: 1.55; }
-.tinfo .row-btns { margin: 0 0 8px; gap: 8px 24px; }
-.tapes-more { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 48px; }
+/* Planned and blank tapes are drawn in the dimmer line colour. */
+.tcard.planned .holo-svg, .tcard.blank .holo-svg { stroke: var(--line); }
+.tcard.blank .h-label { fill: none; stroke-dasharray: 4 5; }
+.tp-how { max-width: 980px; margin-top: 8px; }
+.tp-steps { list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.tp-steps li { counter-increment: s; position: relative; padding-left: 40px; color: var(--dim); font-size: var(--t-s); line-height: 1.55; }
+.tp-steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 0; font-weight: 700; color: var(--ink); letter-spacing: .06em; }
+.tp-steps b { display: block; color: var(--ink); font-weight: 500; margin-bottom: 2px; }
+.tapes-more { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 24px; }
 
 /* ---------- ABOUT ---------- */
 .about { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 48px; }
@@ -861,8 +958,8 @@ html[data-fx="full"] .tcard.loading .reel { animation: reel .7s linear infinite;
   .sum { order: -1; border-left: 0; padding: 16px var(--pad) 24px; border-bottom: 1px solid var(--line); }
   .lo { padding: 8px var(--pad) 24px; }
   .tapes { gap: 32px; }
-  .tcard { flex-basis: 100%; }
-  .reels { padding: 0 32px; }
+  .tp-steps { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .holo { max-width: 300px; }
   #notice { margin: 0 8px 8px; padding: 4px 8px; font-size: var(--t-s); gap: 0 16px; }
   #notice p { flex-basis: 100%; }
   #notice .lnk { min-height: 44px; padding: 4px 0; }
