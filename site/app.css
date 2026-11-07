@@ -112,7 +112,11 @@ b, strong { font-weight: 700; }
 .frame {
   position: relative; height: 100%; padding: var(--lip);
   border-radius: calc(var(--face-r) + var(--lip) * .4);
-  background: linear-gradient(160deg, #7c7b76 0%, #6f6e69 30%, #5a5955 65%, #4a4945 100%);
+  background:
+    radial-gradient(8% 12% at 0% 100%, rgba(30, 22, 12, .55), transparent 70%), radial-gradient(8% 12% at 100% 100%, rgba(30, 22, 12, .5), transparent 70%),
+    linear-gradient(0deg, rgba(150, 136, 104, .3), transparent 4%),
+    radial-gradient(4% 6% at 3% 4%, rgba(120, 62, 28, .4), transparent 70%),
+    linear-gradient(160deg, #78776f 0%, #6b6a64 30%, #57564f 65%, #474640 100%);
   /* A rounded profile: both edges fall away into shadow, the crest catches the light. */
   box-shadow: 0 0 0 1px #1c1c1a, inset 1px 1px 0 #b9b8b2, inset -1px -1px 0 rgba(0, 0, 0, .5),
     inset 0 0 calc(var(--lip) * .45) calc(var(--lip) * .05) rgba(0, 0, 0, .4),
@@ -139,7 +143,7 @@ b, strong { font-weight: 700; }
 /* The badge plate, left of the glass: brushed steel, blank, with a round push button. */
 .plate { --w: clamp(26px, calc(var(--side) * .36), 72px); width: var(--w); height: calc(var(--w) * 2.6); left: calc(var(--side) / 2 - var(--w) / 2); top: calc(var(--top) + 9%);
   border-radius: 4px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, .05) 0 50%, rgba(0, 0, 0, .05) 50%) 0 0 / 3px 100%, linear-gradient(160deg, #b5b3ab, #8a8880 55%, #67655f);
+  background: radial-gradient(40% 20% at 70% 30%, rgba(70, 52, 30, .35), transparent 70%), radial-gradient(50% 15% at 30% 80%, rgba(110, 60, 28, .3), transparent 70%), linear-gradient(90deg, rgba(255, 255, 255, .05) 0 50%, rgba(0, 0, 0, .05) 50%) 0 0 / 3px 100%, linear-gradient(160deg, #a9a69c, #827f76 55%, #605d56);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, .65), 1px 3px 5px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .3); }
 .plate b { left: 22%; right: 22%; bottom: 14%; aspect-ratio: 1; border-radius: 50%;
   background: radial-gradient(circle at 38% 32%, #8e8b83, #4d4b46 70%);
@@ -178,7 +182,7 @@ b, strong { font-weight: 700; }
     repeating-linear-gradient(0deg, rgba(0, 0, 0, .22) 0 1px, transparent 1px 3px),
     radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--ink) 6%, var(--bg)) 0%, var(--bg) 75%);
   /* The vignette: an inset shadow, painted above the background and below the content. */
-  box-shadow: inset 0 0 140px rgba(0, 0, 0, .8), inset 0 0 28px rgba(0, 0, 0, .65), 0 0 0 2px #050505;
+  box-shadow: inset 0 0 180px rgba(0, 0, 0, .85), inset 0 0 44px rgba(0, 0, 0, .72), inset 0 -8px 14px -8px rgba(160, 146, 112, .16), 0 0 0 2px #050505;
 }
 /* The content layer. */
 .crt { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
@@ -199,69 +203,129 @@ html[data-fx="full"] .status { clip-path: var(--status-bow, none); }
 /* Phosphor bloom on large text only. */
 .tab, .qh, .d-title, .big, .eh, .tlabel .tt, .gauge .num b, .cell b, .tally dd, .kv dd { text-shadow: var(--bloom); }
 
-/* ---------- Wear: chipped paint, grime, scuffs, a glass scratch, two stickers ----------
-   Years of use, kept quiet and lit from the same top-left light: bare metal shows where the rolled
-   edge was knocked, grime sits in the corners and around the knobs, the paint has yellowed in patches.
-   The stickers are drawn here (type and a simple mark of our own), never over the screen content. */
+/* ---------- Two hundred years: wear, grime, rust, dust, two aged stickers ----------
+   One object that has sat in the Commonwealth since 2077, lit by the same top-left light: the top of
+   the shell sun-bleached; paint chipped on the knocks of the rolled edge, showing red-oxide primer and
+   bare steel; rust blooming from the screws and running down from them and from the slot; grime and
+   dust packed into the recesses, around the knobs and along the bottom of the ring; scratches and
+   stains on the vinyl; a dusty rim on the glass. All static gradients and a few small vector textures:
+   painted once, never animated. Nothing here ever covers the screen's content. */
 .device { z-index: 2; }
 .bezel { background-image:
-    radial-gradient(28% 22% at 12% 88%, rgba(150, 132, 84, .16), transparent 70%),
-    radial-gradient(22% 30% at 94% 30%, rgba(150, 132, 84, .12), transparent 70%),
-    radial-gradient(30% 18% at 60% 2%, rgba(40, 34, 24, .18), transparent 70%),
-    radial-gradient(140% 120% at 0% 0%, rgba(240, 248, 244, .14), transparent 55%),
-    linear-gradient(180deg, #74837f 0%, #66746f 50%, #515d5a 100%); }
-.face::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    linear-gradient(180deg, rgba(226, 218, 186, .32) 0, rgba(226, 218, 186, .12) 3.5%, transparent 8%),
+    radial-gradient(6% 3% at 30% 99%, rgba(120, 62, 28, .4), transparent 70%), radial-gradient(4% 3% at 86% 100%, rgba(120, 62, 28, .35), transparent 70%), radial-gradient(3% 6% at 100% 52%, rgba(120, 62, 28, .3), transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='1' seed='21' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .78  0 0 0 0 .72  0 0 0 0 .6  0 0 0 9 -7.4'/></filter><rect width='100%25' height='100%25' filter='url(%23d)'/></svg>") 40px 10px / 220px 220px,
+    radial-gradient(30% 24% at 10% 90%, rgba(120, 92, 52, .28), transparent 70%),
+    radial-gradient(18% 30% at 96% 34%, rgba(140, 110, 62, .22), transparent 70%),
+    radial-gradient(26% 10% at 64% 99%, rgba(40, 30, 18, .45), transparent 70%),
+    linear-gradient(0deg, rgba(48, 36, 20, .4) 0, rgba(48, 36, 20, .14) 2.5%, transparent 5%),
+    radial-gradient(8% 4% at 50% 100%, rgba(120, 62, 28, .45), transparent 70%),
+    radial-gradient(12% 40% at 0% 60%, rgba(40, 30, 18, .25), transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400'><g fill='none' stroke-linecap='round'><path d='M40 60 l120 -14 M300 30 l90 22 M470 120 l80 -30 M120 300 l60 40 M380 330 l140 -8 M520 250 l40 70 M60 200 l30 -60 M230 180 l70 10' stroke='%23fff6e0' stroke-opacity='.10' stroke-width='.8'/><path d='M42 61 l118 -14 M302 31 l88 22 M382 331 l138 -8' stroke='%23000' stroke-opacity='.18' stroke-width='.6' transform='translate(0 1)'/></g></svg>") 0 0 / 600px 400px,
+    repeating-linear-gradient(90deg, transparent 0 31px, rgba(44, 34, 20, .07) 31px 33px, transparent 33px 71px, rgba(44, 34, 20, .05) 71px 72px, transparent 72px 113px),
+    radial-gradient(140% 120% at 0% 0%, rgba(240, 248, 244, .12), transparent 55%),
+    linear-gradient(180deg, #7a8682 0%, #66746f 45%, #4d5856 100%); }
+/* Under the ring and the glass: the grime and scratches stay on the vinyl. */
+.frame { z-index: 1; }
+.face::after { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: inherit; pointer-events: none;
   background:
-    radial-gradient(16% 22% at 0% 100%, rgba(22, 17, 10, .45), transparent 70%),
-    radial-gradient(14% 18% at 100% 100%, rgba(22, 17, 10, .4), transparent 70%),
-    radial-gradient(12% 16% at 0% 0%, rgba(22, 17, 10, .3), transparent 70%),
-    radial-gradient(12% 16% at 100% 0%, rgba(22, 17, 10, .3), transparent 70%),
-    radial-gradient(30% 12% at 50% 100%, rgba(255, 238, 210, .05), transparent 70%); }
-/* Chips in the paint along the rolled edge: bare steel, its top-left wall in shadow. */
-.chip { --w: clamp(14px, 1.2vw, 24px); width: var(--w); height: calc(var(--w) * .55);
-  background: linear-gradient(140deg, #4c524f 0 22%, #9da29c 45%, #868b85 100%);
-  clip-path: polygon(8% 30%, 30% 0, 62% 12%, 100% 6%, 88% 58%, 100% 100%, 46% 84%, 14% 100%, 0 62%); opacity: .85; }
+    radial-gradient(18% 24% at 0% 100%, rgba(18, 13, 7, .6), transparent 70%),
+    radial-gradient(16% 22% at 100% 100%, rgba(18, 13, 7, .55), transparent 70%),
+    radial-gradient(14% 18% at 0% 0%, rgba(18, 13, 7, .4), transparent 70%),
+    radial-gradient(14% 18% at 100% 0%, rgba(18, 13, 7, .4), transparent 70%),
+    radial-gradient(9% 7% at 22% 96%, rgba(60, 42, 20, .35), transparent 70%),
+    radial-gradient(6% 9% at 88% 12%, rgba(60, 42, 20, .3), transparent 70%),
+    radial-gradient(40% 10% at 50% 100%, rgba(255, 238, 210, .07), transparent 70%),
+    linear-gradient(180deg, transparent 50%, rgba(120, 104, 76, .12) 85%, rgba(140, 124, 92, .2) 100%),
+    radial-gradient(7% 5% at 31% 74%, rgba(26, 18, 8, .45), transparent 70%), radial-gradient(5% 8% at 77% 18%, rgba(26, 18, 8, .4), transparent 70%), radial-gradient(10% 4% at 58% 40%, rgba(26, 18, 8, .3), transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='d'><feTurbulence type='fractalNoise' baseFrequency='1.6' numOctaves='1' seed='21' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .78  0 0 0 0 .72  0 0 0 0 .6  0 0 0 9 -7.4'/></filter><rect width='100%25' height='100%25' filter='url(%23d)'/></svg>") 0 0 / 220px 220px,
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400'><g fill='none' stroke-linecap='round'><path d='M40 60 l120 -14 M300 30 l90 22 M470 120 l80 -30 M120 300 l60 40 M380 330 l140 -8 M520 250 l40 70 M60 200 l30 -60 M230 180 l70 10' stroke='%23fff6e0' stroke-opacity='.10' stroke-width='.8'/><path d='M42 61 l118 -14 M302 31 l88 22 M382 331 l138 -8' stroke='%23000' stroke-opacity='.18' stroke-width='.6' transform='translate(0 1)'/></g></svg>") 120px 80px / 600px 400px; }
+/* Chips: bare steel in the middle, a ring of red-oxide primer, the paint's edge in shadow on the top-left. */
+.chip { --w: clamp(12px, 1.1vw, 22px); width: var(--w); height: calc(var(--w) * .58); opacity: .78;
+  background: radial-gradient(60% 55% at 58% 60%, #868883 0 30%, #6f706b 40%, rgba(108, 62, 44, .9) 50%, rgba(92, 56, 40, .75) 68%, rgba(40, 32, 26, .8) 86%);
+  clip-path: polygon(8% 30%, 30% 0, 62% 12%, 100% 6%, 88% 58%, 100% 100%, 46% 84%, 14% 100%, 0 62%); }
 .c1 { left: 21%; top: calc(var(--rim) * -.62); }
-.c2 { left: 63%; top: calc(var(--rim) * -.5); --w: clamp(7px, .6vw, 12px); transform: rotate(160deg); }
-.c3 { left: calc(var(--rim) * -.66); top: 58%; transform: rotate(80deg); }
-.c4 { left: calc(100% + var(--rim) * .3); top: 76%; transform: rotate(-100deg); --w: clamp(12px, 1.1vw, 22px); }
+.c2 { left: 63%; top: calc(var(--rim) * -.5); --w: clamp(10px, .8vw, 16px); transform: rotate(160deg); }
+.c3 { left: calc(var(--rim) * -.68); top: 58%; transform: rotate(80deg); }
+.c4 { left: calc(100% + var(--rim) * .28); top: 76%; transform: rotate(-100deg); --w: clamp(14px, 1.3vw, 26px); }
 .c5 { left: 38%; top: calc(100% + var(--rim) * .3); transform: rotate(10deg); }
-/* Scuffs: thin bright marks where things were dragged across the vinyl. */
-.scuff { width: clamp(40px, 3.4vw, 70px); height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 246, 230, .16) 30%, rgba(255, 246, 230, .06) 70%, transparent);
-  box-shadow: 4px 3px 0 -0px rgba(255, 246, 230, .05); }
+.c6 { left: 46%; top: calc(var(--rim) * -.4); --w: clamp(16px, 1.5vw, 30px); transform: rotate(4deg); }
+.c7 { left: calc(100% + var(--rim) * .2); top: 22%; transform: rotate(-80deg); --w: clamp(9px, .7vw, 14px); }
+.c8 { left: 74%; top: calc(100% + var(--rim) * .42); transform: rotate(190deg); }
+/* Rust: a bloom round each screw and a streak run down by rain; one from the holotape slot. */
+.rust { --s: clamp(10px, .7vw, 16px); width: calc(var(--s) * 2.6); height: calc(var(--s) * 7); margin-left: calc(var(--s) * -1.3); margin-top: calc(var(--s) * -1.3);
+  background:
+    radial-gradient(50% 18% at 50% 18%, rgba(132, 62, 24, .8), rgba(110, 52, 22, .45) 55%, transparent 75%),
+    linear-gradient(180deg, transparent 20%, rgba(120, 58, 24, .55) 28%, rgba(110, 54, 24, .26) 70%, transparent 100%) 50% 0 / 34% 100% no-repeat; }
+.r1 { left: calc(var(--side) / 2); top: max(calc(var(--top) / 2 + 2px), 14px); }
+.r2 { left: calc(100% - var(--side) / 2); top: max(calc(var(--top) / 2 + 2px), 14px); height: calc(var(--s) * 9); }
+.r3 { left: calc(var(--side) / 2); top: calc(100% - max(var(--bot) / 2, 14px)); height: calc(var(--s) * 3); }
+.r4 { left: calc(100% - var(--side) / 2); top: calc(100% - max(var(--bot) / 2, 14px)); height: calc(var(--s) * 3); }
+.r5 { left: calc(50% + clamp(150px, 13vw, 240px) * .3); top: calc(100% - var(--bot) / 2 + 6px); height: calc(var(--bot) / 2); width: 10px; margin: 0;
+  background: linear-gradient(180deg, rgba(120, 58, 24, .45), rgba(110, 54, 24, .1) 80%, transparent); }
+/* The crest of the rolled edge worn through where hands and knocks hit it: bare steel along the
+   middle, primer either side, the paint's broken edge darker. */
+.worn { height: calc(var(--rim) * .22); border-radius: 50%; opacity: .55; filter: blur(.4px);
+  -webkit-mask: linear-gradient(90deg, transparent 0, #000 8% 21%, transparent 24% 29%, #000 33% 52%, transparent 55% 58%, #000 61% 86%, transparent 100%);
+  mask: linear-gradient(90deg, transparent 0, #000 8% 21%, transparent 24% 29%, #000 33% 52%, transparent 55% 58%, #000 61% 86%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0, rgba(98, 54, 36, .7) 18%, #8d8f8a 40%, #a3a59f 52%, #7f817c 64%, rgba(98, 54, 36, .7) 82%, transparent 100%); }
+.w1 { left: 4%; width: 17%; top: calc(var(--rim) * -.56); transform: rotate(-.4deg); }
+.w2 { left: calc(var(--rim) * -.56); top: 8%; width: calc(var(--rim) * .22); height: 14%; border-radius: 50%; -webkit-mask: linear-gradient(180deg, transparent 0, #000 10% 30%, transparent 34% 40%, #000 44% 80%, transparent 100%); mask: linear-gradient(180deg, transparent 0, #000 10% 30%, transparent 34% 40%, #000 44% 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0, rgba(98, 54, 36, .7) 18%, #8d8f8a 40%, #a3a59f 52%, #7f817c 64%, rgba(98, 54, 36, .7) 82%, transparent 100%); }
+.w3 { left: 70%; width: 9%; top: calc(100% + var(--rim) * .3); opacity: .55; }
+/* Dust settled on the ledge under the ring, thicker in the middle. */
+.dust { left: calc(var(--side) - 6px); right: calc(var(--side) - 6px); top: calc(100% - var(--bot) - 3px); height: 9px;
+  background: radial-gradient(50% 100% at 50% 0%, rgba(176, 160, 124, .38), rgba(150, 136, 104, .16) 60%, transparent 100%); filter: blur(.4px); }
+/* Scuffs on the vinyl. */
+.scuff { width: clamp(40px, 3.4vw, 70px); height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 246, 230, .2) 30%, rgba(255, 246, 230, .08) 70%, transparent);
+  box-shadow: 4px 3px 0 0 rgba(255, 246, 230, .06); }
 .u1 { left: calc(100% - var(--side) * .82); top: 82%; transform: rotate(-14deg); }
 .u2 { left: calc(var(--side) * .12); top: 34%; transform: rotate(9deg); width: clamp(26px, 2.2vw, 46px); }
-/* A scratch on the glass, along its left edge, clear of the text. */
+/* A fine scratch on the glass, along its left edge, clear of the text. */
 .scratch { left: calc(var(--side) + var(--lip) + var(--tray) + 5px); top: calc(var(--top) + 62%); width: 18px; height: clamp(40px, 6vh, 70px);
   background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 60' preserveAspectRatio='none'><path d='M4 1 C 7 18, 9 34, 13 59' stroke='%23d8e8e0' stroke-opacity='.16' stroke-width='.6' fill='none'/><path d='M7 24 C 8 30, 9 35, 10 39' stroke='%23d8e8e0' stroke-opacity='.12' stroke-width='.5' fill='none'/></svg>") 0 0 / 100% 100% no-repeat; }
-.knob { box-shadow: 0 0 0 1px rgba(0, 0, 0, .6), 2px 4px 7px rgba(0, 0, 0, .55), 0 0 calc(var(--k) * .3) calc(var(--k) * .08) rgba(24, 18, 10, .45), inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -2px 3px rgba(0, 0, 0, .35); }
+/* Knobs: grime packed round the collar, dust on its top edge. */
+.knob { box-shadow: 0 0 0 1px rgba(0, 0, 0, .6), 0 -1px 0 2px rgba(170, 156, 122, .22), 2px 4px 7px rgba(0, 0, 0, .55), 0 0 calc(var(--k) * .32) calc(var(--k) * .1) rgba(20, 15, 8, .55), inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -2px 3px rgba(0, 0, 0, .35); }
+.screw { box-shadow: 0 0 0 1px rgba(0, 0, 0, .6), 0 0 0 3px rgba(40, 28, 16, .35), 0 1px 1px rgba(255, 240, 220, .12); }
+/* The ring and the tray: dust caught along the bottom of the recess. */
+.tray { background: linear-gradient(0deg, rgba(150, 138, 108, .32), transparent 22%), linear-gradient(180deg, #1a1a18, #0c0c0b); }
 
-/* Stickers: 1950s corporate, navy and yellow, faded and worn. */
-.stk { position: absolute; display: flex; flex-direction: column; font-family: Futura, "Century Gothic", "Avenir Next", "Trebuchet MS", var(--sans); text-transform: uppercase; line-height: 1;
-  filter: saturate(.78) brightness(.9); }
-.stk::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+/* Stickers: printed paper, aged with the casing. The outer box casts the lifted corner's shadow;
+   the inner one is the paper, torn and missing a piece, its inks faded and yellowed, creased,
+   grimy at the edges, scratched, and thin enough for the vinyl's grain to show through. */
+.stk { position: absolute; filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, .4)); }
+.stk-in { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden;
+  font-family: Futura, "Century Gothic", "Avenir Next", "Trebuchet MS", var(--sans); text-transform: uppercase; line-height: 1; }
+.stk-in > * { position: relative; z-index: 1; opacity: .82; }
+.stk-in::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
   background:
-    radial-gradient(120% 90% at 0% 0%, rgba(255, 250, 235, .12), transparent 55%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='w'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .95  0 0 0 0 .92  0 0 0 0 .84  0 0 0 2.2 -1.45'/></filter><rect width='100%25' height='100%25' filter='url(%23w)'/></svg>"),
-    linear-gradient(118deg, transparent 47%, rgba(255, 250, 235, .22) 47.5% 48%, transparent 48.5%); }
-/* Inspection sticker, bottom-left, cropped by the edge of the casing. */
+    linear-gradient(112deg, transparent 58%, rgba(255, 250, 235, .22) 58.4% 58.8%, rgba(20, 14, 6, .25) 59.2% 59.8%, transparent 60.4%),
+    linear-gradient(74deg, transparent 30%, rgba(255, 250, 235, .14) 30.4%, rgba(20, 14, 6, .2) 31%, transparent 31.8%),
+    linear-gradient(162deg, transparent 47%, rgba(255, 252, 240, .3) 47.3%, transparent 47.9%),
+    radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(48, 34, 16, .55) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .15  0 0 0 0 .08  0 0 0 2.4 -1.25'/></filter><rect width='100%25' height='100%25' filter='url(%23g)'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='p' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='7' stitchTiles='stitch' result='n'/><feDiffuseLighting in='n' surfaceScale='1.6' diffuseConstant='1' lighting-color='%23fff' result='l'><feDistantLight azimuth='225' elevation='52'/></feDiffuseLighting><feColorMatrix in='l' values='0 0 0 0 1  0 0 0 0 .96  0 0 0 0 .9  .5 0 0 0 -.3'/></filter><rect width='100%25' height='100%25' filter='url(%23p)'/></svg>"),
+    linear-gradient(rgba(176, 140, 64, .28), rgba(150, 118, 52, .34)); }
+/* The inspection sticker, at the bottom-left corner, running off the edge of the casing. */
 .stk-qa { --w: min(calc(var(--rim) + var(--side) * .85 + 22px), 190px);
-  width: var(--w); height: calc(var(--w) * .66); left: calc(var(--rim) * -1 - 22px); top: calc(100% - var(--w) * .5 + var(--rim) * .55);
-  transform: rotate(-8deg); padding: calc(var(--w) * .07) calc(var(--w) * .08) 0 calc(var(--w) * .2); gap: calc(var(--w) * .035);
-  background: #213f74; border-radius: calc(var(--w) * .06); box-shadow: inset 0 0 0 calc(var(--w) * .022) #213f74, inset 0 0 0 calc(var(--w) * .04) #e8bd3a, 1px 2px 3px rgba(0, 0, 0, .45);
-  color: #f0c63e; font-weight: 700; }
-.q-top { font-size: calc(var(--w) * .07); letter-spacing: .2em; opacity: .9; }
+  width: var(--w); height: calc(var(--w) * .66); left: calc(var(--rim) * -1 - 22px); top: calc(100% - var(--w) * .5 + var(--rim) * .55); transform: rotate(-8deg); }
+.stk-qa .stk-in { padding: calc(var(--w) * .07) calc(var(--w) * .08) 0 calc(var(--w) * .2); gap: calc(var(--w) * .035);
+  background: #34496a; color: #d8b45a; font-weight: 700; border-radius: 3px;
+  box-shadow: inset 0 0 0 calc(var(--w) * .022) #34496a, inset 0 0 0 calc(var(--w) * .038) rgba(214, 178, 88, .7);
+  /* Torn along the top right, a piece missing from the top edge. */
+  clip-path: polygon(0 4%, 38% 2%, 44% 0, 52% 9%, 58% 6%, 63% 14%, 70% 7%, 78% 9%, 86% 3%, 93% 8%, 100% 14%, 98% 38%, 100% 62%, 97% 100%, 0 100%); }
+.q-top { font-size: calc(var(--w) * .07); letter-spacing: .2em; }
 .q-big { font-size: calc(var(--w) * .145); font-style: italic; letter-spacing: .02em; }
 .q-row { display: flex; align-items: center; gap: calc(var(--w) * .04); font-size: calc(var(--w) * .052); letter-spacing: .08em; line-height: 1.25; font-weight: 500; }
-.q-mark { flex: none; width: calc(var(--w) * .12); height: calc(var(--w) * .12); border-radius: 50%; background: #f0c63e; position: relative; }
-.q-mark::after { content: ""; position: absolute; left: 30%; top: 18%; width: 26%; height: 46%; border: solid #213f74; border-width: 0 calc(var(--w) * .018) calc(var(--w) * .018) 0; transform: rotate(40deg); }
-/* Asset tag on the bottom strip, its corner peeling back. */
+.q-mark { flex: none; width: calc(var(--w) * .12); height: calc(var(--w) * .12); border-radius: 50%; background: #d8b45a; position: relative; }
+.q-mark::after { content: ""; position: absolute; left: 30%; top: 18%; width: 26%; height: 46%; border: solid #34496a; border-width: 0 calc(var(--w) * .018) calc(var(--w) * .018) 0; transform: rotate(40deg); }
+/* The asset tag on the bottom strip: its top-right corner lifted, catching the light, shadow under it. */
 .stk-tag { --h: clamp(24px, calc(var(--bot) - 18px), 46px); --w: calc(var(--h) * 3.6); width: var(--w); height: var(--h);
-  left: calc(100% - var(--side) - var(--lip) - var(--w) - 14px); top: calc(100% - var(--bot) / 2 - var(--h) / 2); transform: rotate(1.5deg);
-  justify-content: center; padding: 0 calc(var(--h) * .3); gap: calc(var(--h) * .1); background: #e2b93c; color: #1f3561; font-weight: 700;
-  clip-path: polygon(0 0, calc(100% - var(--h) * .42) 0, 100% calc(var(--h) * .42), 100% 100%, 0 100%); box-shadow: inset 0 0 0 1px rgba(31, 53, 97, .55); }
-.stk-tag::before { content: ""; position: absolute; right: 0; top: 0; width: calc(var(--h) * .42); height: calc(var(--h) * .42);
-  background: linear-gradient(225deg, transparent 50%, #efe6cc 50%, #d8ceb2); filter: drop-shadow(-1px 1px 1px rgba(0, 0, 0, .45)); }
+  left: calc(100% - var(--side) - var(--lip) - var(--w) - 14px); top: calc(100% - var(--bot) / 2 - var(--h) / 2); transform: rotate(1.5deg); }
+.stk-tag .stk-in { justify-content: center; padding: 0 calc(var(--h) * .3); gap: calc(var(--h) * .1); background: #c9a64a; color: #2c3c5c; font-weight: 700;
+  clip-path: polygon(0 3%, 60% 0, 100% 2%, 100% 100%, 54% 97%, 47% 100%, 41% 94%, 0 100%); }
+.stk-tag .stk-in::before { content: ""; position: absolute; z-index: 3; right: 0; top: 0; width: calc(var(--h) * .5); height: calc(var(--h) * .5);
+  background: linear-gradient(225deg, #2a2723 0 50%, #e7dcc0 50%, #cbbf9f 75%, #b6aa8a); box-shadow: -1px 1px 2px rgba(0, 0, 0, .5); }
 .t-top { font-size: calc(var(--h) * .27); letter-spacing: .12em; }
 .t-no { font-size: calc(var(--h) * .25); letter-spacing: .08em; font-weight: 500; }
 @media (max-height: 900px) { .stk-tag { --h: clamp(22px, calc(var(--bot) - 16px), 30px); } }
@@ -278,10 +342,13 @@ html[data-fx="full"] .status { clip-path: var(--status-bow, none); }
 .fx-grain { inset: -8%; opacity: .05; will-change: transform, opacity;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 1.2 -.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
 /* Glass: a soft reflection near the top edge, and the darker curve of the tube at the corners. */
+/* Glass: a convex tube. A soft highlight up and left, a curved reflection band following the bulge,
+   and the falloff to dark towards the corners. */
 .fx-glass { inset: 0; border-radius: inherit;
   background:
-    radial-gradient(ellipse at 30% 15%, rgba(255, 255, 255, .05), transparent 40%),
-    radial-gradient(140% 120% at 50% 50%, transparent 72%, rgba(0, 0, 0, .28) 100%); }
+    radial-gradient(22% 16% at 27% 16%, rgba(255, 255, 255, .07), transparent 70%),
+    radial-gradient(ellipse 150% 115% at 58% 108%, transparent 66%, rgba(255, 255, 255, .03) 69%, rgba(255, 255, 255, .045) 71%, transparent 75%),
+    radial-gradient(130% 125% at 50% 50%, transparent 62%, rgba(0, 0, 0, .34) 88%, rgba(0, 0, 0, .55) 100%); }
 /* Screen change: a quick brightness dip with a band sweeping down. Played by script. */
 .fx-refresh { inset: 0; background: #000; opacity: 0; }
 .fx-sweep { left: 0; right: 0; top: 0; height: 18%; opacity: 0;
@@ -437,7 +504,7 @@ html[data-fx="off"] *, html[data-fx="off"] *::before, html[data-fx="off"] *::aft
 .special { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; }
 .special .fw-l > .opts + .opts { margin-top: 24px; }
 .attrs-h { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; padding: 0 0 12px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
-.attrs-h .step-nav { margin: 0; flex-direction: row-reverse; }
+.attrs-h .step-nav { margin: 0 0 0 auto; }
 .attrs-h .pool { padding-left: 16px; }
 .attrs { list-style: none; display: grid; gap: 4px; margin-top: 0; position: relative; }
 .attrs > li:not(.hl) { position: relative; z-index: 1; }
@@ -525,6 +592,9 @@ html[data-fx="off"] *, html[data-fx="off"] *::before, html[data-fx="off"] *::aft
 .fbody .checks { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0 24px; }
 .fbody .hint { grid-column: 1 / -1; font-size: var(--t-s); color: var(--dim); max-width: 90ch; }
 .sel { display: grid; gap: 4px; min-width: 0; position: relative; }
+.mach { grid-column: span 2; display: grid; gap: 4px; align-content: start; }
+.mach .seg { justify-self: start; }
+.mach .seg button { min-height: 42px; padding: 6px 16px; }
 .sel select {
   appearance: none; -webkit-appearance: none; border: 1px solid var(--line); border-radius: 0; background: transparent;
   padding: 8px 36px 8px 12px; min-height: 44px; font-size: var(--t-s); width: 100%; text-overflow: ellipsis;
@@ -836,7 +906,7 @@ html[data-fx="full"] .tcard.loading .h-hub { animation: reel .7s linear infinite
 #notice { margin: 0 var(--gut) 8px; border: 1px solid var(--ink); background: var(--bg); padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 0 24px; }
 #notice p { flex: 1 1 320px; padding: 4px 0; }
 #notice .nbtns { display: flex; flex-wrap: wrap; gap: 0 24px; }
-.status { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px; padding: 0 var(--gut) 16px; font-size: var(--t-m); font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+.status { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px; padding: 0 var(--gut) 16px; font-size: var(--t-m); font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
 .cell { background: var(--tint); padding: 4px 16px; min-height: 48px; display: flex; align-items: center; gap: 12px; white-space: nowrap; min-width: 0; overflow: hidden; }
 .cell b { font-size: var(--t-l); line-height: 1; }
 .cell .conf { font-size: var(--t-xs); }
@@ -964,14 +1034,12 @@ html[data-fx="full"] .tcard.loading .h-hub { animation: reel .7s linear infinite
   #notice p { flex-basis: 100%; }
   #notice .lnk { min-height: 44px; padding: 4px 0; }
   .countline .lnk { min-height: 44px; }
-  .status { grid-template-columns: auto minmax(0, 1fr) auto; padding: 0 8px 8px; font-size: var(--t-s); }
+  .status { grid-template-columns: auto minmax(0, 1fr); padding: 0 8px 8px; font-size: var(--t-s); }
   .cell { padding: 4px 8px; gap: 8px; min-height: 44px; }
-  .cell .lbl-l { display: none; }
   .cell .lbl-p { font-size: var(--t-xs); }
   .cell b { font-size: var(--t-m); }
   #st-plug .bar { display: none; }
   .seg button { padding: 4px 10px; min-height: 44px; min-width: 44px; font-size: var(--t-xs); }
-  #st-mach { padding: 0 4px; }
   .xbtns { grid-template-columns: 1fr; }
   .setting .opts { grid-template-columns: 1fr; }
 }
@@ -999,6 +1067,7 @@ html[data-fx="full"] .tcard.loading .h-hub { animation: reel .7s linear infinite
 .intro .sp-right .stats { margin-top: 8px; }
 /* The step's own action, right under its options. */
 .step-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; margin-top: 24px; }
+.step-nav .btn.primary { margin-left: auto; }
 .result .step-nav { margin-top: 16px; }
 .result .tally { margin-top: 24px; }
 .step-nav .btn.primary { min-height: 52px; padding: 8px 32px; font-size: var(--t-m); }

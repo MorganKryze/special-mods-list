@@ -1332,7 +1332,8 @@ const titleFor = (name, v) => name === "sp-machine" ? SP_MACHINES[v]?.title : na
 const qcard = (name, v, label) => `<div class="qc" aria-hidden="true"><p class="lbl">${esc(label)}</p><h3 id="qt-${name}">${esc(titleFor(name, v))}</h3><p id="qd-${name}">${esc(descFor(name, v))}</p></div>`;
 const qHead = (i, h) => `<p class="qno">Step ${i + 1} of ${SP_STEPS.length}</p><h2 class="qh" id="sp-h" tabindex="-1">${h}</h2>`;
 // Each step's action sits right under its options, with Back beside it.
-const stepNav = () => `<div class="step-nav"><button class="btn primary" data-sp="next">${spStep < 3 ? `Next: ${esc(SP_STEPS[spStep + 1])}` : "Build my list"}</button><button class="lnk" data-sp="back">${ICON.back}Back</button></div>`;
+// Back on the left, the step's own action on the right.
+const stepNav = () => `<div class="step-nav"><button class="lnk" data-sp="back">${ICON.back}Back</button><button class="btn primary" data-sp="next">${spStep < 3 ? `Next: ${esc(SP_STEPS[spStep + 1])}` : "Build my list"}</button></div>`;
 function introHTML() {
   const kinds = joinAnd([...new Set(PT.map(p => p.kind === "Mac" ? "a Mac" : "a gaming PC"))]);
   const maxOf = arr => arr.filter(Boolean).sort().pop() || "";
@@ -1443,7 +1444,7 @@ function spResultHTML(res) {
   return `<div class="result"><div>
 <p class="qno">Step 5 of 5</p><h2 class="qh" id="sp-h" tabindex="-1">${plural(n, "mod")}, ready to load</h2>
 <p>${num(res.chosen.size)} from your answers${added ? `, ${num(added)} requirements and patches added for you` : ""}. Costs are ${esc(res.mc.col === "perf" ? "the base M3 Mac ratings" : "the gaming PC ratings, estimated so far")}.</p>
-<div class="step-nav"><button class="btn primary" data-sp="use">Use this list</button><button class="lnk" data-sp="back">${ICON.back}Change answers</button><button class="lnk" data-sp="copy">Copy sheet link</button></div>
+<div class="step-nav"><button class="lnk" data-sp="back">${ICON.back}Change answers</button><button class="lnk" data-sp="copy">Copy sheet link</button><button class="btn primary" data-sp="use">Use this list</button></div>
 <p class="small dim" style="margin-top:8px">This replaces your current list. You can undo it.</p>
 <dl class="tally">
 ${row("Mods", num(n))}

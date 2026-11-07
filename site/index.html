@@ -19,15 +19,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="app.css?v=10">
+<link rel="stylesheet" href="app.css?v=12">
 </head>
 <body>
 <a class="skip" id="skip" href="#panels">Skip to content</a>
 <div class="bezel">
 <div class="face">
 <div class="device" aria-hidden="true"><i class="screw s1"></i><i class="screw s2"></i><i class="screw s3"></i><i class="screw s4"></i><i class="plate"><b></b></i><i class="knob k1"></i><i class="knob k2"></i><i class="vent"></i><i class="slot"></i><i class="chip c1"></i><i class="chip c2"></i><i class="chip c3"></i><i class="chip c4"></i><i class="chip c5"></i><i class="scuff u1"></i><i class="scuff u2"></i><i class="scratch"></i>
-<div class="stk stk-qa"><span class="q-top">Vault-Tec</span><span class="q-big">Inspected</span><span class="q-row"><span class="q-mark"></span><span>Quality assurance<br>Dept. 111 · Passed</span></span></div>
-<div class="stk stk-tag"><span class="t-top">Property of Vault-Tec</span><span class="t-no">Asset № 2077-0111</span></div></div>
+<i class="rust r1"></i><i class="rust r2"></i><i class="rust r3"></i><i class="rust r4"></i><i class="rust r5"></i><i class="dust"></i><i class="worn w1"></i><i class="worn w2"></i><i class="worn w3"></i><i class="chip c6"></i><i class="chip c7"></i><i class="chip c8"></i>
+<div class="stk stk-qa"><div class="stk-in"><span class="q-top">Vault-Tec</span><span class="q-big">Inspected</span><span class="q-row"><span class="q-mark"></span><span>Quality assurance<br>Dept. 111 · Passed</span></span></div></div>
+<div class="stk stk-tag"><div class="stk-in"><span class="t-top">Property of Vault-Tec</span><span class="t-no">Asset № 2077-0111</span></div></div></div>
 <div class="frame">
 <div class="tray">
 <div class="screen" id="screen">
@@ -67,6 +68,7 @@
             <button class="btn fbtn" id="filters-btn" aria-controls="fbody" aria-expanded="false">Filters</button>
           </div>
           <div class="fbody" id="fbody">
+            <div class="mach" role="group" aria-labelledby="mach-l"><span class="lbl" id="mach-l">Show costs for</span><span class="seg"><button data-machine="mac" aria-pressed="true">Base Mac</button><button data-machine="pc" aria-pressed="false">Gaming PC</button></span></div>
             <label class="sel"><span class="lbl">Tier</span><select id="f-tier">
               <option value="default">Core to optional</option><option value="core">Core only</option><option value="recommended">Recommended only</option><option value="optional">Optional only</option><option value="avoid">Avoid only</option><option value="all">Every tier</option><option value="custom" hidden>Custom</option>
             </select></label>
@@ -181,7 +183,7 @@
             <h2 class="h3" id="settings-h">Screen</h2>
             <div class="setting"><fieldset class="opts swatches" id="phosphor"><legend class="lbl">Colour</legend></fieldset></div>
             <div class="setting"><fieldset class="opts" id="fx-set"><legend class="lbl">Effects</legend></fieldset><p class="small">Full: the tube's curve, scan band, grain and screen refresh. Reduced: no movement and straight lines. Off: a plain screen.</p></div>
-            <div class="setting"><fieldset class="opts" id="snd-set"><legend class="lbl">Sound</legend></fieldset><p class="small">Clicks, chirps, terminal keys, the holotape deck and a faint tube hum, in the spirit of the game's terminals. Synthesised in your browser: no recording is used and nothing is downloaded.</p></div>
+            <div class="setting"><fieldset class="opts" id="snd-set"><legend class="lbl">Sound</legend></fieldset><p class="small">A soft tick when you move through lists and tabs, and a soft click when you confirm. Made in your browser: no recording is used and nothing is downloaded.</p></div>
             <h2 class="h3">Links</h2>
             <ul class="links">
               <li><a href="https://github.com/MorganKryze/special-mods-list/tree/main/data">The data: mods.csv, nexus.json, playthroughs.json</a></li>
@@ -200,7 +202,6 @@
   <footer class="status" aria-label="Status">
     <div class="cell" id="st-mods"><b class="roll" id="st-n">0</b><span><span id="st-nl">mods</span><span class="vh"> in your list</span></span><span class="conf bad" id="st-conf" hidden></span></div>
     <div class="cell" id="st-plug"><span class="lbl-p">Plugins</span> <span><b class="roll" id="st-full">0</b>/254</span><span class="bar" aria-hidden="true"><i id="st-bar" style="width:0"></i><i class="est" id="st-est" style="left:2px;width:0"></i></span></div>
-    <div class="cell" id="st-mach" role="group" aria-label="Show costs for"><span class="lbl-l" aria-hidden="true">Costs for</span><span class="seg"><button data-machine="mac" aria-pressed="true">Mac</button><button data-machine="pc" aria-pressed="false">PC</button></span></div>
   </footer>
 </div>
   <div class="fx" aria-hidden="true"><div class="fx-band"></div><div class="fx-grain"></div><div class="fx-glass"></div><div class="fx-refresh"></div><div class="fx-sweep"></div></div>
@@ -211,7 +212,7 @@
 </div>
 </div>
 <div id="sr-status" class="vh" role="status"></div>
-<script src="fx.js?v=10"></script>
-<script src="app.js?v=10"></script>
+<script src="fx.js?v=12"></script>
+<script src="app.js?v=12"></script>
 </body>
 </html>

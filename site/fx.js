@@ -30,7 +30,7 @@ const FX = (() => {
     soundOn = !!on;
     try { localStorage.setItem("sml-sound", soundOn ? "on" : "off"); } catch {}
     syncSettings();
-    if (soundOn) { sound("boot"); humOn(true); } else humOn(false);
+    if (soundOn) sound("click");
     if (!quiet) say(`Sound ${soundOn ? "on" : "off"}.`);
   }
   const radio = (name, v, label, on) => `<label class="opt radio"><input type="radio" name="${name}" value="${v}"${on ? " checked" : ""}><span class="bx" aria-hidden="true"></span><span>${label}</span></label>`;
@@ -61,7 +61,7 @@ const FX = (() => {
      the same barrel curve, anti-aliased. Nothing moves; the curve is redrawn only when the screen
      changes size. Text and controls are never resampled: sharp, and clicked where they are seen. */
   // How far a horizontal line at height v (-1 top, 1 bottom) has its middle pushed out, in px.
-  const BOW = h => Math.max(2.5, Math.min(5, h * .0045));
+  const BOW = h => Math.max(8, Math.min(14, h * .0165));
   const bowAt = (v, h) => BOW(h) * v;
   function crtDraw() {
     const scr = q("#screen"); if (!scr) return;
@@ -75,7 +75,8 @@ const FX = (() => {
     const st = q(".status");
     if (st) {
       const r = st.getBoundingClientRect(), s0 = scr.getBoundingClientRect(), w = r.width, h = r.height;
-      const vt = (r.top - s0.top) / H * 2 - 1, vb = (r.bottom - s0.top) / H * 2 - 1, mt = bowAt(vt, H), mb = bowAt(vb, H);
+      // The bar's edges bow less than the lines, so the curve never cuts into its labels.
+      const vt = (r.top - s0.top) / H * 2 - 1, vb = (r.bottom - s0.top) / H * 2 - 1, mt = Math.min(6, bowAt(vt, H)), mb = Math.min(6, bowAt(vb, H));
       // Top edge: ends at 0, middle lowered by its bow. Bottom edge: middle at the box, ends raised by theirs.
       st.style.setProperty("--status-bow", `path("M0 0 Q${w / 2} ${2 * mt} ${w} 0 L${w} ${h - mb} Q${w / 2} ${h + mb} 0 ${h - mb} Z")`);
     }
@@ -88,12 +89,13 @@ const FX = (() => {
     const H = scr.clientHeight, v = (line.getBoundingClientRect().bottom - scr.getBoundingClientRect().top) / H * 2 - 1, m = bowAt(v, H);
     // Ends sit on the line's bottom; the middle rises by the bow. The tab outline meets it in the middle.
     svg.setAttribute("viewBox", `0 0 ${W} ${h}`);
-    svg.querySelector("path").setAttribute("d", `M0 ${h - 1} Q${W / 2} ${h - 1 + 2 * m} ${W} ${h - 1}`);
+    // Half the bow lifts the middle, half lowers the ends, so the line stays clear of the tab labels.
+    svg.querySelector("path").setAttribute("d", `M0 ${h - 1 - m / 2} Q${W / 2} ${h - 1 + 1.5 * m} ${W} ${h - 1 - m / 2}`);
     if (x0 !== undefined) {
       const g1 = svg.querySelector(".g1"), g2 = svg.querySelector(".g2");
       g1.style.x = "-2px"; g1.style.width = (x0 + 2) + "px"; g2.style.x = x1 + "px"; g2.style.width = (W - x1 + 2) + "px";
     }
-    line.style.setProperty("--tl-lift", `${m}px`);
+    line.style.setProperty("--tl-lift", `${m / 2}px`);
   }
   let crtRaf = 0;
   const crtQueue = () => { cancelAnimationFrame(crtRaf); crtRaf = requestAnimationFrame(crtDraw); };
@@ -161,98 +163,51 @@ const FX = (() => {
     setTimeout(() => { card.classList.remove("loading"); done && done(); }, step * (cells.length + 1));
   }
 
-  /* ---------- Sound: Web Audio, off by default ----------
-     Everything is synthesised here; no audio file is used. The voices aim at the character of the
-     Pip-Boy and terminal sounds: a small speaker (band-limited, a presence peak near 2.2 kHz),
-     mechanical clicks made of filtered noise over a low thump, short square-wave chirps, a little
-     static, and a quiet mains hum from the tube while sound is on. */
-  let ctx = null, out = null, noiseBuf = null, hum = null;
+  /* ---------- Sound: off by default, two quiet clicks ----------
+     Only filtered noise, no tone: a tick of about 6 ms for moving through lists and changing tabs, and
+     a slightly fuller click of about 18 ms for confirming. Everything passes a 1.2 kHz high-pass and a
+     7.5 kHz low-pass, and peaks near -24 dBFS. Nothing plays longer than 40 ms.
+     To drop sound entirely: delete this block and the Sound setting; FX.sound() then does nothing. */
+  let ctx = null, out = null, noiseBuf = null;
   function audio() {
     if (!ctx) {
       const A = window.AudioContext || window.webkitAudioContext; if (!A) return null;
       ctx = new A();
-      // The speaker: everything goes through a gentle band-pass with a presence peak.
-      const hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 90;
-      const pk = ctx.createBiquadFilter(); pk.type = "peaking"; pk.frequency.value = 2200; pk.Q.value = .9; pk.gain.value = 5;
-      const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 9000;
-      out = ctx.createGain(); out.gain.value = 1;
-      out.connect(hp).connect(pk).connect(lp).connect(ctx.destination);
-      const n = ctx.sampleRate; noiseBuf = ctx.createBuffer(1, n, n); const d = noiseBuf.getChannelData(0);
+      const hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 1200; hp.Q.value = .7;
+      const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 7500; lp.Q.value = .7;
+      out = ctx.createGain(); out.gain.value = .095; // the click peaks near -24 dBFS, the tick near -27
+      out.connect(hp).connect(lp).connect(ctx.destination);
+      const n = Math.round(ctx.sampleRate * .05); noiseBuf = ctx.createBuffer(1, n, ctx.sampleRate); const d = noiseBuf.getChannelData(0);
       for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
     }
     if (ctx.state === "suspended") ctx.resume();
     return ctx;
   }
-  const env = (g, t, peak, dur, attack = .002) => { g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + attack); g.gain.exponentialRampToValueAtTime(.0001, t + dur); };
-  // Filtered noise burst: the body of a click, a key or static.
-  function burst(at, freq, q, dur, gain, type = "bandpass") {
-    const a = ctx, t = a.currentTime + at, s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
-    s.buffer = noiseBuf; f.type = type; f.frequency.value = freq; f.Q.value = q; env(g, t, gain, dur, .001);
-    s.connect(f).connect(g).connect(out); s.start(t, Math.random() * .8, dur + .05);
+  // A burst of noise through a band-pass, with a fast attack and an exponential decay.
+  function burst(freq, q, dur, level) {
+    const t = ctx.currentTime, s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    s.buffer = noiseBuf; f.type = "bandpass"; f.frequency.value = freq; f.Q.value = q;
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(level, t + .001); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    s.connect(f).connect(g).connect(out); s.start(t, 0, dur + .005);
   }
-  // A tone with an optional glide: chirps, thumps and whines.
-  function tone(at, f0, f1, dur, type, gain, attack = .002) {
-    const a = ctx, t = a.currentTime + at, o = a.createOscillator(), g = a.createGain();
-    o.type = type; o.frequency.setValueAtTime(f0, t); if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
-    env(g, t, gain, dur, attack); o.connect(g).connect(out); o.start(t); o.stop(t + dur + .05);
-  }
-  const r = (a, b) => a + Math.random() * (b - a);
   const VOICES = {
-    // Tab change: the dial's mechanical click, a low thump under it, a breath of static.
-    tab: () => { tone(0, 95, 48, .07, "sine", .11); burst(0, 1800, 1.2, .03, .16); burst(.008, 4600, 2, .014, .06); burst(.01, 3000, .7, .08, .025); },
-    // List move: a short relay tick.
-    row: () => { burst(0, r(2600, 3000), 3, .012, .08); tone(0, 1900, 1900, .008, "triangle", .012); },
-    // Select or confirm: a click and a rising two-step chirp.
-    press: () => { burst(0, 2200, 1.5, .016, .1); tone(.006, 1046, 1318, .045, "square", .016); tone(.05, 1568, 1568, .03, "square", .011); },
-    // Back or cancel: a duller click and a falling chirp.
-    back: () => { burst(0, 1500, 1.5, .016, .09); tone(.006, 784, 523, .07, "square", .015); },
-    // A terminal key: plastic clack with a random pitch, a light thump under it.
-    type: () => { burst(0, r(900, 1500), 4, .02, .11); burst(.002, 3600, 2, .007, .04); tone(0, 190, 120, .022, "sine", .03); },
-    // Text printing on the terminal: a faint high tick per line.
-    char: () => { tone(0, r(3100, 3600), r(3100, 3600), .007, "triangle", .01); },
-    // Holotape in: two clunks, the tape motor, then the data chirps.
-    tape: () => { tone(0, 62, 40, .12, "sine", .13); burst(0, 600, 1, .06, .12); tone(.17, 70, 45, .09, "sine", .1); burst(.17, 900, 1, .04, .1);
-      const a = ctx, t = a.currentTime + .22, o = a.createOscillator(), f = a.createBiquadFilter(), g = a.createGain(), v = a.createOscillator(), vg = a.createGain();
-      o.type = "sawtooth"; o.frequency.value = 72; v.frequency.value = 9; vg.gain.value = 6; v.connect(vg).connect(o.frequency);
-      f.type = "lowpass"; f.frequency.value = 520; env(g, t, .035, .32, .03); o.connect(f).connect(g).connect(out); o.start(t); v.start(t); o.stop(t + .4); v.stop(t + .4);
-      [.56, .61, .66, .74].forEach(d => tone(d, r(1200, 2400), r(1200, 2400), .025, "square", .009)); },
-    // Power on: the relay, static, and the tube's whine rising as it warms.
-    boot: () => { tone(0, 52, 34, .16, "sine", .16); burst(0, 420, 1, .08, .12); burst(.02, 2500, .5, .36, .045); tone(.06, 1800, 7600, .45, "sine", .006, .05); },
+    tick: () => burst(4200, 1.2, .006, .8),
+    click: () => burst(2600, .9, .018, 1),
   };
+  // Older names used by the rest of the site map onto the two voices.
+  const ALIAS = { tab: "tick", row: "tick", back: "tick", press: "click", tape: "click" };
   function sound(kind) {
     if (!soundOn) return;
-    if (!audio() || !VOICES[kind]) return;
-    VOICES[kind]();
+    const v = VOICES[ALIAS[kind] || kind]; if (!v || !audio()) return;
+    v();
   }
-  // The tube's hum while sound is on: mains harmonics and a very faint whine.
-  function humOn(on) {
-    if (on && !hum && ctx && ctx.state !== "closed") {
-      const t = ctx.currentTime, g = ctx.createGain(); g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(1, t + .6); g.connect(out);
-      const parts = [[60, "sine", .010], [120, "sine", .005], [180, "triangle", .002], [7800, "sine", .0005]].map(([f, type, v]) => {
-        const o = ctx.createOscillator(), og = ctx.createGain(); o.type = type; o.frequency.value = f; og.gain.value = v; o.connect(og).connect(g); o.start(); return o; });
-      hum = { g, parts };
-    } else if (!on && hum) {
-      const h = hum, t = ctx.currentTime; hum = null; h.g.gain.cancelScheduledValues(t); h.g.gain.setValueAtTime(h.g.gain.value, t); h.g.gain.exponentialRampToValueAtTime(.0001, t + .25);
-      setTimeout(() => h.parts.forEach(o => o.stop()), 300);
-    }
-  }
-  // The audio context may only start after a gesture: the hum waits for the first one.
-  const wake = () => { if (soundOn && !document.hidden) { audio(); humOn(true); } };
-  ["pointerdown", "keydown"].forEach(e => document.addEventListener(e, wake, { capture: true, passive: true }));
-  document.addEventListener("visibilitychange", () => { if (!ctx) return; if (document.hidden) humOn(false); else wake(); });
-  // Clicks on the controls the game itself makes noise for.
   document.addEventListener("click", e => {
     if (!soundOn) return;
     const t = e.target;
-    if (t.closest(".preset")) return; // the holotape plays its own sound
-    if (t.closest('[data-sp="back"], [data-back], [data-sec=""], [data-clearq], .rm, [data-notice="close"], [data-notice="undo"]')) sound("back");
-    else if (t.closest(".tab, .subtab")) sound("tab");
-    else if (t.closest(".add, .dtoggle, .btn.primary, .door, .sec")) sound("press");
-    else if (t.closest(".row, .opt, .attr")) sound("row");
-    else if (t.closest(".btn, .lnk, .linkid, .seg button, .tcol, details > summary")) sound("press");
+    if (t.closest(".preset")) return; // the holotape plays its own click
+    if (t.closest(".tab, .subtab, .row, .opt, .attr, [data-sp=\"back\"], [data-back], [data-sec=\"\"]")) sound("tick");
+    else if (t.closest(".btn, .add, .door, .sec, .lnk, .linkid, .seg button, .tcol, .rm, details > summary")) sound("click");
   }, true);
-  // Typing in the search field clacks like a terminal keyboard.
-  document.addEventListener("input", e => { if (soundOn && e.target.matches && e.target.matches('input[type="search"]')) sound("type"); }, true);
 
   /* ---------- Boot: once per session, full effects only ---------- */
   let bootData = null, bootTick = null;
@@ -277,9 +232,7 @@ const FX = (() => {
     bootTick = () => box.querySelectorAll("[data-k]").forEach(s => s.textContent = val(s.dataset.k));
     el.hidden = false;
     let i = 0, ended = false;
-    const canPlay = soundOn && navigator.userActivation && navigator.userActivation.hasBeenActive;
-    if (canPlay) sound("boot");
-    const next = () => { if (ended) return; box.insertAdjacentHTML("beforeend", lines[i++]()); if (canPlay) sound("char"); if (i < lines.length) timers.push(setTimeout(next, 115)); else timers.push(setTimeout(end, 220)); };
+    const next = () => { if (ended) return; box.insertAdjacentHTML("beforeend", lines[i++]()); if (i < lines.length) timers.push(setTimeout(next, 115)); else timers.push(setTimeout(end, 220)); };
     const end = fast => {
       if (ended) return; ended = true;
       const k = fast ? .5 : 1;
