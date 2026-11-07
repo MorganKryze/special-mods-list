@@ -17,10 +17,10 @@ Column definitions and allowed values: [data/README.md](../../data/README.md). I
 | --- | --- | --- | --- |
 | [Base: script extender and unofficial patch](base.md) | 7 | 3 | 0 |
 | [Stability and performance](stability.md) | 99 | 4 | 28 |
-| [Interface](interface.md) | 44 | 1 | 19 |
+| [Interface](interface.md) | 47 | 1 | 19 |
 | [Gameplay overhaul and enemies](gameplay.md) | 112 | 0 | 12 |
-| [Brotherhood of Steel](brotherhood.md) | 71 | 0 | 11 |
-| [Minutemen](minutemen.md) | 57 | 0 | 14 |
+| [Brotherhood of Steel](brotherhood.md) | 72 | 0 | 11 |
+| [Minutemen](minutemen.md) | 58 | 0 | 14 |
 | [The Institute](institute.md) | 44 | 0 | 5 |
 | [The Railroad](railroad.md) | 56 | 0 | 12 |
 | [Raiders and hostile factions](raiders.md) | 32 | 0 | 3 |
@@ -28,8 +28,8 @@ Column definitions and allowed values: [data/README.md](../../data/README.md). I
 | [Settlements](settlements.md) | 91 | 0 | 20 |
 | [DLC](dlc.md) | 65 | 0 | 12 |
 | [Quests and locations](quests.md) | 141 | 0 | 44 |
-| [Weapons and armor](weapons-armor.md) | 106 | 0 | 21 |
-| [Immersion and quality of life](immersion.md) | 90 | 0 | 29 |
+| [Weapons and armor](weapons-armor.md) | 108 | 0 | 22 |
+| [Immersion and quality of life](immersion.md) | 91 | 0 | 30 |
 | [Companions](companions.md) | 45 | 0 | 6 |
-| [Visuals: textures, lighting, shaders, LOD](visuals.md) | 27 | 0 | 16 |
+| [Visuals: textures, lighting, shaders, LOD](visuals.md) | 30 | 0 | 18 |
 <!-- END GENERATED -->

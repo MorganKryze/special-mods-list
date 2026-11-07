@@ -24,7 +24,7 @@ NPC names and faces, sound and radio, lockpicking and trading shortcuts, fast tr
 The reference playthrough takes nothing from this page yet. These are light mods that can be added mid-game, so they come in a later batch, measured like the others. The research shortlist for that batch starts with We Have Names (forward Lunar's NPC edits in FO4Edit if they overlap), LOST Audio Tweaks and Get Out Of My Face.
 
 <!-- BEGIN GENERATED: do not edit, run scripts/build_catalog.py -->
-90 mods: 29 recommended, 45 optional, 16 avoid. Plugin slots if you take everything not marked avoid: 1 full.
+91 mods: 30 recommended, 45 optional, 16 avoid. Plugin slots if you take everything not marked avoid: 1 full.
 
 ### Recommended
 
@@ -53,7 +53,8 @@ The reference playthrough takes nothing from this page yet. These are light mods
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/73968/73968-1692299305-102893633.png" width="96" alt=""> | **[Lush Ambience - Far Harbor](https://www.nexusmods.com/fallout4/mods/73968)**<br><sub>by El Ha · v1.1 · updated 2024-05-27 · 831 endorsements · 75.1 MB</sub> | Nature ambient sounds for Far Harbor<br>*Far Harbor companion to Lush Ambience; overlap with LOST Audio Tweaks not checked in xEdit* | `recommended`<br>1.11.240: plugin only | M3 low<br>PC low<br>0 full / 1 light |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/90480/90480-1736015972-185134276.jpeg" width="96" alt=""> | **[NPCs Change Clothes](https://www.nexusmods.com/fallout4/mods/90480)**<br><sub>by DoubleYou · v1.1 · updated 2025-01-11 · 568 endorsements · 0.2 MB</sub> | NPCs wear different clothes after their area resets<br>*1.1; Edits outfit records: load after mods that edit the same outfits; overlap with Lunar outfits to check in xEdit; Exclusive with FO3/NV Outfits SPID* | `recommended`<br>1.11.240: plugin only | M3 low<br>PC low |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/65489/65489-1666805255-230132395.png" width="96" alt=""> | **[Physics Impact Overhaul and Bullet Casing Sounds](https://www.nexusmods.com/fallout4/mods/65489)**<br><sub>by Giammotto · v1.2.5 · updated 2026-05-08 · 1,760 endorsements · 5 KB</sub> | Reworked sounds for physics impacts and spent bullet casings<br>*1.2.5; Authors say to load the impact mods low* | `recommended`<br>1.11.240: plugin only | M3 low<br>PC low<br>0 full / 1 light |  |
-| <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/77346/77346-1704705439-1015904679.jpeg" width="96" alt=""> | **[Project Reality Footsteps - Expansion](https://www.nexusmods.com/fallout4/mods/77346)**<br><sub>by Prime · v1.2 · updated 2026-05-14 · 908 endorsements · 10 KB</sub> | NPC footsteps become audible, so you hear who is coming<br>*1.2; Raises NPC footstep volume to 75%; Load after LOST Audio Tweaks, which already bundles Project Reality Footsteps* | `recommended`<br>1.11.240: plugin only | M3 low<br>PC low<br>0 full / 1 light |  |
+| <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/77346/77346-1704705439-1015904679.jpeg" width="96" alt=""> | **[Project Reality Footsteps - Expansion](https://www.nexusmods.com/fallout4/mods/77346)**<br><sub>by Prime · v1.2 · updated 2026-05-14 · 908 endorsements · 10 KB</sub> | NPC footsteps become audible, so you hear who is coming<br>*1.2; Raises NPC footstep volume to 75%; Load after LOST Audio Tweaks, which already bundles Project Reality Footsteps; Needs Project Reality Footsteps FO4 as its base (found at install, 2026-11-07)* | `recommended`<br>1.11.240: plugin only | M3 low<br>PC low<br>0 full / 1 light | needs: Project Reality Footsteps FO4 |
+|  | **[Project Reality Footsteps FO4](https://www.nexusmods.com/fallout4/mods/35904)**<br><sub></sub> | Reworked footstep sounds by surface<br>*Base of Project Reality Footsteps - Expansion, found missing at install; PC playthrough: installed and tested on 1.11.240 (F4SE 0.7.9, Proton 11.0-2) on 2026-11-07* | `recommended`<br>1.11.240: plugin only | M3 ?<br>PC low |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/2819-0-1448494785.jpg" width="96" alt=""> | **[Quieter Settlements](https://www.nexusmods.com/fallout4/mods/2819)**<br><sub>by Lemures · v0.30 · updated 2016-06-25 · 70,439 endorsements · 1.0 MB</sub> | Generators, turrets and other workshop machines become less tiring to listen to<br>*0.31; Replacement sound files only, no plugin; LOST Audio Tweaks is not thought to touch these sounds (not verified)* | `recommended`<br>1.11.240: plugin only | M3 low<br>PC low |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/107194/107194-1784672954-52918445.png" width="96" alt=""> | **[Random Encounter Cell Reset Fix](https://www.nexusmods.com/fallout4/mods/107194)**<br><sub>by Glitchfinder · v1.00 · updated 2026-09-07 · 185 endorsements</sub> | Makes every RE spawn point ignore cell resets so encounters cannot stack on the same spot<br>*1.00 (2026-09-07) by Glitchfinder, ESL, safe mid-game; Fixes all Far Harbor and Nuka-World points and three base-game ones; Preventive only* | `recommended`<br>1.11.240: plugin only | M3 low<br>PC low<br>0 full / 1 light |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/59322/59322-1648984282-1137153513.jpeg" width="96" alt=""> | **[Running Breathing](https://www.nexusmods.com/fallout4/mods/59322)**<br><sub>by Elzee · v1.2.0 · updated 2022-10-27 · 3,489 endorsements · 96 KB</sub> | You hear your character breathe hard while running<br>*By Elzee, 2022; Small scripts; plugin count not read* | `recommended`<br>1.11.240: plugin only | M3 ?<br>PC low<br>scripts light |  |
@@ -148,6 +149,8 @@ graph LR
   lost_audio_tweaks_prp_patch["LOST Audio Tweaks - PRP Patch"]
   mcm["Mod Configuration Menu"]
   npcs_travel["NPCs Travel"]
+  prf_footsteps["Project Reality Footsteps FO4"]
+  prf_footsteps_expansion["Project Reality Footsteps - Expansion"]
   protected_unique_npcs["Protected Unique NPCs, Traders and Merchants"]
   radium["Radium"]
   radium_esl_plugin["Faded Glory and Radium ESL plugin"]
@@ -173,6 +176,7 @@ graph LR
   simple_wait_anywhere --> mcm
   story_encounter_booster --> random_encounter_framework
   full_body_first_person --> f4se
+  prf_footsteps_expansion --> prf_footsteps
   radium_esl_plugin --> radium
   true_first_person --> f4se
   true_first_person --> address_library

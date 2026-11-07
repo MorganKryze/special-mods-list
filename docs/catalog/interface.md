@@ -27,7 +27,7 @@ Menus, HUD, dialogue, item sorting and map markers. Interface mods split into Sc
 The reference playthrough takes Mod Configuration Menu, Extended Dialogue Interface for full dialogue lines, HUDFramework, FallUI - HUD, FallUI - Inventory, FallUI - Map and Ultra Wide Interface (21x9) for a 3440x1440 display. We have not added an item sorter: Complex Item Sorter has to be re-run after every load-order change, and FO4Edit under CrossOver is untested.
 
 <!-- BEGIN GENERATED: do not edit, run scripts/build_catalog.py -->
-44 mods: 1 core, 19 recommended, 14 optional, 10 avoid. Plugin slots if you take everything not marked avoid: 1 full.
+47 mods: 1 core, 19 recommended, 17 optional, 10 avoid. Plugin slots if you take everything not marked avoid: 1 full.
 
 ### Core
 
@@ -67,13 +67,16 @@ The reference playthrough takes Mod Configuration Menu, Extended Dialogue Interf
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/29905/29905-1519283834-1618941735.png" width="96" alt=""> | **[Custom Camera](https://www.nexusmods.com/fallout4/mods/29905)**<br><sub>by Qudix · v0.5.5 · updated 2026-09-10 · 10,905 endorsements · 4.6 MB</sub> | MCM-configurable third-person camera<br>*In 7 of 24 Wabbajack lists (2026-10); Gap audit 2026-10-29* | `optional`<br>1.11.240: yes<br>F4SE DLL | M3 low<br>PC low | needs: Fallout 4 Script Extender, Address Library, Mod Configuration Menu |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/66690/66690-1670188973-1884003310.png" width="96" alt=""> | **[Favorites Menu Ex](https://www.nexusmods.com/fallout4/mods/66690)**<br><sub>by Neanka · v1.11.240 · updated 2026-09-06 · 2,517 endorsements · 0.2 MB</sub> | New Vegas companion-wheel style favourites menu<br>*In 2 of 24 Wabbajack lists (2026-10); Gap audit 2026-10-29* | `optional`<br>1.11.240: yes<br>F4SE DLL | M3 low<br>PC low | needs: Fallout 4 Script Extender |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/95776/95776-1754927191-499502336.png" width="96" alt=""> | **[Friendly NPCs On Compass](https://www.nexusmods.com/fallout4/mods/95776)**<br><sub>by shavkcagarikia · v1.03 · updated 2026-08-29 · 88 endorsements · 0.2 MB</sub> | FO3/NV-style NPC compass dots by Perception | `optional`<br>1.11.240: yes<br>F4SE DLL | M3 low<br>PC low |  |
-| <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/12631-0-1461987661.png" width="96" alt=""> | **[LooksMenu](https://www.nexusmods.com/fallout4/mods/12631)**<br><sub>by Expired6978 · v1.7.0.4 · updated 2026-09-01 · 153,759 endorsements · 0.5 MB</sub> | Character appearance editor<br>*Page shows 1.7.0.4 (2026-09-01) but the file text still says F4SE 0.7.8 / 1.11.221; does not use Address Library; Verify in f4se.log and with 'slm 14' before relying on it* | `optional`<br>1.11.240: unknown<br>F4SE DLL | M3 ?<br>PC ? |  |
+| <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/12631-0-1461987661.png" width="96" alt=""> | **[LooksMenu](https://www.nexusmods.com/fallout4/mods/12631)**<br><sub>by Expired6978 · v1.7.0.4 · updated 2026-09-01 · 153,759 endorsements · 0.5 MB</sub> | Character appearance editor<br>*Page shows 1.7.0.4 (2026-09-01) but the file text still says F4SE 0.7.8 / 1.11.221; does not use Address Library; Verify in f4se.log and with 'slm 14' before relying on it; PC playthrough, 2026-11-07: f4ee.dll loaded correctly in f4se.log on 1.11.240 despite the 1.11.221 file text* | `optional`<br>1.11.240: unknown<br>F4SE DLL | M3 ?<br>PC ? | needs: Fallout 4 Script Extender |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/108530/108530-1788297155-1323753287.png" width="96" alt=""> | **[Mod Configuration Menu - RD](https://www.nexusmods.com/fallout4/mods/108530)**<br><sub>by Zzyxzz · v1.3.0 · updated 2026-09-26 · 846 endorsements · 0.6 MB</sub> | Runtime Database build of the MCM plugin, needed by Inertia<br>*1.3.0 (2026-09-26); Only needed for Inertia or Bastion; replaces the MCM DLL; PC playthrough: shares the Runtime Database test gate* | `optional`<br>1.11.240: yes<br>F4SE DLL | M3 ?<br>PC low | needs: Mod Configuration Menu, Fallout 4 Script Extender, Runtime Database |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/29568-0-1517429779.png" width="96" alt=""> | **[PipboyTabs](https://www.nexusmods.com/fallout4/mods/29568)**<br><sub>by Neanka · v1.11.240 · updated 2026-09-06 · 6,853 endorsements · 0.2 MB</sub> | Framework that adds new tabs to the Pip-Boy<br>*File names 1.11.240; Install only as a dependency* | `optional`<br>1.11.240: yes<br>F4SE DLL | M3 ?<br>PC ? |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/22105-0-1487376052.jpg" width="96" alt=""> | **[Rename Anything](https://www.nexusmods.com/fallout4/mods/22105)**<br><sub>by registrator2000 · v1.11.240 · updated 2026-09-06 · 10,896 endorsements · 0.2 MB</sub> | Rename items and objects in inventory or the world<br>*In 5 of 24 Wabbajack lists (2026-10); Gap audit 2026-10-29* | `optional`<br>1.11.240: yes<br>F4SE DLL | M3 low<br>PC low | needs: Fallout 4 Script Extender |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/109243/109243-1789895090-1403573467.png" width="96" alt=""> | **[Smart Selection](https://www.nexusmods.com/fallout4/mods/109243)**<br><sub>by Zzyxzz · v1.3.3 · updated 2026-09-30 · 337 endorsements · 0.4 MB</sub> | Better object targeting with target cycling and outline<br>*1.3.3 (2026-09-30), 'OG, NG and AE'; 1.11.240 inferred from release date; Too new to rely on* | `optional`<br>1.11.240: unknown<br>F4SE DLL | M3 low<br>PC low |  |
+|  | **[powerofthree's Photo Mode](https://www.nexusmods.com/fallout4/mods/88106)**<br><sub></sub> | Free camera photo mode with poses, filters and time freeze<br>*AE 2.1.4 file is for 1.11.159 and later; PC playthrough: installed and tested on 1.11.240 (F4SE 0.7.9, Proton 11.0-2) on 2026-11-07: DLL loaded correctly in f4se.log* | `optional`<br>1.11.240: yes<br>F4SE DLL | M3 ?<br>PC low | needs: Fallout 4 Script Extender |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/54908/54908-1645824439-1689326934.jpeg" width="96" alt=""> | **[Companion Command Menu Overhaul](https://www.nexusmods.com/fallout4/mods/54908)**<br><sub>by Aigni · v2.2 · updated 2025-12-03 · 668 endorsements · 2.0 MB</sub> | XDI-style companion command wheel<br>*Replaces MultiActivateMenu.swf; XDI uses another swf (probably fine, unverified)* | `optional`<br>1.11.240: plugin only | M3 low<br>PC low |  |
+|  | **[FOV Slider and Player Height](https://www.nexusmods.com/fallout4/mods/36768)**<br><sub></sub> | Sets field of view and player height from a menu<br>*2.3; PC playthrough: installed and tested on 1.11.240 (F4SE 0.7.9, Proton 11.0-2) on 2026-11-07; Useful at 21:9, where the default field of view feels narrow* | `optional`<br>1.11.240: unknown | M3 ?<br>PC low |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/29969/29969-1776717620-2076796325.jpg" width="96" alt=""> | **[HoloHUD for Power Armor](https://www.nexusmods.com/fallout4/mods/29969)**<br><sub>by Doppeltganger · v2.22 · updated 2026-06-17 · 8,235 endorsements · 0.3 MB</sub> | Holographic power armor gauges without visor fog or rain drops<br>*Alternative to paHUD: pick one* | `optional`<br>1.11.240: plugin only | M3 low<br>PC low | conflicts: Power Armor HUD - paHUD |
+|  | **[No Bethesda and S.P.E.C.I.A.L Intro](https://www.nexusmods.com/fallout4/mods/361)**<br><sub></sub> | Skips the Bethesda logo and the S.P.E.C.I.A.L. intro video at start-up<br>*PC playthrough: installed and tested on 1.11.240 (F4SE 0.7.9, Proton 11.0-2) on 2026-11-07* | `optional`<br>1.11.240: unknown | M3 ?<br>PC low |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/20401/20401-1535598868-1743879217.jpeg" width="96" alt=""> | **[Radiant Quest Marker](https://www.nexusmods.com/fallout4/mods/20401)**<br><sub>by SilentNightxxx · v2.2 · updated 2019-11-14 · 704 endorsements · 0.7 MB</sub> | Map markers for radiant quest targets<br>*2019, untested* | `optional`<br>1.11.240: plugin only | M3 ?<br>PC ? |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/64009/64009-1691697787-381423693.png" width="96" alt=""> | **[Unused Map Markers](https://www.nexusmods.com/fallout4/mods/64009)**<br><sub>by Crash · v1.0 · updated 2022-09-05 · 1,253 endorsements · 17 KB</sub> | Restores 50+ cut map markers<br>*Probable overlap with CMM: pick one* | `optional`<br>1.11.240: plugin only | M3 ?<br>PC low<br>0 full / 1 light |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/51307/51307-1618032771-317695554.jpeg" width="96" alt=""> | **[4estGimp CS Enhancements](https://www.nexusmods.com/fallout4/mods/51307)**<br><sub>by 4estGimp · v2.8.1 · updated 2025-07-04 · 3,697 endorsements · 1.4 MB</sub> | Extra rules and icons for Complex Item Sorter<br>*2.8.2 (2025-07); Needs the CS 1.13 beta and xEdit 4.1.5f; take the No-AWKCR build; Power users* | `optional`<br>1.11.240: plugin only | M3 low<br>PC low | needs: Complex Item Sorter, FO4Edit |
@@ -114,11 +117,13 @@ graph LR
   full_dialogue_interface["Full Dialogue Interface"]
   hudframework["HUDFramework"]
   ihud["Immersive HUD - iHUD"]
+  looksmenu["LooksMenu"]
   mcm["Mod Configuration Menu"]
   mcm_booster["MCM Booster"]
   mcm_rd["Mod Configuration Menu - RD"]
   mcm_settings_manager["MCM Settings Manager"]
   pahud["Power Armor HUD - paHUD"]
+  photo_mode["powerofthree's Photo Mode"]
   rename_anything["Rename Anything"]
   runtime_database["Runtime Database"]
   xdi["Extended Dialogue Interface"]
@@ -140,11 +145,13 @@ graph LR
   custom_camera --> address_library
   custom_camera --> mcm
   favorites_menu_ex --> f4se
+  looksmenu --> f4se
   rename_anything --> f4se
   fdi_lookup_failed_fix --> full_dialogue_interface
   ihud --> hudframework
   mcm_rd --> mcm
   mcm_rd --> f4se
   mcm_rd --> runtime_database
+  photo_mode --> f4se
 ```
 <!-- END GENERATED -->
