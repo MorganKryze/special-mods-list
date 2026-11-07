@@ -102,6 +102,7 @@ The first launch of the playthrough, the same day, led to these changes. The pro
 | Removed | Classic Holstered Weapons | Duplicate of Visible Favorites |
 | Removed | Unused Map Markers | Duplicate of Cartographers Map Markers. No plugin depends on it, so removing it from an ongoing save only triggers the missing plugin warning |
 | Moved before `prp.esp` | Better Landscape Grass, Vivid Fallout - All in One 2K, Vivid Fallout LOD, Valius 2K, Lightweight Lighting, Fallout 4 Particle Patch, Gloomy Glass, Base Face, This Made My Spline Stiff, Terrain Freckles Be Gone, Targeted Textures | See the load-order rule below |
+| Removed (2026-11-08) | Hunkered Down - Commonwealth Overhaul and its PRP patch | Its PRP patch rewrote 480 cells and overlapped The Rooftops (90 cells), Subway Runner - Revival (18, 9 of them in Concord), 3DNPC ExoEm (19) and Immersive Lexington (9). The mod only dresses 30+ locations (shelters, insulation, fewer unattended fires), no scripts or quests, so it left the ongoing save without trouble |
 
 #### Load-order rule: cell overrides go before PRP
 
@@ -126,14 +127,14 @@ The PRP patches that load after PRP were each built for one mod. Where two of th
 | Immersive And Extended Lexington and The Rooftops | 9 |
 | Subway Runner - Revival and The Rooftops | 9 |
 
-In Concord, objects disappear depending on the view angle. The cause is not confirmed yet; the overlap between the Hunkered Down and Subway Runner - Revival patches is the lead. No fix has been made.
+In Concord, objects disappeared depending on the view angle. The lead was the overlap between the Hunkered Down and Subway Runner - Revival patches; Hunkered Down was removed on 2026-11-08, after which no PRP patch overlap is left in Concord (re-checked with the plugin reader). In-game confirmation pending. Overlaps still present: Diamond City (Diamond City Expansion PRP patch, DiamondCity-PreVis and DiamondCity-PreVis-Ambience, 18-19 cells) and The Rooftops with Immersive Lexington (9), Subway Runner (9) and 3DNPC ExoEm (18).
 
 ### Still to do
 
 - Object LOD: FOLIP and the LOD resources are installed, but xLODGen has not been run yet.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
 - The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
-- The overlapping PRP patches: confirm what makes objects disappear in Concord.
+- Concord: confirm in game that objects no longer disappear after Hunkered Down's removal.
 - FIS - FallUI Item Sorter and its icon mods, with the Complex Item Sorter xEdit run at the same time as xLODGen.
 
 ## What changes from the macOS playthrough
