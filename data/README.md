@@ -85,4 +85,4 @@ Keyed by Nexus mod ID. Generated: do not edit by hand.
 
 ## `playthroughs.json`
 
-A list of objects: `id` (used in the `playthroughs` column), `title`, `machine` it was built for, `summary`, `doc` (write-up URL, may be empty) and `status` (`played` or `planned`).
+A list of objects: `id` (used in the `playthroughs` column), `title`, `machine` it was built for, `summary`, `doc` (write-up URL, may be empty) and `status` (`played` or `planned`). `played` also covers a playthrough being played now; its write-up says so.
