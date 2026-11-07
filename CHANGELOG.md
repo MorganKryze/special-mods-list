@@ -21,3 +21,4 @@ All notable changes to this project are documented here. The format follows [Kee
 - The casing is now a drawn Fallout 4 terminal. S.P.E.C.I.A.L. rows use arrows beside each value. MODS opens on a section overview, shows essentials first with folded options, and adds mod pictures (phosphor duotone, original colours on request) and one-line summaries.
 - Worn terminal paint and two Vault-Tec style stickers drawn for the site, redrawn holotapes and a clearer PLAYTHROUGHS page, a barrel curve on the screen's lines, and synthesised sounds closer to the game's terminal. Sub-tab clicks now always open their page.
 - Sounds reduced to a soft tick and a soft click; heavier weathering and aged stickers; a more convex glass; the cost view moved from the status bar to the Filters panel; Back now sits left of Next.
+- The casing is now built from textures generated for this site, with baked weathering (grime, rust runs, dust, chipped paint) and stickers printed on aged paper.
