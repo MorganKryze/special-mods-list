@@ -107,6 +107,8 @@ The first launch of the playthrough, the same day, led to these changes. The pro
 
 Plugins that only change textures, lighting, grass or particles can still carry CELL overrides. They must load **before** `prp.esp`, so that PRP's previs data wins in those cells. With Better Landscape Grass loaded after PRP, 4 Sanctuary cells got their vanilla previs data back, and the Sanctuary bridge and walls vanished along with their collision: the player fell through. Moving the plugins in the table above before PRP fixed it.
 
+Checked afterwards in the plugins themselves: only Better Landscape Grass (1,980 CELL and 1,980 LAND overrides) and Fallout 4 Particle Patch (12 CELL, 57 REFR) carry cell data. The nine others have no CELL, LAND or REFR record, so their position around PRP does not matter; they were moved together for simplicity.
+
 Flutter Flicker Fixer For Foliage is the exception: its file is itself a PRP file, so it stays after PRP.
 
 #### Known issue: overlapping PRP patches
