@@ -17,7 +17,7 @@ Column definitions and allowed values: [data/README.md](../../data/README.md). I
 | --- | --- | --- | --- |
 | [Base: script extender and unofficial patch](base.md) | 7 | 3 | 0 |
 | [Stability and performance](stability.md) | 99 | 4 | 28 |
-| [Interface](interface.md) | 48 | 1 | 19 |
+| [Interface](interface.md) | 48 | 1 | 18 |
 | [Gameplay overhaul and enemies](gameplay.md) | 112 | 0 | 12 |
 | [Brotherhood of Steel](brotherhood.md) | 72 | 0 | 11 |
 | [Minutemen](minutemen.md) | 58 | 0 | 14 |
