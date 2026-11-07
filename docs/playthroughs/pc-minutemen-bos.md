@@ -19,7 +19,7 @@ Machine: Ryzen 7 9800X3D, RTX 5070 Ti 16 GB, 32 GB, 3440×1440 up to 180 Hz with
 | System | NixOS, Proton 11.0-2 |
 | Game | 1.11.240 (Steam build 24564252), F4SE 0.7.9 |
 | Mod Organizer 2 profile | "Partie PC" |
-| Plugins | 224 active: 76 full, 148 light |
+| Plugins | 224 active at the test: 76 full, 148 light (242 after the [quality-of-life additions](#quality-of-life-additions-2026-11-07)) |
 | F4SE DLLs | 29, all "loaded correctly" in `f4se.log` |
 | Crash logs | None |
 
@@ -68,10 +68,36 @@ Passed, so RobCo Patcher, SPID, Improved Minutemen and Improved Brotherhood of S
 | Removed | TMR Pre Generated Terrain LOD | Vivid Fallout changes landscape textures, so Vivid Fallout LOD replaces it |
 | Removed | Heather Casdin and its patch | Left out of this playthrough |
 
+### Quality-of-life additions (2026-11-07)
+
+Added after the test, the same day: 25 mods, which bring the profile to 242 active plugins. They are installed in "Partie PC" and the playthrough starts with them, but no log has been read since and no in-game session has been checked yet. Four are F4SE DLLs (Classic Holstered Weapons, Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass), not yet checked in `f4se.log`.
+
+| Area | Mods | Install notes |
+| --- | --- | --- |
+| Interface | Get Out Of My Face, Faster Terminal Displays, Crafting Highlight Fix, MCM Booster, Power Armor HUD - paHUD, Cartographers Map Markers, Improved Map with Visible Roads, Rename Anything, QuickTrade Redux, Friendly NPCs On Compass | Faster Terminal Displays 20x; Get Out Of My Face main file, not AIO; Improved Map 2.0 Default (texture only); Cartographers Map Markers loaded before PRP |
+| Visuals | Explosion VFX Pack, Enhanced Blood Textures | Explosion VFX Pack 9.0.0, FOMOD defaults (Standard for every explosion), ESL-flagged; EBT_Basic 1.01 |
+| Immersion | Animated Coffee Drinking, Classic Holstered Weapons, Automatically Lowered Weapons, Commonwealth Small Wildlife, Publick Occurrences Expanded, Protected Unique Brahmin, Caravan AI Tweak | Animated Coffee Drinking is an ESL and, its author says, touches no vanilla records; Publick Occurrences Expanded DLC version, Anniversary Edition |
+| Gameplay | Hit Those Explosives, Longer Area Respawn, Legendaries They Can Use, Reduce Grenade Spam | Hit Those Explosives needs Hit Those Objects, already in; Legendaries They Can Use replaces `LegendaryItemQuestScript`, and no other installed mod, Lunar included, ships that script loose or in its main BA2; Reduce Grenade Spam is a standalone plugin whose only master is `Fallout4.esm`, despite the "Combat AI Empowered" name |
+| Gear | Tumbajamba's RobCo Combat Armor and Battle Suit | 1.0 (archived); FOMOD without the "Armor Availability" leveled-list option, to leave Lunar's leveled lists alone: crafting only |
+| Settlements | Longer Power Lines | 3x |
+
+Two overlaps the catalogue already flags are now both installed, and not checked yet: Classic Holstered Weapons with Visible Favorites, and Cartographers Map Markers with Unused Map Markers.
+
+| Decision | Mods | Why |
+| --- | --- | --- |
+| Chosen, deferred | FIS - FallUI Item Sorter, FallUI - Icon Library, SS2 FallUI Icons | They need the Complex Item Sorter xEdit run, scheduled with xLODGen |
+| Considered, not taken | SS2 Settlement Management Terminal | Redundant with SS2 Settlers UI |
+| Considered, not taken | Move that Workbench | Little use with Place Everywhere |
+| Considered, not taken | Salvage Beacons, SAICC | The player's choice |
+
+Launch: the Steam shortcut now starts the game through Mod Organizer 2 straight into F4SE, with the launch options `mo2.sh %command% -p "Partie PC" "moshortcut://:F4SE"`. The DXVK HUD is off by default.
+
 ### Still to do
 
 - Object LOD: FOLIP and the LOD resources are installed, but xLODGen has not been run yet.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
+- The quality-of-life additions: `f4se.log` for their four DLLs and a first in-game session.
+- FIS - FallUI Item Sorter and its icon mods, with the Complex Item Sorter xEdit run at the same time as xLODGen.
 
 ## What changes from the macOS playthrough
 
