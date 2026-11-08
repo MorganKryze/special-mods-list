@@ -184,11 +184,26 @@ The profile now has 242 active plugins.
 | Verdant Wasteland LITE | Not taken | The tree part of the full version only; 6 files shared with Vivid Fallout, 1 with PRP |
 | Luxor's Greenery 2k | Not taken | Plant textures; the full Verdant Wasteland already retextures the plants. 6 files shared with Vivid Fallout, 6 with Targeted Textures |
 
-Distant trees keep their old look until the tree LOD is regenerated. The profile now has 244 active plugins.
+The profile now has 244 active plugins.
+
+### Object LOD (2026-11-08)
+
+Generated on Linux, after the whole load order previs patch, following the TMR order: FOLIP patch, TexGen, xLODGen objects.
+
+| Step | Result |
+| --- | --- |
+| FO4LODGen Resources | The mod folder was empty (failed install); refilled with `FO4LODGen.esp` and `FO4LODGen - Main.ba2`, the FOMOD option TMR recommends. Loaded before `Far Harbor 3d Tree LODs.esp`: its only record shared with other plugins (one STAT) is already won by `FOLIP - New LODs.esp` |
+| FOLIP xEdit script 8.1 | Run unattended in FO4Edit (Simple Records off, ForceLOD8 on, other settings default). Wrote `FOLIP - Master.esm` (overrides 4,797 REFR, 3,691 STAT, 1,237 CELL, 593 MSWP) and `FOLIP - Patch.esp` (174 REFR, 155 STAT, 37 CELL, 4 WRLD) |
+| `FOLIP - Patch.esp` placement | Loaded **before** `SanctuaryPrevis.esp`, not last as TMR advises: it shares 34 CELL and 3 WRLD records with the previs patch, with identical previs data except one Cambridge cell where 5 `CPD_redux.esp` physics refs become null (CPD_redux is not one of its masters) |
+| TexGen (DynDOLOD 3 Alpha-218) | Skipped: under Proton it stops at its Texconv check, "Executing Texconvx64.exe returned error code FFFFFFFF", though Texconv runs on its own. The LOD uses the textures shipped by FOLIP and the tree LOD packs |
+| xLODGen beta 132, objects only | 10 worldspaces, every LODGen run ended with code 0; 1,052 files, 1.5 GB. Atlas 8192, max texture 1024, diffuse BC7, normal and specular BC5; trees, terrain and occlusion off (Vivid Fallout LOD provides the terrain) |
+| Install | MO2 mod `FO4LODGen Output`, top priority. Misery Island left out: LODGen could not find 10 of its LOD materials (17,097 log lines, all in Misery Island), so that worldspace keeps the object LOD shipped in its own BA2. No other mod has loose object LOD files; the BA2 ones (UFO4P, Vivid Fallout LOD, America Rising 2) are overridden |
+
+Distant trees are drawn by the 3D tree LOD meshes of Optimized Vanilla Tree LODs and Far Harbor 3d Tree LODs. Whether they match Verdant Wasteland's look has not been checked in game.
 
 ### Still to do
 
-- Object LOD: FOLIP and the LOD resources are installed, but xLODGen has not been run yet; it is also what brings Verdant Wasteland's trees to the distance.
+- Object LOD: generated (see above); still to check in game, from Sanctuary and from a Boston rooftop. TexGen to retry if a Proton fix for its Texconv check appears.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
 - The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
 
@@ -227,7 +242,7 @@ Distant trees keep their old look until the tree LOD is regenerated. The profile
 | 4 | Sim Settlements 2, settlement life, Minutemen | Sanctuary with plots; script lag | Installed |
 | 5 | Brotherhood, RobCo Patcher, SPID, the Improved series | **The test gate:** a throwaway save, clean logs, the same save reloaded five times | Installed; gate passed with 4 reloads |
 | 6 | World life, locations, quests, companions, needs | An hour through Sanctuary, Concord and Boston | Installed |
-| 7 | Patches and PRP patches, then object LOD generated with xLODGen last | No missing walls or flicker | Patches installed; object LOD not generated yet |
+| 7 | Patches and PRP patches, then object LOD generated with xLODGen last | No missing walls or flicker | Patches installed; object LOD generated 2026-11-08, not checked in game yet |
 
 ## Open questions
 
