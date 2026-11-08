@@ -31,5 +31,5 @@ Column definitions and allowed values: [data/README.md](../../data/README.md). I
 | [Weapons and armor](weapons-armor.md) | 110 | 0 | 22 |
 | [Immersion and quality of life](immersion.md) | 96 | 0 | 30 |
 | [Companions](companions.md) | 46 | 0 | 6 |
-| [Visuals: textures, lighting, shaders, LOD](visuals.md) | 37 | 0 | 18 |
+| [Visuals: textures, lighting, shaders, LOD](visuals.md) | 40 | 0 | 18 |
 <!-- END GENERATED -->

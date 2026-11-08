@@ -1,7 +1,7 @@
 # Visuals: textures, lighting, shaders, LOD
 
 <!-- BEGIN GENERATED: do not edit, run scripts/build_catalog.py -->
-37 mods: 18 recommended, 9 optional, 10 avoid. Plugin slots if you take everything not marked avoid: 7 full.
+40 mods: 18 recommended, 12 optional, 10 avoid. Plugin slots if you take everything not marked avoid: 9 full.
 
 ### Recommended
 
@@ -39,6 +39,9 @@
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/105129/105129-1779458822-2072622814.png" width="96" alt=""> | **[Explosion VFX Pack](https://www.nexusmods.com/fallout4/mods/105129)**<br><sub>by weirdhoney2310 · v9.0.0 · updated 2026-05-28 · 358 endorsements · 2.3 MB</sub> | Replaces the visual effects of explosions<br>*9.0.0, ESL-flagged plugin; FOMOD defaults: Standard for every explosion; Cost on the PC not measured; PC playthrough: installed 2026-11-07, first in-game session not yet checked* | `optional`<br>1.11.240: plugin only | M3 ?<br>PC ?<br>0 full / 1 light |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/145-5-1447253459.jpg" width="96" alt=""> | **[Fallout Texture Overhaul Stars](https://www.nexusmods.com/fallout4/mods/145)**<br><sub>by Gorgulla · v1.0 · updated 2015-11-11 · 33,814 endorsements · 4.9 MB</sub> | Night sky star texture<br>*One texture (textures/sky/skystars.dds)* | `optional`<br>1.11.240: plugin only | M3 ?<br>PC ? |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/82399/82399-1715191654-1575299561.jpeg" width="96" alt=""> | **[Lightweight Lighting - Exterior and Interior Patch](https://www.nexusmods.com/fallout4/mods/82399)**<br><sub>by SpringHeelJon · v1.6 · updated 2026-05-17 · 262 endorsements · 6 KB</sub> | Brighter interiors for Lightweight Lighting when dungeons feel too dark<br>*Only if Lightweight Lighting interiors are too dark; Exact file names and plugin type not read* | `optional`<br>1.11.240: plugin only | M3 low<br>PC low | needs: Lightweight Lighting |
+|  | **[Luxor's Greenery 2k](https://www.nexusmods.com/fallout4/mods/55033)**<br><sub></sub> | Recoloured and new textures for hedges, shrubs, ferns and vines<br>*41 loose textures, no plugin; shares 6 files with Vivid Fallout - All in One 2K and 6 with Targeted Textures. Redundant next to the full Verdant Wasteland, which retextures the same plants* | `optional`<br>1.11.240: plugin only | M3 ?<br>PC ? |  |
+|  | **[Verdant Wasteland](https://www.nexusmods.com/fallout4/mods/20894)**<br><sub></sub> | Summer retexture of grass, plants and trees, with leaves and blossoms<br>*Needs Far Harbor and Nuka-World. VW_VerdantWasteland.esp overrides 10 CLMT, the GameDay/GameHour/GameMonth globals and 2 STAT, adds 2 MSWP; no CELL or REFR, so previs is untouched. Shares 13 files with Vivid Fallout - All in One 2K and 9 with Targeted Textures (load its plugin after theirs so it wins) and meshes/landscape/trees/treehero01.nif with PRP (load it before prp.esp so PRP's mesh stays). Distant trees change only once tree LOD is regenerated* | `optional`<br>1.11.240: plugin only | M3 ?<br>PC ?<br>1 full / 0 light |  |
+|  | **[Verdant Wasteland LITE](https://www.nexusmods.com/fallout4/mods/102382)**<br><sub></sub> | Trees-only edit of Verdant Wasteland<br>*Same plugin as Verdant Wasteland with only its tree assets; shares 6 files with Vivid Fallout - All in One 2K and treehero01.nif with PRP. Use one of the two Verdant files* | `optional`<br>1.11.240: plugin only | M3 ?<br>PC ?<br>1 full / 0 light | conflicts: Verdant Wasteland |
 
 ### Avoid
 

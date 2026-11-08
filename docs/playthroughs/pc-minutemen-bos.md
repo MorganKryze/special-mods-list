@@ -107,7 +107,9 @@ The first launch of the playthrough, the same day, led to these changes. The pro
 | Fixed (2026-11-08) | Nina's Proper Pipe Guns Replacer and Revisited | Lunar Fallout Arsenal's install notes ask to move each mod's `Meshes/Weapons` into `Meshes/nina_old` and `Meshes/nina_redux` and to delete their textures; skipped at install, the .45 pipe pistol was invisible. Done by hand |
 | Reordered (2026-11-08) | ImmersiveLexington_PRP_Patch.esp now loads after TheRooftops_PRP_Patch.esp | Objects disappeared in Lexington. In the 9 shared cells (grid -10..-8, 8..10) Immersive Lexington edits 238 references and adds 136, The Rooftops adds 24, so Lexington's previs is the one to keep there. Confirmed in game on 2026-11-08: nothing disappears in Lexington any more |
 | Turned off (2026-11-08) | Friendly NPCs On Compass: `bFriendlyNPCMarkers=0` | Friendly NPCs and Dogmeat appeared with the same red marker as enemies; the mod has no colour option. Confirmed in game: the compass is back to vanilla |
-| Disabled (2026-11-08) | DiamondCity-PreVis.esp and DiamondCity-PreVis-Ambience.esp (from Diamond City Expansion - eXoPatch) | Holes around Fens Street: both previs plugins are built without PRP and loaded after DiamondCityExpansion_PRP_Patch.esp in the same 18 cells (grid -1..4, -1..1); the PRP patch alone now owns them. Not enough: walls and whole buildings still disappeared on the way to Diamond City, see the whole load order audit below |
+| Disabled (2026-11-08) | DiamondCity-PreVis.esp and DiamondCity-PreVis-Ambience.esp (from Diamond City Expansion - eXoPatch) | Holes around Fens Street: both previs plugins are built without PRP and loaded after DiamondCityExpansion_PRP_Patch.esp in the same 18 cells (grid -1..4, -1..1); the PRP patch alone now owns them. Not enough: walls and whole buildings still disappeared on the way to Diamond City. Resolved by the whole load order previs patch below, confirmed in game on 2026-11-08 |
+| Added (2026-11-08) | SanctuaryPrevis (built for this profile) | One precombine and previs patch for the whole load order, built with PJM's scripts and the Creation Kit under Proton: 383 precombined cells, 342 previs clusters, 79 masters, loaded last. Procedure, durations and checks in [the guide](../guides/linux-previs.md). After installing it the player went back to the Diamond City outskirts, Fens Street, Lexington and Concord: nothing vanishes any more |
+| Changed (2026-11-08) | `SanctuaryPrevis - Main.ba2` compressed | Rewritten with zlib entries like the vanilla archives: 837 MB on disk down to 359 MB, every entry byte-identical after decompression |
 
 #### Whole load order audit (2026-11-08)
 
@@ -117,9 +119,9 @@ Fixing PRP patch overlaps one town at a time did not stop the holes, so every Co
 | --- | --- | --- |
 | Every precombined mesh named by the winning CELL record exists in a loaded archive or loose file | `previs_audit.py` | Nothing missing in the Commonwealth (3 far cells only) |
 | The `vis/*.uvd` file of each previs block comes from the plugin whose CELL record wins | `vis_audit.py` | 4,804 exterior cells consistent; the rest are map-edge cells without previs data and 11 cells far from Boston |
-| Objects placed or edited in previs cells by plugins that are not the previs owner or one of its masters | `ref_audit.py` | 45 plugins. Largest: You And What Army 2 (5,286 new references), SS2 Chapter 2 (4,558), America Rising 2 (1,913), the People Live In mods (about 6,000 together), Boston Airport Redux (755 edits). Around Diamond City: America Rising 2 (185), Goodneighbor Expanded (190), You And What Army 2 (126), SS2 (16) |
+| Objects placed or edited in previs cells by plugins that are not the previs owner or one of its masters | `ref_audit.py` | At least 45 plugins (the listing stops at 45). Largest: You And What Army 2 (5,286 new references), SS2 Chapter 2 (4,558), America Rising 2 (1,913), the People Live In mods (about 6,000 together), Boston Airport Redux (755 edits). Around Diamond City: America Rising 2 (185), Goodneighbor Expanded (190), You And What Army 2 (126), SS2 (16) |
 
-The previs patches themselves are consistent; what breaks is that dozens of mods change cells whose visibility was computed without them, and no downloadable patch covers this combination. The fix is one previs patch built for the whole load order: [Previs for the whole load order on Linux](../guides/linux-previs.md).
+The previs patches themselves are consistent; what breaks is that dozens of mods change cells whose visibility was computed without them, and no downloadable patch covers this combination. The fix is one previs patch built for the whole load order: [Previs for the whole load order on Linux](../guides/linux-previs.md). After installing it, `ref_audit.py` finds 1,965 such references from 24 plugins, nearly all new objects (map markers, workshop and clutter objects), and `vis_audit.py` 4,805 consistent cells.
 
 #### Load-order rule: cell overrides go before PRP
 
@@ -129,7 +131,9 @@ Checked afterwards in the plugins themselves: only Better Landscape Grass (1,980
 
 Flutter Flicker Fixer For Foliage is the exception: its file is itself a PRP file, so it stays after PRP.
 
-#### Known issue: overlapping PRP patches
+#### Overlapping PRP patches (resolved 2026-11-08)
+
+The whole load order patch `SanctuaryPrevis` is built over all of them (they are among its masters) and loads after them. The table is kept as the record of what was found.
 
 The PRP patches that load after PRP were each built for one mod. Where two of them edit the same cell, the last one loaded wins there, and the other mod's previs is lost in that cell. Overlaps found in this profile:
 
@@ -170,11 +174,19 @@ The player picked mods from a YouTube list built for Xbox. Rule applied: a mod g
 
 The profile now has 242 active plugins.
 
+### Greenery after the patch (2026-11-08)
+
+| Mod | Decision | Measured |
+| --- | --- | --- |
+| Verdant Wasteland (full) | Added | Textures and materials in two BA2 archives, and `VW_VerdantWasteland.esp`: overrides 10 climates (CLMT), the GameDay, GameHour and GameMonth globals and 2 undergrowth statics, adds 2 material swaps. No CELL or REFR record, so the previs patch stands. Files shared with installed mods: 13 with Vivid Fallout - All in One 2K and 9 with Targeted Textures, which Verdant replaces (its plugin loads after theirs); 1 with PRP, `meshes/landscape/trees/treehero01.nif`, which PRP keeps (`VW_VerdantWasteland.esp` loads before `prp.esp`) |
+| Verdant Wasteland LITE | Not taken | The tree part of the full version only; 6 files shared with Vivid Fallout, 1 with PRP |
+| Luxor's Greenery 2k | Not taken | Plant textures; the full Verdant Wasteland already retextures the plants. 6 files shared with Vivid Fallout, 6 with Targeted Textures |
+
+Distant trees keep their old look until the tree LOD is regenerated. The profile now has 244 active plugins.
+
 ### Still to do
 
-- Whole load order previs patch: generation in progress, see [the guide](../guides/linux-previs.md).
-
-- Object LOD: FOLIP and the LOD resources are installed, but xLODGen has not been run yet.
+- Object LOD: FOLIP and the LOD resources are installed, but xLODGen has not been run yet; it is also what brings Verdant Wasteland's trees to the distance.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
 - The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
 
