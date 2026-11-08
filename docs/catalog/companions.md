@@ -26,7 +26,7 @@ New companions, multi-follower frameworks, companion AI fixes and affinity tools
 The reference playthrough takes Heather Casdin, Simple Everyone's Best Friend and Follower AI Approach Reaction Fix. Heather runs her own follower system next to one vanilla companion and Dogmeat, so she is never imported into a framework. AFT Plus stays out: it is script-heavy and incompatible with Simple EBF. With Lunar, Dogmeat is a bit strong as a second companion; Lunar - Everyone's Best Friend targets the original EBF, and its fit with Simple EBF is unverified.
 
 <!-- BEGIN GENERATED: do not edit, run scripts/build_catalog.py -->
-45 mods: 6 recommended, 28 optional, 11 avoid. Plugin slots if you take everything not marked avoid: 1 full.
+46 mods: 6 recommended, 29 optional, 11 avoid. Plugin slots if you take everything not marked avoid: 1 full.
 
 ### Recommended
 
@@ -62,6 +62,7 @@ The reference playthrough takes Heather Casdin, Simple Everyone's Best Friend an
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/11784-0-1460209669.png" width="96" alt=""> | **[Companion Command and Tactics](https://www.nexusmods.com/fallout4/mods/11784)**<br><sub>by registrator2000 · v1.3 · updated 2017-09-09 · 4,429 endorsements · 8 KB</sub> | Companion command hotkeys and restored cut tactics | `optional`<br>1.11.240: plugin only | M3 med<br>PC ?<br>scripts light | needs: Mod Configuration Menu |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/75770/75770-1698854173-1306138613.png" width="96" alt=""> | **[Companion Weapon Proficiency Infinite Ammo](https://www.nexusmods.com/fallout4/mods/75770)**<br><sub>by WhiskyTangoFox · v1.3 · updated 2026-01-11 · 172 endorsements · 1 KB</sub> | Infinite ammo for each companion's preferred weapon type<br>*Interaction with Lunar ammo not checked* | `optional`<br>1.11.240: plugin only | M3 low<br>PC low |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/26282/26282-1645057456-1857102658.png" width="96" alt=""> | **[Follower Revive System](https://www.nexusmods.com/fallout4/mods/26282)**<br><sub>by BestPJ · v2.14 · updated 2022-02-15 · 2,741 endorsements · 22 KB</sub> | Companions can revive the player<br>*'Requires F4SE', probably Papyrus functions only (unverified); Overlap with Lunar's companion handling unverified* | `optional`<br>1.11.240: unknown | M3 med<br>PC ?<br>scripts light |  |
+|  | **[Infinite Companion Ammo](https://www.nexusmods.com/fallout4/mods/81685)**<br><sub></sub> | Companions keep one round of a weapon and never use ammo, given through SPID<br>*Only a SPID _DISTR.ini, no plugin* | `optional`<br>1.11.240: plugin only | M3 ?<br>PC ? | needs: Spell Perk Item Distributor |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/3276-0-1448685598.jpg" width="96" alt=""> | **[No Negative Affinity / No Cooldown](https://www.nexusmods.com/fallout4/mods/3276)**<br><sub>by ricky horror · v1.6 · updated 2015-12-09 · 49,541 endorsements · 59 KB</sub> | Removes negative affinity and the affinity cooldown<br>*Taste* | `optional`<br>1.11.240: plugin only | M3 ?<br>PC ? |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/10660-0-1466408050.jpg" width="96" alt=""> | **[Visible Companion Affinity](https://www.nexusmods.com/fallout4/mods/10660)**<br><sub>by CDante · v4.15 · updated 2024-02-14 · 32,869 endorsements · 10.2 MB</sub> | Affinity notifications plus a holotape<br>*No vanilla script overrides; Pick this or the Affinity Pip-Boy Tab* | `optional`<br>1.11.240: plugin only | M3 low<br>PC low<br>scripts light |  |
 | <img src="https://staticdelivery.nexusmods.com/mods/1151/images/thumbnails/7903-0-1452194437.png" width="96" alt=""> | **[Where Are You Now](https://www.nexusmods.com/fallout4/mods/7903)**<br><sub>by drdanzel · v1.4 · updated 2016-04-26 · 13,855 endorsements · 0.2 MB</sub> | Map markers to track companions | `optional`<br>1.11.240: plugin only | M3 low<br>PC low |  |
@@ -101,6 +102,7 @@ graph LR
   ellen_cartographer["Ellen - the cartographer"]
   ellen_exopatch["Ellen - the cartographer - eXoPatch"]
   garden_of_eden["Garden of Eden Papyrus Script Extender"]
+  infinite_companion_ammo["Infinite Companion Ammo"]
   its_molly["It's Molly"]
   lunar["Lunar Fallout Overhaul Deluxe"]
   lunar_ebf_patch["Lunar - Everyone's Best Friend"]
@@ -110,6 +112,7 @@ graph LR
   nora_spouse_ss2_patch["Nora Spouse Companion SS2 Patch"]
   pipboytabs["PipboyTabs"]
   sim_settlements_2["Sim Settlements 2 - All Chapters Pack"]
+  spid["Spell Perk Item Distributor"]
   ufo4p["Unofficial Fallout 4 Patch"]
   xdi["Extended Dialogue Interface"]
   aft_plus --> garden_of_eden
@@ -131,5 +134,6 @@ graph LR
   nora_spouse_ss2_patch --> nora_spouse_companion
   nora_spouse_ss2_patch --> sim_settlements_2
   ellen_exopatch --> ellen_cartographer
+  infinite_companion_ammo --> spid
 ```
 <!-- END GENERATED -->

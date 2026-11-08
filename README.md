@@ -18,6 +18,7 @@ A curated, machine-readable catalogue of about 1,000 Fallout 4 mods checked for 
 | Platform | Guide |
 | --- | --- |
 | macOS (Apple Silicon) | [fallout4-macos-modding](https://github.com/MorganKryze/fallout4-macos-modding): Not Proton, CrossOver, MO2 and F4SE, with measured performance |
+| Linux (NixOS, Proton) | [PC playthrough setup notes](docs/playthroughs/pc-minutemen-bos.md#proton-and-setup-notes), [previs for the whole load order](docs/guides/linux-previs.md) and the [load order tools](scripts/fo4-tools/README.md) |
 
 ## Maintaining the catalogue
 

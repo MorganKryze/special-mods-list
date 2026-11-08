@@ -27,9 +27,9 @@ Column definitions and allowed values: [data/README.md](../../data/README.md). I
 | [Factions, endings and starts](factions.md) | 33 | 0 | 4 |
 | [Settlements](settlements.md) | 91 | 0 | 20 |
 | [DLC](dlc.md) | 65 | 0 | 12 |
-| [Quests and locations](quests.md) | 141 | 0 | 44 |
-| [Weapons and armor](weapons-armor.md) | 109 | 0 | 22 |
-| [Immersion and quality of life](immersion.md) | 92 | 0 | 30 |
-| [Companions](companions.md) | 45 | 0 | 6 |
-| [Visuals: textures, lighting, shaders, LOD](visuals.md) | 32 | 0 | 18 |
+| [Quests and locations](quests.md) | 142 | 0 | 44 |
+| [Weapons and armor](weapons-armor.md) | 110 | 0 | 22 |
+| [Immersion and quality of life](immersion.md) | 96 | 0 | 30 |
+| [Companions](companions.md) | 46 | 0 | 6 |
+| [Visuals: textures, lighting, shaders, LOD](visuals.md) | 37 | 0 | 18 |
 <!-- END GENERATED -->

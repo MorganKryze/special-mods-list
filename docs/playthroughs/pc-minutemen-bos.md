@@ -105,9 +105,21 @@ The first launch of the playthrough, the same day, led to these changes. The pro
 | Removed (2026-11-08) | Hunkered Down - Commonwealth Overhaul and its PRP patch | Its PRP patch rewrote 480 cells and overlapped The Rooftops (90 cells), Subway Runner - Revival (18, 9 of them in Concord), 3DNPC ExoEm (19) and Immersive Lexington (9). The mod only dresses 30+ locations (shelters, insulation, fewer unattended fires), no scripts or quests, so it left the ongoing save without trouble |
 | Removed (2026-11-08) | Power Armor HUD - paHUD | In power armor the HUD showed only its red elements (gauges, damaged parts) next to FallUI HUD and Immersive HUD. Display only, so it left the save without trouble |
 | Fixed (2026-11-08) | Nina's Proper Pipe Guns Replacer and Revisited | Lunar Fallout Arsenal's install notes ask to move each mod's `Meshes/Weapons` into `Meshes/nina_old` and `Meshes/nina_redux` and to delete their textures; skipped at install, the .45 pipe pistol was invisible. Done by hand |
-| Reordered (2026-11-08) | ImmersiveLexington_PRP_Patch.esp now loads after TheRooftops_PRP_Patch.esp | Objects disappeared in Lexington. In the 9 shared cells (grid -10..-8, 8..10) Immersive Lexington edits 238 references and adds 136, The Rooftops adds 24, so Lexington's previs should win there |
-| Turned off (2026-11-08) | Friendly NPCs On Compass: `bFriendlyNPCMarkers=0` | Friendly NPCs and Dogmeat appeared with the same red marker as enemies; the mod has no colour option |
-| Disabled (2026-11-08) | DiamondCity-PreVis.esp and DiamondCity-PreVis-Ambience.esp (from Diamond City Expansion - eXoPatch) | Holes around Fens Street: both previs plugins are built without PRP and loaded after DiamondCityExpansion_PRP_Patch.esp in the same 18 cells (grid -1..4, -1..1); the PRP patch alone now owns them |
+| Reordered (2026-11-08) | ImmersiveLexington_PRP_Patch.esp now loads after TheRooftops_PRP_Patch.esp | Objects disappeared in Lexington. In the 9 shared cells (grid -10..-8, 8..10) Immersive Lexington edits 238 references and adds 136, The Rooftops adds 24, so Lexington's previs is the one to keep there. Confirmed in game on 2026-11-08: nothing disappears in Lexington any more |
+| Turned off (2026-11-08) | Friendly NPCs On Compass: `bFriendlyNPCMarkers=0` | Friendly NPCs and Dogmeat appeared with the same red marker as enemies; the mod has no colour option. Confirmed in game: the compass is back to vanilla |
+| Disabled (2026-11-08) | DiamondCity-PreVis.esp and DiamondCity-PreVis-Ambience.esp (from Diamond City Expansion - eXoPatch) | Holes around Fens Street: both previs plugins are built without PRP and loaded after DiamondCityExpansion_PRP_Patch.esp in the same 18 cells (grid -1..4, -1..1); the PRP patch alone now owns them. Not enough: walls and whole buildings still disappeared on the way to Diamond City, see the whole load order audit below |
+
+#### Whole load order audit (2026-11-08)
+
+Fixing PRP patch overlaps one town at a time did not stop the holes, so every Commonwealth cell was checked at once with the scripts in [`scripts/fo4-tools`](../../scripts/fo4-tools/README.md):
+
+| Check | Script | Result |
+| --- | --- | --- |
+| Every precombined mesh named by the winning CELL record exists in a loaded archive or loose file | `previs_audit.py` | Nothing missing in the Commonwealth (3 far cells only) |
+| The `vis/*.uvd` file of each previs block comes from the plugin whose CELL record wins | `vis_audit.py` | 4,804 exterior cells consistent; the rest are map-edge cells without previs data and 11 cells far from Boston |
+| Objects placed or edited in previs cells by plugins that are not the previs owner or one of its masters | `ref_audit.py` | 45 plugins. Largest: You And What Army 2 (5,286 new references), SS2 Chapter 2 (4,558), America Rising 2 (1,913), the People Live In mods (about 6,000 together), Boston Airport Redux (755 edits). Around Diamond City: America Rising 2 (185), Goodneighbor Expanded (190), You And What Army 2 (126), SS2 (16) |
+
+The previs patches themselves are consistent; what breaks is that dozens of mods change cells whose visibility was computed without them, and no downloadable patch covers this combination. The fix is one previs patch built for the whole load order: [Previs for the whole load order on Linux](../guides/linux-previs.md).
 
 #### Load-order rule: cell overrides go before PRP
 
@@ -127,14 +139,40 @@ The PRP patches that load after PRP were each built for one mod. Where two of th
 | Hunkered Down and Tales From The Commonwealth (3DNPC) ExoEm | 19 |
 | Hunkered Down and Subway Runner - Revival | 18: 9 in Concord (grid -16..-14, 17..19), 9 in Boston (around -4..-2, -10..-8) |
 | The Rooftops and Tales From The Commonwealth (3DNPC) ExoEm | 18 |
-| Diamond City Expansion PRP patch, `DiamondCity-PreVis` and `DiamondCity-PreVis-Ambience` | 18-19 |
+| Diamond City Expansion PRP patch, `DiamondCity-PreVis` and `DiamondCity-PreVis-Ambience` | 18-19 (the two eXoPatch previs plugins were disabled on 2026-11-08) |
 | Hunkered Down and Immersive And Extended Lexington | 9 |
 | Immersive And Extended Lexington and The Rooftops | 9 |
 | Subway Runner - Revival and The Rooftops | 9 |
 
 In Concord, objects disappeared depending on the view angle. The lead was the overlap between the Hunkered Down and Subway Runner - Revival patches; Hunkered Down was removed on 2026-11-08, after which no PRP patch overlap is left in Concord (re-checked with the plugin reader). Confirmed in game by the player on 2026-11-08: nothing disappears in Concord any more. Overlaps still present: Diamond City (Diamond City Expansion PRP patch, DiamondCity-PreVis and DiamondCity-PreVis-Ambience, 18-19 cells) and The Rooftops with Immersive Lexington (9), Subway Runner (9) and 3DNPC ExoEm (18).
 
+### Additions from a video list (2026-11-08)
+
+The player picked mods from a YouTube list built for Xbox. Rule applied: a mod goes in when it adds something and is compatible; it stays out when it stops the game or harms gameplay. Performance cost alone is not a reason to leave a mod out. Each mod was checked against the profile with the plugin reader (records overridden by other plugins) and a file comparison (loose files and BA2 contents).
+
+| Mod | Decision | Measured |
+| --- | --- | --- |
+| More Vines | Added | 2 plugins, about 4,850 new vines; loaded right after the unofficial patch, as its author asks. They sit in previs cells, so they are part of the whole load order previs build |
+| Faded Glory | Added, with a merge patch | 23 of its 29 music records are also changed by LOST Audio Tweaks (LAT: priority, Faded Glory: tracks). No patch exists, so `LAT - Faded Glory Patch.esp` (ESL, made with `merge_musc.py`) keeps the LAT records and adds the Faded Glory tracks. Loads after both |
+| Clickerfied Ghouls - Idle Sounds | Added | 17 sound records, no overlap |
+| Commonwealth Warfare - Explosions | Added | 17 loose sounds, no overlap |
+| Not Great Not Terrible | Added | 32 loose sounds, no overlap |
+| FTO Stars 4K | Added | One texture, no overlap |
+| West Tek Tactical Gloves | Added | New records only |
+| Infinite Companion Ammo | Added | SPID ini only |
+| Hollywood Bullet Tracers | Left out | 15 projectiles and 6 weapons also changed by Lunar Fallout Overhaul |
+| Darker Nights | Left out | 19 weathers also changed by Lightweight Lighting; both rewrite the ambient colours |
+| Plenty 'o' Exploration | Left out | Discontinued with issues its author never fixed; its navmesh info map is overridden by UFO4P, PRP and SS2 |
+| Blood Mist Overhaul | Left out | Its two meshes replace those of Enhanced Blood Textures and Fallout 4 Particle Patch |
+| Campsite (Simple Camping) | Already installed | |
+| Green in the Commonwealth, Crowded Commonwealth, Project Apocalyptic Commonwealth, American Dream Radio Seasons, Atomicolor - Minutemen | Not available | Not found on Nexus Mods (searched by name on 2026-11-08). The only Nexus page that cites Project Apocalyptic Commonwealth, a modlist (mod 54871), is hidden |
+| Modern weapon replacers (12), See Through Scopes, Building Budget Extender, Start Me Up Redux, Enter The Brotherhood, Interiors Enhanced, NAC X | Left out, not checked | Not downloaded. The weapon replacers and scopes would swap vanilla weapons that Lunar Fallout Arsenal already reworks; SS2 already raises the build limit; the start mod only matters for a new game; Enter The Brotherhood changes how you join the Brotherhood, and this path is already under way; Interiors Enhanced and NAC X are lighting and weather overhauls next to Lightweight Lighting |
+
+The profile now has 242 active plugins.
+
 ### Still to do
+
+- Whole load order previs patch: generation in progress, see [the guide](../guides/linux-previs.md).
 
 - Object LOD: FOLIP and the LOD resources are installed, but xLODGen has not been run yet.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
