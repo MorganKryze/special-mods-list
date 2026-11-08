@@ -106,6 +106,7 @@ The first launch of the playthrough, the same day, led to these changes. The pro
 | Removed (2026-11-08) | Power Armor HUD - paHUD | In power armor the HUD showed only its red elements (gauges, damaged parts) next to FallUI HUD and Immersive HUD. Display only, so it left the save without trouble |
 | Fixed (2026-11-08) | Nina's Proper Pipe Guns Replacer and Revisited | Lunar Fallout Arsenal's install notes ask to move each mod's `Meshes/Weapons` into `Meshes/nina_old` and `Meshes/nina_redux` and to delete their textures; skipped at install, the .45 pipe pistol was invisible. Done by hand |
 | Reordered (2026-11-08) | ImmersiveLexington_PRP_Patch.esp now loads after TheRooftops_PRP_Patch.esp | Objects disappeared in Lexington. In the 9 shared cells (grid -10..-8, 8..10) Immersive Lexington edits 238 references and adds 136, The Rooftops adds 24, so Lexington's previs should win there |
+| Turned off (2026-11-08) | Friendly NPCs On Compass: `bFriendlyNPCMarkers=0` | Friendly NPCs and Dogmeat appeared with the same red marker as enemies; the mod has no colour option |
 
 #### Load-order rule: cell overrides go before PRP
 
