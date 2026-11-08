@@ -2,6 +2,8 @@
 
 **Status: in progress.** The list was installed and tested on 2026-11-07, and the real playthrough is starting. Frame rates below are measured on this machine with the base list; the visual layer is installed but not yet measured or tuned. In `data/mods.csv`, this playthrough is the rows whose `playthroughs` cell contains `pc-minutemen-bos` (`status` is `played` in `data/playthroughs.json`, the schema's value for a list that is being played).
 
+Player sheet, spoiler-free: [field guide](pc-minutemen-bos-field-guide.md).
+
 ## The game it aims for
 
 - The Minutemen and your settlements at the centre: you build, recruit and defend with Sim Settlements 2.

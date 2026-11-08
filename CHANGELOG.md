@@ -17,6 +17,7 @@ All notable changes to this project are documented here. The format follows [Kee
 - Twelve mods evaluated from a video list for the gaming PC playthrough (2026-11-08): More Vines, Faded Glory, Clickerfied Ghouls, Commonwealth Warfare - Explosions, Not Great Not Terrible, FTO Stars, West Tek Tactical Gloves and Infinite Companion Ammo joined it; Hollywood Bullet Tracers and Plenty 'o' Exploration are `avoid`, Darker Nights and Blood Mist Overhaul are listed with their conflicts.
 - `scripts/fo4-tools`: plugin and BA2 readers and the whole load order checks (precombined meshes, previs files, objects outside the previs), a symlink game copy builder and a music merge patch writer.
 - Guide `docs/guides/linux-previs.md`: building one previs patch for a full MO2 load order on NixOS with Proton (setup steps; generation steps to follow).
+- Spoiler-free field guide for the gaming PC playthrough (`docs/playthroughs/pc-minutemen-bos-field-guide.md`), with the settlement cleanup check: Clean My Settlement REDUX and MS Raze my Settlement not added (measured cell edits; SUP F4SE predates 1.11.240).
 - Verdant Wasteland joined the gaming PC playthrough; Verdant Wasteland LITE and Luxor's Greenery 2k listed with their measured overlaps.
 - `scripts/fo4-tools`: `esp_filter.py`, `findref.py`, `ba2pack.py`, `ba2compress.py`, and `previs/` with the scripts that run the Creation Kit and FO4Edit unattended under Proton.
 
