@@ -205,7 +205,9 @@ Distant trees are drawn by the 3D tree LOD meshes of Optimized Vanilla Tree LODs
 
 - Dialogue subtitles: off in the profile's `fallout4prefs.ini` (`bDialogueSubtitles=0`, `bGeneralSubtitles=0`); to switch back on and check in dialogue.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
-- Classy Chassis Outfits: to evaluate (requirements, body and BodySlide, overlap with the installed outfit mods).
+- Character appearance, in two steps:
+  - Faces, eyes and hair: PROJECT BEAUTY (FACEGEN), The Eyes of Beauty - Remastered, Facial Expression and Eyetracking Engine Fixes, hairstyle packs; each to check on 1.11.240 and against the mods that add NPCs.
+  - Bodies, chosen level: realistic nudity only when a character is undressed, varied NPC bodies, no added sexual content and no fanservice outfits. Body replacer with BodySlide, NPC body variety, Classy Chassis Outfits; to evaluate, with the cost of converting the installed outfit mods.
 - The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
 
 - FIS - FallUI Item Sorter and its icon mods, with the Complex Item Sorter xEdit run at the same time as xLODGen.
