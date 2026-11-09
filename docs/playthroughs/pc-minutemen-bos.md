@@ -186,7 +186,7 @@ The profile now has 242 active plugins.
 
 The profile now has 244 active plugins.
 
-### Object LOD (2026-11-08)
+### Object LOD (2026-11-08 and 11-09)
 
 Generated on Linux, after the whole load order previs patch, following the TMR order: FOLIP patch, TexGen, xLODGen objects.
 
@@ -194,16 +194,16 @@ Generated on Linux, after the whole load order previs patch, following the TMR o
 | --- | --- |
 | FO4LODGen Resources | The mod folder was empty (failed install); refilled with `FO4LODGen.esp` and `FO4LODGen - Main.ba2`, the FOMOD option TMR recommends. Loaded before `Far Harbor 3d Tree LODs.esp`: its only record shared with other plugins (one STAT) is already won by `FOLIP - New LODs.esp` |
 | FOLIP xEdit script 8.1 | Run unattended in FO4Edit (Simple Records off, ForceLOD8 on, other settings default). Wrote `FOLIP - Master.esm` (overrides 4,797 REFR, 3,691 STAT, 1,237 CELL, 593 MSWP) and `FOLIP - Patch.esp` (174 REFR, 155 STAT, 37 CELL, 4 WRLD) |
-| `FOLIP - Patch.esp` placement | Loaded **before** `SanctuaryPrevis.esp`, not last as TMR advises: it shares 34 CELL and 3 WRLD records with the previs patch, with identical previs data except one Cambridge cell where 5 `CPD_redux.esp` physics refs become null (CPD_redux is not one of its masters) |
-| TexGen (DynDOLOD 3 Alpha-218) | Not run: under Proton it stops at its Texconv check, "Executing Texconvx64.exe returned error code FFFFFFFF", though Texconv converts files on its own in the same prefix. **TexGen is required:** without it the generated meshes point to 1,630 missing `textures/lod/...` files (of 1,633 non-atlas textures), which show purple on distant façades in game |
-| xLODGen beta 132, objects only | 10 worldspaces, every LODGen run ended with code 0; 1,052 files, 1.5 GB. Atlas 8192, max texture 1024, diffuse BC7, normal and specular BC5; trees, terrain and occlusion off (Vivid Fallout LOD provides the terrain) |
-| Install | MO2 mod `FO4LODGen Output`, top priority, **disabled again** after the purple façades were seen in game. Misery Island left out: LODGen could not find 10 of its LOD materials (17,097 log lines, all in Misery Island), so that worldspace keeps the object LOD shipped in its own BA2. No other mod has loose object LOD files; the BA2 ones (UFO4P, Vivid Fallout LOD, America Rising 2) are overridden |
+| `FOLIP - Patch.esp` placement | Loaded **before** `SanctuaryPrevis.esp`, not last as TMR advises: it shares 34 CELL and 3 WRLD records with the previs patch, with identical previs data except one Cambridge cell where 5 `CPD_redux.esp` physics refs become null (CPD_redux is not one of its masters). Set in both `plugins.txt` and `loadorder.txt`: MO2 rewrites `plugins.txt` from `loadorder.txt` at launch, which had undone a change made in `plugins.txt` alone |
+| TexGen (DynDOLOD 3 Alpha-218) | **Required:** an xLODGen run without it left 1,630 of 1,633 non-atlas textures missing (`textures/lod/...`), purple on distant façades in game. Under Proton it stops at its Texconv check ("Executing Texconvx64.exe returned error code FFFFFFFF"). Under Wine 11.0 stable without staging patches (`nixpkgs#wineWow64Packages.stable`, own prefix) it ran: base size 256, "TexGen completed successfully", 4,038 files, 168 MB, installed as MO2 mod `TexGen Output` |
+| xLODGen beta 132, objects only | Run under Proton after TexGen: 10 worldspaces, every LODGen run ended with code 0 (Texconv launches are retried, logged as warnings); 1,052 files, 1.9 GB. Atlas 8192, max texture 1024, diffuse BC7, normal and specular BC5; trees, terrain and occlusion off (Vivid Fallout LOD provides the terrain). Three textures were still missing, the LOD copies of `diamondclothplain02`: added to `TexGen Output` from the vanilla files that `DiamondClothPlain02Alpha.bgsm` uses (`diamondclothplain02_d`, `diamondcloth02_n`, `diamondcloth02_s`). Final check: every texture the LOD meshes reference exists in a loaded archive or loose file |
+| Install | MO2 mods `FO4LODGen Output` then `TexGen Output`, top priority. Misery Island left out: LODGen could not find 10 of its LOD materials (17,097 log lines, all in Misery Island), so that worldspace keeps the object LOD shipped in its own BA2. No other mod has loose object LOD files; the BA2 ones (UFO4P, Vivid Fallout LOD, America Rising 2) are overridden |
 
 Distant trees are drawn by the 3D tree LOD meshes of Optimized Vanilla Tree LODs and Far Harbor 3d Tree LODs. Whether they match Verdant Wasteland's look has not been checked in game.
 
 ### Still to do
 
-- Object LOD: on hold. The xLODGen output stays disabled until TexGen runs; next attempt is TexGen under a Wine build without the staging patches, then xLODGen again.
+- Object LOD: reinstalled with TexGen on 2026-11-09; still to check in game, from Sanctuary and from a Boston rooftop.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
 - The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
 
@@ -242,7 +242,7 @@ Distant trees are drawn by the 3D tree LOD meshes of Optimized Vanilla Tree LODs
 | 4 | Sim Settlements 2, settlement life, Minutemen | Sanctuary with plots; script lag | Installed |
 | 5 | Brotherhood, RobCo Patcher, SPID, the Improved series | **The test gate:** a throwaway save, clean logs, the same save reloaded five times | Installed; gate passed with 4 reloads |
 | 6 | World life, locations, quests, companions, needs | An hour through Sanctuary, Concord and Boston | Installed |
-| 7 | Patches and PRP patches, then object LOD generated with xLODGen last | No missing walls or flicker | Patches installed; object LOD on hold (needs TexGen) |
+| 7 | Patches and PRP patches, then object LOD generated with xLODGen last | No missing walls or flicker | Patches installed; object LOD generated with TexGen 2026-11-09, not checked in game yet |
 
 ## Open questions
 
