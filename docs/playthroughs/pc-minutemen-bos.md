@@ -207,7 +207,8 @@ Distant trees are drawn by the 3D tree LOD meshes of Optimized Vanilla Tree LODs
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
 - Character appearance, in two steps:
   - Faces, eyes and hair: PROJECT BEAUTY (FACEGEN), The Eyes of Beauty - Remastered, Facial Expression and Eyetracking Engine Fixes, hairstyle packs; each to check on 1.11.240 and against the mods that add NPCs.
-  - Bodies, chosen level: realistic nudity only when a character is undressed, varied NPC bodies, no added sexual content and no fanservice outfits. Body replacer with BodySlide, NPC body variety, Classy Chassis Outfits; to evaluate, with the cost of converting the installed outfit mods.
+  - Bodies, chosen level: realistic nudity only when a character is undressed, varied NPC bodies, no added sexual content and no fanservice outfits. Candidate stack: BodySlide and Outfit Studio 6.1.0 (2026-11-04), CBBE 2.7.2 (2025-12-22) with its vanilla outfit BodySlide files, LooksMenu BodyGen with BodyConvert and Real Body Randomizer, the Gunner Outfit Pack CBBE files (74450), vanilla male body. To check: BodySlide under Proton, conversions for the Minutemen and raider outfit mods, the CBBE build for 1.11.240 content.
+  - Classy Chassis Outfits: its four packs describe themselves as "sexy remodels" of vanilla outfits (Nexus summaries, 2026-11-10), outside the chosen level.
 - The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
 
 - FIS - FallUI Item Sorter and its icon mods, with the Complex Item Sorter xEdit run at the same time as xLODGen.
