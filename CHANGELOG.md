@@ -18,7 +18,7 @@ All notable changes to this project are documented here. The format follows [Kee
 - `scripts/fo4-tools`: plugin and BA2 readers and the whole load order checks (precombined meshes, previs files, objects outside the previs), a symlink game copy builder and a music merge patch writer.
 - Guide `docs/guides/linux-previs.md`: building one previs patch for a full MO2 load order on NixOS with Proton (setup steps; generation steps to follow).
 - Spoiler-free field guide for the gaming PC playthrough (`docs/playthroughs/pc-minutemen-bos-field-guide.md`), with the settlement cleanup check: Clean My Settlement REDUX and MS Raze my Settlement not added (measured cell edits; SUP F4SE predates 1.11.240).
-- Object LOD for the gaming PC playthrough, generated on Linux on 2026-11-08 and 11-09: FOLIP patch, TexGen under Wine stable (its Texconv check fails under Proton, and without it 1,630 LOD textures were missing), xLODGen objects for 10 worldspaces. `FOLIP - Patch.esp` loads before the previs patch, with the measured reason.
+- Object LOD for the gaming PC playthrough, generated on Linux on 2026-11-08 and 11-09: FOLIP patch, TexGen under Wine stable (its Texconv check fails under Proton, and without it 1,630 LOD textures were missing), xLODGen objects for 10 worldspaces. `FOLIP - Patch.esp` loads before the previs patch, with the measured reason. Checked in game: no purple or missing buildings in the distance.
 - Verdant Wasteland joined the gaming PC playthrough; Verdant Wasteland LITE and Luxor's Greenery 2k listed with their measured overlaps.
 - `scripts/fo4-tools`: `esp_filter.py`, `findref.py`, `ba2pack.py`, `ba2compress.py`, and `previs/` with the scripts that run the Creation Kit and FO4Edit unattended under Proton.
 

@@ -203,7 +203,7 @@ Distant trees are drawn by the 3D tree LOD meshes of Optimized Vanilla Tree LODs
 
 ### Still to do
 
-- Object LOD: reinstalled with TexGen on 2026-11-09; still to check in game, from Sanctuary and from a Boston rooftop.
+- Dialogue subtitles: off in the profile's `fallout4prefs.ini` (`bDialogueSubtitles=0`, `bGeneralSubtitles=0`); to switch back on and check in dialogue.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
 - The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
 
@@ -242,7 +242,7 @@ Distant trees are drawn by the 3D tree LOD meshes of Optimized Vanilla Tree LODs
 | 4 | Sim Settlements 2, settlement life, Minutemen | Sanctuary with plots; script lag | Installed |
 | 5 | Brotherhood, RobCo Patcher, SPID, the Improved series | **The test gate:** a throwaway save, clean logs, the same save reloaded five times | Installed; gate passed with 4 reloads |
 | 6 | World life, locations, quests, companions, needs | An hour through Sanctuary, Concord and Boston | Installed |
-| 7 | Patches and PRP patches, then object LOD generated with xLODGen last | No missing walls or flicker | Patches installed; object LOD generated with TexGen 2026-11-09, not checked in game yet |
+| 7 | Patches and PRP patches, then object LOD generated with xLODGen last | No missing walls or flicker | Patches installed; object LOD generated with TexGen 2026-11-09, checked in game: no purple or missing buildings |
 
 ## Open questions
 
