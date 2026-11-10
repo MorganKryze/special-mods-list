@@ -221,7 +221,7 @@ Checked in game: faces, hairstyles, a looted body, NPC body variety. Outfits sti
 
 ### Community Shaders features (2026-11-10)
 
-Reference with Community Shaders loaded and no feature on, outside Diamond City at 3440×1440: about 220 fps, 183 average, 4 GB of video memory, GPU at about 30 %. Features switched on: Light Limit Fix, Skylighting, Screen Space Shadows, Terrain Shadows, Cloud Shadows, Water Effects, Unified Water, Dynamic Cubemaps, Subsurface Scattering, Extended Materials, LOD Blending, Terrain Blending, Sky Sync, then Volumetric Shadows and Screen Space GI once the reference showed the headroom. Left off: Terrain Variation (it changes the look of the landscape textures), upscaling and frame generation. The launcher now exports `PROTON_ENABLE_NVAPI=1` for DLSS; DLSS itself has not been tried.
+Reference with Community Shaders loaded and no feature on, outside Diamond City at 3440×1440: about 220 fps, 183 average, 4 GB of video memory, GPU at about 30 %. Features switched on: Light Limit Fix, Skylighting, Screen Space Shadows, Terrain Shadows, Cloud Shadows, Water Effects, Unified Water, Dynamic Cubemaps, Subsurface Scattering, Extended Materials, LOD Blending, Terrain Blending, Sky Sync and Screen Space GI. With Volumetric Shadows and Cloud Shadows on as well, the same spot averaged 130 fps, the utility and sky passes being the costliest in the overlay; both were then switched off (frame rate after that not measured yet). Left off: Terrain Variation (it changes the look of the landscape textures), upscaling and frame generation. The launcher now exports `PROTON_ENABLE_NVAPI=1` for DLSS; DLSS itself has not been tried.
 
 ### Still to do
 
