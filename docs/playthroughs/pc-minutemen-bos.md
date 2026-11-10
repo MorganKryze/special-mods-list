@@ -227,7 +227,8 @@ Reference with Community Shaders loaded and no feature on, outside Diamond City 
 
 - Community Shaders: frame rate in Boston with the chosen features still to measure (see below).
 - Character appearance: female Gunners with the BodySlide build and the capped body pool to check in game; CBBE conversions for the Sim Settlements 2 and Minutemen outfits, if any appears.
-- The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
+- The quality-of-life additions: their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) load on 1.11.240 (`f4se.log`, 2026-11-10); each feature still to try in game.
+- Community Shaders: DLAA (DLSS at native resolution) to try under Proton.
 - FIS - FallUI Item Sorter and its icon mods, with the Complex Item Sorter xEdit run.
 
 ## What changes from the macOS playthrough
