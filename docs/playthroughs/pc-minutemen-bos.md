@@ -201,17 +201,30 @@ Generated on Linux, after the whole load order previs patch, following the TMR o
 
 Distant trees are drawn by the 3D tree LOD meshes of Optimized Vanilla Tree LODs and Far Harbor 3d Tree LODs. Whether they match Verdant Wasteland's look has not been checked in game.
 
+### Character appearance (2026-11-10)
+
+Chosen level: realistic nudity only when a character is undressed, varied female NPC bodies, no added sexual content, no fanservice outfits. Male bodies stay vanilla: the male body replacers found either date from 2016 with a few outfit conversions (Super Hero Bodies) or need the ZeX skeleton.
+
+| Mod | Decision | Measured |
+| --- | --- | --- |
+| Facial Expression and Eyetracking Engine Fixes 3.2 | Added | Its DLL loads on 1.11.240 (`f4se.log`: loaded correctly) |
+| The Eyes of Beauty Fallout Edition - Remastered, vanilla eyes 2k | Added | Texture replacer; no installed mod ships eye textures |
+| Looking Fabulous, Sleek Styles, Lots More Female Hairstyles, Additional Hair Colors | Added | 316 new hairstyles and 82 hair colours; the plugins only add records, and every mesh they reference exists |
+| PROJECT BEAUTY (FACEGEN) 2.6 | Not taken | 1,000 overrides, 963 of them NPCs, shared with We Have Names (295), Diverse Wasteland (145), Lunar Fallout Overhaul (71), UFO4P (55) and Community Fixes Merged (23); also needs four more hair mods as masters |
+| CBBE 2.7.2 | Added | Vanilla Shape body, nude; the pre-built Vanilla Shape outfits for the base game, Automatron, Far Harbor, Nuka-World and Creation Club, with their morph files, so BodySlide is not needed for vanilla outfits. Its loose meshes replace 5 outfit meshes of Community Fixes Merged and 1 of UFO4P |
+| Gunner Outfit Pack Unibody CBBE BodySlide Conversion | Built | BodySlide 6.1.0 runs under Wine 11.0 stable from the command line (`--groupbuild`, preset CBBE Vanilla, `--trimorphs`): 102 outfits with morph files, no error in its log. The 9 glove meshes come from Gunner Outfit Pack - CBBE Pre-Generated |
+| Real Body Randomizer 2.0 | Templates reused, mod not taken as is | Its random pool mixes natural presets with fanservice ones and assigns fixed bodies to named companions. Kept: 22 natural presets as a BodyGen pool for all female NPCs, with breast, buttock and hip sliders capped at normal values (68 values lowered) |
+| Invisible Dead Body Fixer 1.35 | Added | Limited option, through RobCo Patcher; fixes corpses that BodyGen leaves as a head and hands |
+| Classy Chassis Outfits | Not taken | Its four packs describe themselves as "sexy remodels" of vanilla outfits |
+
+Checked in game: faces, hairstyles, a looted body, NPC body variety. Outfits still built for the vanilla body: Sim Settlements 2 (201 female meshes), The Minutemen Outfit Pack (22), America Rising 2 (8) and a few single items; no CBBE conversion found for them, so the body keeps the vanilla shape under those outfits.
+
 ### Still to do
 
-- Dialogue subtitles: off in the profile's `fallout4prefs.ini` (`bDialogueSubtitles=0`, `bGeneralSubtitles=0`); to switch back on and check in dialogue.
 - Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
-- Character appearance, in two steps:
-  - Faces, eyes and hair: PROJECT BEAUTY (FACEGEN), The Eyes of Beauty - Remastered, Facial Expression and Eyetracking Engine Fixes, hairstyle packs; each to check on 1.11.240 and against the mods that add NPCs.
-  - Bodies, chosen level: realistic nudity only when a character is undressed, varied NPC bodies, no added sexual content and no fanservice outfits. Candidate stack: BodySlide and Outfit Studio 6.1.0 (2026-11-04), CBBE 2.7.2 (2025-12-22) with its vanilla outfit BodySlide files, LooksMenu BodyGen with BodyConvert and Real Body Randomizer, the Gunner Outfit Pack CBBE files (74450), vanilla male body. To check: BodySlide under Proton, conversions for the Minutemen and raider outfit mods, the CBBE build for 1.11.240 content.
-  - Classy Chassis Outfits: its four packs describe themselves as "sexy remodels" of vanilla outfits (Nexus summaries, 2026-11-10), outside the chosen level.
+- Character appearance: female Gunners with the BodySlide build and the capped body pool to check in game; CBBE conversions for the Sim Settlements 2 and Minutemen outfits, if any appears.
 - The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
-
-- FIS - FallUI Item Sorter and its icon mods, with the Complex Item Sorter xEdit run at the same time as xLODGen.
+- FIS - FallUI Item Sorter and its icon mods, with the Complex Item Sorter xEdit run.
 
 ## What changes from the macOS playthrough
 
