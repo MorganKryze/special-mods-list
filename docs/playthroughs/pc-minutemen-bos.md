@@ -219,9 +219,13 @@ Chosen level: realistic nudity only when a character is undressed, varied female
 
 Checked in game: faces, hairstyles, a looted body, NPC body variety. Outfits still built for the vanilla body: Sim Settlements 2 (201 female meshes), The Minutemen Outfit Pack (22), America Rising 2 (8) and a few single items; no CBBE conversion found for them, so the body keeps the vanilla shape under those outfits.
 
+### Community Shaders features (2026-11-10)
+
+Reference with Community Shaders loaded and no feature on, outside Diamond City at 3440×1440: about 220 fps, 183 average, 4 GB of video memory, GPU at about 30 %. Features switched on: Light Limit Fix, Skylighting, Screen Space Shadows, Terrain Shadows, Cloud Shadows, Water Effects, Unified Water, Dynamic Cubemaps, Subsurface Scattering, Extended Materials, LOD Blending, Terrain Blending, Sky Sync. Left off: Screen Space GI, Volumetric Shadows, Terrain Variation (it changes the look of the landscape textures), upscaling and frame generation. The launcher now exports `PROTON_ENABLE_NVAPI=1` for DLSS; DLSS itself has not been tried.
+
 ### Still to do
 
-- Community Shaders: features still to switch on and tune one at a time, with Boston fps checked.
+- Community Shaders: frame rate in Boston with the chosen features still to measure (see below).
 - Character appearance: female Gunners with the BodySlide build and the capped body pool to check in game; CBBE conversions for the Sim Settlements 2 and Minutemen outfits, if any appears.
 - The quality-of-life additions: `f4se.log` for their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) and a checked in-game session.
 - FIS - FallUI Item Sorter and its icon mods, with the Complex Item Sorter xEdit run.
