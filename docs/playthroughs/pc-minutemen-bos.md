@@ -284,8 +284,12 @@ The plugin copies each item record as it wins at generation time. It has to be g
 
 - Community Shaders' DLSS and frame generation under Proton.
 - Frame rate and video memory with the visual layer and Community Shaders features on, in Boston at 3440×1440.
-- The location mods' PRP patches were built on PRP 81.5x: check them against PRP Full for 1.11.240.
-- Lunar Fallout Arsenal against Lunar 114's masters; Sons of Steel against Lunar's Brotherhood armour lists.
-- What triggers Improved Minutemen's Minutemen-versus-Brotherhood assault: it must not close the open ending.
+
+Answered on 2026-11-11:
+
+- The location mods' PRP patches built on PRP 81.5x: superseded. The whole load order patch `SanctuaryPrevis` loads after them and rebuilt previs over them; `vis_audit.py` finds 4,805 of 4,805 Commonwealth exterior cells with the `.uvd` of the plugin that wins the cell.
+- Lunar Fallout Arsenal 1.0 against Lunar Fallout Overhaul 114f: Arsenal loads after Lunar and the unofficial patch, its three Creation Club masters are in the game folder, and the 132 Lunar records it overrides (40 OMOD, 37 MISC, 30 COBJ, 19 LVLI, 2 WEAP, 2 FLST) all exist in 114f.
+- Sons of Steel 1.8 against Lunar: its plugin overrides 9 leveled lists and 1 cell, none of them shared with Lunar Fallout Overhaul.
+- Improved Minutemen 2.1.0: its description lists assault encounters against the Nuka-World raiders (if the player sided with them, or after Open Season) and Mechanist bots; none against the Brotherhood. Improved Brotherhood of Steel 2.1.3 sends the Brotherhood after raiders and Gunners once the Institute is destroyed. Taken from the descriptions, not traced in the plugins.
 
 Answered at install: all 29 F4SE DLLs in the profile, SPID, Hydra and SS2 Settlers UI among them, loaded correctly on 1.11.240; Community Shaders' menu opens with End under Proton, and the profile uses 76 of 254 full plugin slots.
