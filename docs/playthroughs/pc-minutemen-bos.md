@@ -237,6 +237,21 @@ FIS - The NEW FallUI Item Sorter 2.1 in Pro mode, with FallUI - Icon Library 1.0
 
 The plugin copies each item record as it wins at generation time. It has to be generated again after adding, removing or reordering a mod that adds or changes items. In the Complex Sorter window, plugins only show once made visible through **More plugins**; the run ended on FO4Edit's save prompt, which must be confirmed.
 
+### Sim Settlements 2 add-ons (2026-11-11)
+
+Taken from the Such Fallout 4 collection (130,849 downloads, built for 1.11.240) and checked plugin by plugin before install.
+
+| Mod | Decision | Measured |
+| --- | --- | --- |
+| SS2 Industrial Revolution of the Wasteland V6.0 | Added | 30,450 new references, all in SS2's interior staging cell `SS2BuildingStage`; overrides that cell, the interior `NavMeshGenCell` and the navmesh info map (NAVI) |
+| SS2 Plotapalooza Pack 1.0.1 | Added | Master file, no override |
+| Vault-Tec Tools 3.1.2 | Added | Two light plugins; the first overrides 6 SS2 layers whose only difference with SS2 Chapter 3 is the editor ID (editor-only data) |
+| Powerful Plots for Superlative Settlers 1.8.1, From Sanctuary to Concord 1.1 | Added | New references in staging cells only, plus NAVI |
+| Nobody's Leaders 3 1.0, leader pack only | Added | Light plugin, no override. The F4SE variant (DLL 0.3.2, released 2026-10-27) was left out |
+| Sim Settlements 2 - Tiny Living 3.1 | Not taken | Its 2021 plugin overrides two SS2 actors, `SS2_FriendlyYaoGuai` and `SS2_Pet_JunkyardDog`, with scripts (VMAD) that differ from the current SS2 |
+
+None of them edits an exterior cell, so the previs patch stands. NAVI: 45 plugins of the profile already carry it and `BaselinePlotsBrotherhood.esp` wins it; the new plugins load before it (right after the Rise of the Commonwealth city plan pack), so the winning NAVI is unchanged.
+
 ### Still to do
 
 - Community Shaders: frame rate in Boston with the chosen features still to measure (see below).
