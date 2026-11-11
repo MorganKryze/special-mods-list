@@ -248,6 +248,8 @@ Taken from the Such Fallout 4 collection (130,849 downloads, built for 1.11.240)
 | Vault-Tec Tools 3.1.2 | Added | Two light plugins; the first overrides 6 SS2 layers whose only difference with SS2 Chapter 3 is the editor ID (editor-only data) |
 | Powerful Plots for Superlative Settlers 1.8.1, From Sanctuary to Concord 1.1 | Added | New references in staging cells only, plus NAVI |
 | Nobody's Leaders 3 1.0, leader pack only | Added | Light plugin, no override. The F4SE variant (DLL 0.3.2, released 2026-10-27) was left out |
+| Pra's Random Addon 2 23.0.0 | Added, main plugin only | New references in staging cells, plus NAVI; its optional sorting patches (FIS, LWIS, VIS, VISG, Horizon) are not used, Complex Item Sorter tags its items |
+| Jampads 2 3.5.0 | Not taken | Overrides the base game location `RedRocketCaveLocation` in full; SS2 Chapter 2 overrides it too (its persistent actor references, ACSR) and, being a master file, always loads first, so its version would be lost |
 | Sim Settlements 2 - Tiny Living 3.1 | Not taken | Its 2021 plugin overrides two SS2 actors, `SS2_FriendlyYaoGuai` and `SS2_Pet_JunkyardDog`, with scripts (VMAD) that differ from the current SS2 |
 
 None of them edits an exterior cell, so the previs patch stands. NAVI: 45 plugins of the profile already carry it and `BaselinePlotsBrotherhood.esp` wins it; the new plugins load before it (right after the Rise of the Commonwealth city plan pack), so the winning NAVI is unchanged.
@@ -258,7 +260,7 @@ None of them edits an exterior cell, so the previs patch stands. NAVI: 45 plugin
 - Character appearance: female Gunners with the BodySlide build and the capped body pool to check in game; CBBE conversions for the Sim Settlements 2 and Minutemen outfits, if any appears.
 - The quality-of-life additions: their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) load on 1.11.240 (`f4se.log`, 2026-11-10); each feature still to try in game.
 - Community Shaders: DLAA (DLSS at native resolution) to try under Proton.
-- FIS item sorting: icons and categories to check in the Pip-Boy and in containers.
+- FIS item sorting: icons and categories to check in the Pip-Boy and in containers; `M8r Complex Sorter.esp` to generate again for the SS2 add-ons of 2026-11-11.
 
 ## What changes from the macOS playthrough
 
