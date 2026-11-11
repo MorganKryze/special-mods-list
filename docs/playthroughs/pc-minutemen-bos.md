@@ -233,6 +233,7 @@ FIS - The NEW FallUI Item Sorter 2.1 in Pro mode, with FallUI - Icon Library 1.0
 | Off | Add Scrap Component Tags (replaced by the Icon Expansion Pack version, as its author asks) |
 | Mode, input | Purge / New, all 269 plugins, 14 record types |
 | Result | `M8r Complex Sorter.esp`, 103 masters: 12,604 overrides (7,380 MISC, 1,478 ARMO, 1,288 BOOK, 994 ALCH, 408 WEAP, 396 NOTE, 390 KEYM, 153 LVLI, 76 AMMO, 32 INNR, 9 MESG) and 10 new keywords; no CELL or placed reference, so the previs patch is untouched |
+| Regenerated 2026-11-12 | After the SS2 add-ons, same settings, 277 plugins in: 111 masters, 13,092 overrides (7,551 MISC, 1,503 ARMO, 1,291 BOOK, 1,036 ALCH, 646 WEAP, 401 NOTE, 391 KEYM, 155 LVLI, 76 AMMO, 33 INNR, 9 MESG), 10 new keywords, still no CELL or placed reference |
 | Placement | Just before `FOLIP - Patch.esp` and `SanctuaryPrevis.esp`, after every plugin whose items it copies |
 
 The plugin copies each item record as it wins at generation time. It has to be generated again after adding, removing or reordering a mod that adds or changes items. In the Complex Sorter window, plugins only show once made visible through **More plugins**; the run ended on FO4Edit's save prompt, which must be confirmed.
@@ -260,7 +261,7 @@ None of them edits an exterior cell, so the previs patch stands. NAVI: 45 plugin
 - Character appearance: female Gunners with the BodySlide build and the capped body pool to check in game; CBBE conversions for the Sim Settlements 2 and Minutemen outfits, if any appears.
 - The quality-of-life additions: their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) load on 1.11.240 (`f4se.log`, 2026-11-10); each feature still to try in game.
 - Community Shaders: DLAA (DLSS at native resolution) to try under Proton.
-- FIS item sorting: icons and categories to check in the Pip-Boy and in containers; `M8r Complex Sorter.esp` to generate again for the SS2 add-ons of 2026-11-11.
+- FIS item sorting: icons and categories to check in the Pip-Boy and in containers.
 
 ## What changes from the macOS playthrough
 
