@@ -236,6 +236,7 @@ FIS - The NEW FallUI Item Sorter 2.1 in Pro mode, with FallUI - Icon Library 1.0
 | Mode, input | Purge / New, all 269 plugins, 14 record types |
 | Result | `M8r Complex Sorter.esp`, 103 masters: 12,604 overrides (7,380 MISC, 1,478 ARMO, 1,288 BOOK, 994 ALCH, 408 WEAP, 396 NOTE, 390 KEYM, 153 LVLI, 76 AMMO, 32 INNR, 9 MESG) and 10 new keywords; no CELL or placed reference, so the previs patch is untouched |
 | Regenerated 2026-11-12 | After the SS2 add-ons, same settings, 277 plugins in: 111 masters, 13,092 overrides (7,551 MISC, 1,503 ARMO, 1,291 BOOK, 1,036 ALCH, 646 WEAP, 401 NOTE, 391 KEYM, 155 LVLI, 76 AMMO, 33 INNR, 9 MESG), 10 new keywords, still no CELL or placed reference |
+| Regenerated 2026-11-13 | After Jampads 2 and the SAMM3Y additions, same settings, 291 plugins in: 121 masters, 14,109 overrides (7,790 MISC, 1,554 ARMO, 1,389 BOOK, 1,235 ALCH, 1,033 WEAP, 421 NOTE, 412 KEYM, 156 LVLI, 77 AMMO, 33 INNR, 9 MESG), 10 new keywords. FO4Edit saved it over the symbolic link of the linked copy, so the file was moved back into its MO2 mod by hand |
 | Placement | Just before `FOLIP - Patch.esp` and `SanctuaryPrevis.esp`, after every plugin whose items it copies |
 
 The plugin copies each item record as it wins at generation time. It has to be generated again after adding, removing or reordering a mod that adds or changes items. In the Complex Sorter window, plugins only show once made visible through **More plugins**; the run ended on FO4Edit's save prompt, which must be confirmed.
@@ -252,15 +253,33 @@ Taken from the Such Fallout 4 collection (130,849 downloads, built for 1.11.240)
 | Powerful Plots for Superlative Settlers 1.8.1, From Sanctuary to Concord 1.1 | Added | New references in staging cells only, plus NAVI |
 | Nobody's Leaders 3 1.0, leader pack only | Added | Light plugin, no override. The F4SE variant (DLL 0.3.2, released 2026-10-27) was left out |
 | Pra's Random Addon 2 23.0.0 | Added, main plugin only | New references in staging cells, plus NAVI; its optional sorting patches (FIS, LWIS, VIS, VISG, Horizon) are not used, Complex Item Sorter tags its items |
-| Jampads 2 3.5.0 | Not taken | Overrides the base game location `RedRocketCaveLocation` in full; SS2 Chapter 2 overrides it too (its persistent actor references, ACSR) and, being a master file, always loads first, so its version would be lost |
+| Jampads 2 3.5.0 | Added 2026-11-13, with a local patch | Overrides the base game location `RedRocketCaveLocation` in full, which drops the 6 persistent references (ACSR) that SS2 Chapter 2 adds to it as a partial form; its own single entry is one of those 6. `SS2-Jampads2 - Chapter 2 Patch.esp` (light, loaded right after it) carries the vanilla record, the 6 Chapter 2 entries and the Jampads name. Its other overrides: NAVI, 6 editor-only layers, 1 TRNS and 1 MSWP |
 | Sim Settlements 2 - Tiny Living 3.1 | Not taken | Its 2021 plugin overrides two SS2 actors, `SS2_FriendlyYaoGuai` and `SS2_Pet_JunkyardDog`, with scripts (VMAD) that differ from the current SS2 |
 
 None of them edits an exterior cell, so the previs patch stands. NAVI: 45 plugins of the profile already carry it and `BaselinePlotsBrotherhood.esp` wins it; the new plugins load before it (right after the Rise of the Commonwealth city plan pack), so the winning NAVI is unchanged.
+
+### SAMM3Y collection additions (2026-11-13)
+
+From the SAMM3Y (lore friendly) collection (88 mods, built for 1.11.240): 63 mods not yet in the profile reviewed, 18 kept, 16 installed. Each plugin was read for missing masters, exterior cell edits and the objects it places in cells covered by `SanctuaryPrevis` (`ref_audit.py` on a copy of the profile).
+
+| Mod | Decision | Measured |
+| --- | --- | --- |
+| SS2 Superstructures 2.18, Wasteland Venturers 1.5.2 | Added | SS2 plans; Superstructures places nothing in previs cells, Wasteland Venturers 6 new references |
+| REPUTATION 2.2.1 | Added | Its exterior cell overrides carry no reference inside previs cells |
+| Modding for Charity - Double Feature 1.0.3, Transmission Zeta 1.0.4a | Added | 7 and 153 new references in previs cells, no edit of existing ones |
+| Children of Ug-Qualtoth 2.1, Barrenwood 1.2 | Added | Ug-Qualtoth wins a few cells with its own data and edits 3 UFO4P references there; Barrenwood places 4 references near its boat |
+| Lootable Vertibirds 3.2 (Far Harbor and Nuka-World option), Portable Lights 1.0, Solar Power 1.3.1, Portable Junk Recycler 1.0, Snapable Garden Plots 1.2 | Added | No reference in previs cells |
+| Ponytail Hairstyles by Azar 3.0, ANiceOakTree's Hairstyles 2.0 | Added | Plugins with no override |
+| Dynamic Grass 2.0.2, Idle Marker Control 1.0.0 | Added | F4SE DLLs; support of 1.11.240 to read in `f4se.log` |
+| The Machine And Her 1.1 with its XDI patch, Echo 1.9.2 | Installed, disabled | The Machine And Her places 526 references and edits 67 in previs cells; Echo edits 6. Kept for a future previs rebuild |
+
+The 45 others were left out: they conflict with Lunar's balance (Weapons of Fate, AX50, Supercharged Capacitor, MCAM), are abandoned or predate 1.11.240 (Commonwealth Responders, SimHomestead 2, TextInputMenu), are already `avoid` in the catalogue (Scrap Everything, Fusion City Rising), duplicate installed mods (Fill My Bottles, Move that Workbench) or break the content rule.
 
 ### Still to do
 
 - FIS item sorting: icons and scrap categories checked in game on 2026-11-13; the settings pages (Mod Config) still to open.
 - Sim Settlements 2 add-ons: new plans and leaders still to see in game.
+- SAMM3Y additions and Jampads 2: first launch to check (`f4se.log` for the two new DLLs, the Red Rocket cave).
 - The quality-of-life additions: their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) load on 1.11.240 (`f4se.log`, 2026-11-10); each feature still to try in game.
 - Community Shaders: DLAA (DLSS at native resolution) to try under Proton.
 
