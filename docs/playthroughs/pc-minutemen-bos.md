@@ -205,23 +205,25 @@ Distant trees are drawn by the 3D tree LOD meshes of Optimized Vanilla Tree LODs
 
 Chosen level: realistic nudity only when a character is undressed, varied female NPC bodies, no added sexual content, no fanservice outfits. Male bodies stay vanilla: the male body replacers found either date from 2016 with a few outfit conversions (Super Hero Bodies) or need the ZeX skeleton.
 
+Revised on 2026-11-13 after playing: faces and hair kept, body changes removed. CBBE, the Gunner Outfit Pack CBBE conversions and the BodyGen pool are disabled in the profile, so every body is vanilla again and looted corpses keep the vanilla underwear. No other plugin has `CBBE.esp` as a master.
+
 | Mod | Decision | Measured |
 | --- | --- | --- |
 | Facial Expression and Eyetracking Engine Fixes 3.2 | Added | Its DLL loads on 1.11.240 (`f4se.log`: loaded correctly) |
 | The Eyes of Beauty Fallout Edition - Remastered, vanilla eyes 2k | Added | Texture replacer; no installed mod ships eye textures |
 | Looking Fabulous, Sleek Styles, Lots More Female Hairstyles, Additional Hair Colors | Added | 316 new hairstyles and 82 hair colours; the plugins only add records, and every mesh they reference exists |
 | PROJECT BEAUTY (FACEGEN) 2.6 | Not taken | 1,000 overrides, 963 of them NPCs, shared with We Have Names (295), Diverse Wasteland (145), Lunar Fallout Overhaul (71), UFO4P (55) and Community Fixes Merged (23); also needs four more hair mods as masters |
-| CBBE 2.7.2 | Added | Vanilla Shape body, nude; the pre-built Vanilla Shape outfits for the base game, Automatron, Far Harbor, Nuka-World and Creation Club, with their morph files, so BodySlide is not needed for vanilla outfits. Its loose meshes replace 5 outfit meshes of Community Fixes Merged and 1 of UFO4P |
-| Gunner Outfit Pack Unibody CBBE BodySlide Conversion | Built | BodySlide 6.1.0 runs under Wine 11.0 stable from the command line (`--groupbuild`, preset CBBE Vanilla, `--trimorphs`): 102 outfits with morph files, no error in its log. The 9 glove meshes come from Gunner Outfit Pack - CBBE Pre-Generated |
-| Real Body Randomizer 2.0 | Templates reused, mod not taken as is | Its random pool mixes natural presets with fanservice ones and assigns fixed bodies to named companions. Kept: 22 natural presets as a BodyGen pool for all female NPCs, with breast, buttock and hip sliders capped at normal values (68 values lowered) |
-| Invisible Dead Body Fixer 1.35 | Added | Limited option, through RobCo Patcher; fixes corpses that BodyGen leaves as a head and hands |
+| CBBE 2.7.2 | Added, removed 2026-11-13 | Vanilla Shape body, nude; the pre-built Vanilla Shape outfits for the base game, Automatron, Far Harbor, Nuka-World and Creation Club, with their morph files, so BodySlide is not needed for vanilla outfits. Its loose meshes replace 5 outfit meshes of Community Fixes Merged and 1 of UFO4P |
+| Gunner Outfit Pack Unibody CBBE BodySlide Conversion | Built, removed 2026-11-13 | BodySlide 6.1.0 runs under Wine 11.0 stable from the command line (`--groupbuild`, preset CBBE Vanilla, `--trimorphs`): 102 outfits with morph files, no error in its log. The 9 glove meshes come from Gunner Outfit Pack - CBBE Pre-Generated |
+| Real Body Randomizer 2.0 | Templates reused, mod not taken as is; pool removed 2026-11-13 | Its random pool mixes natural presets with fanservice ones and assigns fixed bodies to named companions. Kept: 22 natural presets as a BodyGen pool for all female NPCs, with breast, buttock and hip sliders capped at normal values (68 values lowered) |
+| Invisible Dead Body Fixer 1.35 | Added | Limited option, through RobCo Patcher; fixes corpses that BodyGen leaves as a head and hands; kept with vanilla bodies |
 | Classy Chassis Outfits | Not taken | Its four packs describe themselves as "sexy remodels" of vanilla outfits |
 
-Checked in game: faces, hairstyles, a looted body, NPC body variety. Outfits still built for the vanilla body: Sim Settlements 2 (201 female meshes), The Minutemen Outfit Pack (22), America Rising 2 (8) and a few single items; no CBBE conversion found for them, so the body keeps the vanilla shape under those outfits.
+Checked in game: faces, hairstyles, a looted body, NPC body variety.
 
 ### Community Shaders features (2026-11-10)
 
-Reference with Community Shaders loaded and no feature on, outside Diamond City at 3440×1440: about 220 fps, 183 average, 4 GB of video memory, GPU at about 30 %. Features switched on: Light Limit Fix, Skylighting, Screen Space Shadows, Terrain Shadows, Cloud Shadows, Water Effects, Unified Water, Dynamic Cubemaps, Subsurface Scattering, Extended Materials, LOD Blending, Terrain Blending, Sky Sync and Screen Space GI. With Volumetric Shadows and Cloud Shadows on as well, the same spot averaged 130 fps, the utility and sky passes being the costliest in the overlay; both were then switched off (frame rate after that not measured yet). Left off: Terrain Variation (it changes the look of the landscape textures), upscaling and frame generation. The launcher now exports `PROTON_ENABLE_NVAPI=1` for DLSS; DLSS itself has not been tried.
+Reference with Community Shaders loaded and no feature on, outside Diamond City at 3440×1440: about 220 fps, 183 average, 4 GB of video memory, GPU at about 30 %. Features switched on: Light Limit Fix, Skylighting, Screen Space Shadows, Terrain Shadows, Cloud Shadows, Water Effects, Unified Water, Dynamic Cubemaps, Subsurface Scattering, Extended Materials, LOD Blending, Terrain Blending, Sky Sync and Screen Space GI. With Volumetric Shadows and Cloud Shadows on as well, the same spot averaged 130 fps, the utility and sky passes being the costliest in the overlay; both were then switched off (after that, about 140 fps on the same spot, 2026-11-13). Left off: Terrain Variation (it changes the look of the landscape textures), upscaling and frame generation. The launcher now exports `PROTON_ENABLE_NVAPI=1` for DLSS; DLSS itself has not been tried.
 
 ### Item sorting (2026-11-11)
 
@@ -257,11 +259,10 @@ None of them edits an exterior cell, so the previs patch stands. NAVI: 45 plugin
 
 ### Still to do
 
-- Community Shaders: frame rate in Boston with the chosen features still to measure (see below).
-- Character appearance: female Gunners with the BodySlide build and the capped body pool to check in game; CBBE conversions for the Sim Settlements 2 and Minutemen outfits, if any appears.
+- FIS item sorting: icons and scrap categories checked in game on 2026-11-13; the settings pages (Mod Config) still to open.
+- Sim Settlements 2 add-ons: new plans and leaders still to see in game.
 - The quality-of-life additions: their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) load on 1.11.240 (`f4se.log`, 2026-11-10); each feature still to try in game.
 - Community Shaders: DLAA (DLSS at native resolution) to try under Proton.
-- FIS item sorting: icons and categories to check in the Pip-Boy and in containers.
 
 ## What changes from the macOS playthrough
 
