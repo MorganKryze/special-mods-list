@@ -26,6 +26,7 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Changed
 
+- Gaming PC playthrough, 2026-11-14: DLAA (Community Shaders upscaling, DLSS at Native AA) on and stable under Proton; first launch with the SAMM3Y additions passed; three perk chart icons noted blank (perks edited by Lunar Fallout Overhaul).
 - Gaming PC playthrough, 2026-11-13: body changes removed after playing (CBBE, the Gunner CBBE conversions and the BodyGen pool disabled; faces and hair kept); about 140 fps with the trimmed Community Shaders features; FIS icons and scrap categories checked in game.
 - Gaming PC playthrough, 2026-11-13: Jampads 2 with a local Chapter 2 patch, 16 mods from the SAMM3Y collection (The Machine And Her and Echo installed but disabled for previs), Complex Item Sorter patch regenerated.
 - The Linux previs guide now holds the full procedure of the first whole load order build (2026-11-08): every step with its command, duration and result, the crash isolated to FensParkviewApartments02, the fixes for loose previs files, sleep and memory, the archive compression, install rules and the audits and in-game check after install. The gaming PC playthrough records the `SanctuaryPrevis` patch (confirmed in game), marks the PRP patch overlaps and the Diamond City holes as resolved, and has 244 active plugins.

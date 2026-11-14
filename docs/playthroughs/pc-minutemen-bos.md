@@ -223,7 +223,13 @@ Checked in game: faces, hairstyles, a looted body, NPC body variety.
 
 ### Community Shaders features (2026-11-10)
 
-Reference with Community Shaders loaded and no feature on, outside Diamond City at 3440×1440: about 220 fps, 183 average, 4 GB of video memory, GPU at about 30 %. Features switched on: Light Limit Fix, Skylighting, Screen Space Shadows, Terrain Shadows, Cloud Shadows, Water Effects, Unified Water, Dynamic Cubemaps, Subsurface Scattering, Extended Materials, LOD Blending, Terrain Blending, Sky Sync and Screen Space GI. With Volumetric Shadows and Cloud Shadows on as well, the same spot averaged 130 fps, the utility and sky passes being the costliest in the overlay; both were then switched off (after that, about 140 fps on the same spot, 2026-11-13). Left off: Terrain Variation (it changes the look of the landscape textures), upscaling and frame generation. The launcher now exports `PROTON_ENABLE_NVAPI=1` for DLSS; DLSS itself has not been tried.
+Reference with Community Shaders loaded and no feature on, outside Diamond City at 3440×1440: about 220 fps, 183 average, 4 GB of video memory, GPU at about 30 %. Features switched on: Light Limit Fix, Skylighting, Screen Space Shadows, Terrain Shadows, Cloud Shadows, Water Effects, Unified Water, Dynamic Cubemaps, Subsurface Scattering, Extended Materials, LOD Blending, Terrain Blending, Sky Sync and Screen Space GI. With Volumetric Shadows and Cloud Shadows on as well, the same spot averaged 130 fps, the utility and sky passes being the costliest in the overlay; both were then switched off (after that, about 140 fps on the same spot, 2026-11-13). Left off: Terrain Variation (it changes the look of the landscape textures) and frame generation.
+
+DLAA, on since 2026-11-14: the launcher exports `PROTON_ENABLE_NVAPI=1`, and `FO4CommunityShaders.toml` sets `[features.Upscaling] load = true`, `upscale_method = 3` (DLSS) and `quality_mode = 0` (Native AA). The Community Shaders log reports the DLSS feature resident and active, and the game stays stable under Proton.
+
+### Perk chart icons (2026-11-14)
+
+Three perks show a blank white icon in the perk chart: Iron Fist (Strength), Pip Boy Upgrade (the renamed V.A.N.S., Intelligence) and Sneak (Agility). Lunar Fallout Overhaul is the only plugin that edits them, and it changes their number of ranks (Iron Fist 5 → 6, V.A.N.S. 1 → 3, Sneak 5 → 4). The perks work; the icons are left as they are.
 
 ### Item sorting (2026-11-11)
 
@@ -277,11 +283,10 @@ The 45 others were left out: they conflict with Lunar's balance (Weapons of Fate
 
 ### Still to do
 
-- FIS item sorting: icons and scrap categories checked in game on 2026-11-13; the settings pages (Mod Config) still to open.
+- FIS item sorting: icons and scrap categories checked in game on 2026-11-13, its settings page in Mod Config on 2026-11-14.
 - Sim Settlements 2 add-ons: new plans and leaders still to see in game.
-- SAMM3Y additions and Jampads 2: first launch to check (`f4se.log` for the two new DLLs, the Red Rocket cave).
+- SAMM3Y additions and Jampads 2: first launch passed on 2026-11-14 (Dynamic Grass and Idle Marker Control load on 1.11.240 in `f4se.log`; REPUTATION and Dynamic Grass pages appear in Mod Config; many more SS2 plans); the Red Rocket cave still to visit.
 - The quality-of-life additions: their three remaining DLLs (Crafting Highlight Fix, Rename Anything, Friendly NPCs On Compass) load on 1.11.240 (`f4se.log`, 2026-11-10); each feature still to try in game.
-- Community Shaders: DLAA (DLSS at native resolution) to try under Proton.
 
 ## What changes from the macOS playthrough
 
@@ -301,7 +306,7 @@ The 45 others were left out: they conflict with Lunar's balance (Weapons of Fate
 | --- | --- | --- | --- |
 | Gameplay overhaul | **Lunar Fallout Overhaul** | Designed for non-Survival play, works with Sim Settlements 2 | Horizon conflicts with SS2; Better Locational Damage and True Damage fight Lunar |
 | Post-processing | **Community Shaders, no ENB** | ENB's Fallout 4 build breaks water and fog on this runtime and crashes while compiling shaders under Proton 10 and 11 | ReShade works under Proton, but adds little over lighting plus Community Shaders |
-| Upscaling and frame generation | **Off at first** | No report yet of Community Shaders' DLSS or frame generation under Proton on an Nvidia card | Test them once the game is stable |
+| Upscaling and frame generation | **DLAA on, frame generation off** | DLAA runs stable under Proton (2026-11-14); at about 140 fps frame generation is not needed | Try frame generation if Boston drops under 120 fps |
 | RobCo Patcher, SPID, the Improved faction series | **In: the test gate passed** | The best Minutemen and Brotherhood overhauls, but their DLL layer is weeks old on 1.11.240 and they cannot be removed mid-game | If they misbehave later, there is no clean way out mid-game |
 | Starts Dead Alive | **Test pick** | Worth it on this CPU, but it is the first mod to drop if scripts lag | |
 | We Are The Minutemen | **Not used** | Frozen since 2022, conflicts with Lunar, overlaps Improved Minutemen | |
@@ -320,7 +325,7 @@ The 45 others were left out: they conflict with Lunar's balance (Weapons of Fate
 
 ## Open questions
 
-- Community Shaders' DLSS and frame generation under Proton.
+- Community Shaders' frame generation under Proton.
 - Frame rate and video memory with the visual layer and Community Shaders features on, in Boston at 3440×1440.
 
 Answered on 2026-11-11:
