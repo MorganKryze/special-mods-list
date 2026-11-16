@@ -239,7 +239,7 @@ Added Diverse Wasteland - We Have Names AiO - Compat (light plugin, after `Diver
 
 ### Key Remapping Done Proper (2026-11-16)
 
-Keys rebound in the game's settings (here ZQSD on an AZERTY keyboard) do not apply in the workshop, lockpicking and Pip-Boy menus. Key Remapping Done Proper 1.10 installs an F4SE `CustomControlMap.txt` that makes those menus follow the rebound keys; no plugin. Workshop mode can also be entered anywhere inside a settlement by holding the Workshop key (here the middle mouse button).
+Keys rebound in the game's settings (here ZQSD on an AZERTY keyboard) do not apply in the workshop, lockpicking and Pip-Boy menus. Key Remapping Done Proper 1.10 installs an F4SE `CustomControlMap.txt` that makes those menus follow the rebound keys; no plugin. Workshop mode can also be entered anywhere inside a settlement by holding the Workshop key (here the middle mouse button). The mod also ties the Pip-Boy, container and trade menu keys (take all, equip and perk chart, component view, sorting, inspect) to gameplay actions; they were set back to fixed R, T, C, Z and X in its `CustomControlMap.txt` (2026-11-16).
 
 ### Item sorting (2026-11-11)
 
