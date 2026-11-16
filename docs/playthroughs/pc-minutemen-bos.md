@@ -227,6 +227,8 @@ Reference with Community Shaders loaded and no feature on, outside Diamond City 
 
 DLAA, on since 2026-11-14: the launcher exports `PROTON_ENABLE_NVAPI=1`, and `FO4CommunityShaders.toml` sets `[features.Upscaling] load = true`, `upscale_method = 3` (DLSS) and `quality_mode = 0` (Native AA). The Community Shaders log reports the DLSS feature resident and active, and the game stays stable under Proton.
 
+Skylighting, off since 2026-11-16 (`load = false`): in Boston and Goodneighbor the frame rate fell from 120 to 40-60 for about 3 seconds at a time, with the sky pass the costliest in the overlay. Turning off Skylighting and Screen Space GI together stopped the drops; Screen Space GI was then turned back on by choice. Nothing was compiled at run time (2,720 of 2,720 shader variants read from the cache).
+
 ### Perk chart icons (2026-11-14)
 
 Three perks show a blank white icon in the perk chart: Iron Fist (Strength), Pip Boy Upgrade (the renamed V.A.N.S., Intelligence) and Sneak (Agility). Lunar Fallout Overhaul is the only plugin that edits them, and it changes their number of ranks (Iron Fist 5 → 6, V.A.N.S. 1 → 3, Sneak 5 → 4). The perks work; the icons are left as they are.
@@ -234,6 +236,10 @@ Three perks show a blank white icon in the perk chart: Iron Fist (Strength), Pip
 ### Diverse Wasteland and We Have Names (2026-11-14)
 
 Added Diverse Wasteland - We Have Names AiO - Compat (light plugin, after `DiverseWasteland.esp`). It merges the two mods on the 5 Brotherhood NPCs they both edit (Prydwen and Police Station field scribes, a Police Station soldier, the two Diamond City envoys) and wins all 5 in the load order. 277 active plugins.
+
+### Key Remapping Done Proper (2026-11-16)
+
+Keys rebound in the game's settings (here ZQSD on an AZERTY keyboard) do not apply in the workshop, lockpicking and Pip-Boy menus. Key Remapping Done Proper 1.10 installs an F4SE `CustomControlMap.txt` that makes those menus follow the rebound keys; no plugin. Workshop mode can also be entered anywhere inside a settlement by holding the Workshop key (here the middle mouse button).
 
 ### Item sorting (2026-11-11)
 
