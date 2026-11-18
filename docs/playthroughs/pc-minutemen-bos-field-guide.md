@@ -16,6 +16,10 @@ A spoiler-free sheet for the [Minutemen and Brotherhood PC playthrough](pc-minut
 | Explosive props | Shooting explosive items or ammo makes them blow up | Hit Those Explosives |
 | Companions | Dogmeat plus one companion at the same time; companions never use ammo (they need one round of the weapon) | Simple Everyone's Best Friend, Infinite Companion Ammo |
 | Compass | Enemies show on the compass as in Fallout 3 and New Vegas, depending on Perception. Friendly markers are switched off on purpose (they showed allies in red) | Friendly NPCs On Compass |
+| Reputation | Factions, including many from mods, keep a reputation with you; the top rank (Idolized) gives a perk. Some of those perks show a blank icon | REPUTATION |
+| Perks | Lunar reworks the chart: V.A.N.S. becomes Pip Boy Upgrade (3 ranks, more XP), Chem Resistant becomes Chem Dependant (chems last longer, no addiction immunity), Chemist makes batches of 5, Iron Fist has 6 ranks. Iron Fist, Pip Boy Upgrade and Sneak show a blank icon in the chart | Lunar Fallout Overhaul |
+| Food | Lunar makes food scarcer; harvesting a planted crop gives one item every time (local patch), and settlers and SS2 farms still produce food each day | Lunar Fallout Overhaul, Lunar Full Harvest |
+| Keys | Keys rebound in Settings → Controls also work in the workshop, lockpicking and Pip-Boy menus; in menus, R, T, C, Z and X keep their usual actions | Key Remapping Done Proper |
 
 ## Settings to check once
 
@@ -25,6 +29,7 @@ Open **Pause menu → Mod Config** (MCM). Pages worth a look:
 - **Sim Settlements 2**: settlement and story options.
 - **NPCs Travel**, **Inertia**, **Simple Wait Anywhere**: their own pages.
 - Interface: FallUI (HUD, inventory, map, workbench), Immersive HUD, FOV Slider and Player Height.
+- **REPUTATION**, **Dynamic Grass**, **FIS** (item sorting and icons): their own pages.
 
 Photo mode, Get Out Of My Face (push an NPC blocking a door) and Rename Anything run from keys or menus listed on their MCM pages.
 
@@ -38,6 +43,9 @@ Photo mode, Get Out Of My Face (push an NPC blocking a door) and Rename Anything
 | Attacks | Attackers spawn outside the walls instead of inside | Edmond's Settlement Attack Spawns Outside |
 | Supply lines | Provisioners can be rerouted and tracked from a menu; they travel with their weapons drawn | Provisioner and Supply Line Management System, Open Carry Provisioners |
 | Life in town | Settlers go shopping, sit on furniture with props, and say more varied lines | Settlers Go Shopping, Dynamic Furniture, Settler and Companion Dialogue Overhaul |
+| More SS2 plans | Many more building plans, Superstructures, Wasteland Venturers and other add-ons; leaders and plots from add-ons | SS2 add-on packs |
+| Small settlement tools | Portable lights, solar power, a portable junk recycler, garden plots that snap together | Portable Lights, Solar Power, Portable Junk Recycler, Snapable Garden Plots |
+| Workshop mode anywhere | Hold the Workshop key anywhere inside a settlement (here the middle mouse button) | Base game |
 
 ### Cleaning a settlement
 
@@ -94,6 +102,9 @@ What works instead:
 | Quests and companions across the map | Found while exploring | Tales from the Commonwealth |
 | Five caves, each with a quest | Found while exploring | Caves Of The Commonwealth |
 | Automatron and the free Creation Club quests | Start like base-game quests, with random encounters leading to them | Integrated Addons |
+| Two short questlines | Found while exploring | Modding for Charity - Double Feature, Transmission Zeta |
+| A strange questline | Found while exploring | Children of Ug-Qualtoth |
+| A new place | Found while exploring | Barrenwood |
 
 ## New places
 
@@ -109,8 +120,12 @@ What works instead:
 - **Reloads**: a second animation when the magazine is not empty; lever actions reload shell by shell.
 - **Armour and outfits**: Hellcat power armour, raider and Gunner outfits, Minutemen militia outfits, backpacks that raise carry weight, a RobCo combat armour, tactical gloves.
 - **Fusion cores**: the most drained core is used first.
+- **Item icons**: inventory, containers and the workbench sort items by category with icons, scrap included. (FIS - The NEW FallUI Item Sorter, with a sorting patch to regenerate after item mod changes.)
+- **Downed vertibirds**: their wrecks can be looted. (Lootable Vertibirds.)
 - **Favourites**: favourited weapons show holstered on your body.
 
 ## Feel
 
 First-person body, arms when running and swimming, weapon inertia, breathing, wet skin in rain, flinching at explosions, eating and drinking animations, weapons lowered out of combat, and a soundscape reworked from footsteps to music.
+
+Faces and people: generic NPCs draw from thousands of varied faces, children get their own looks and outfits, and grass bends as you walk through it. (Diverse Wasteland, Wasteland Brats, Dynamic Grass.)
