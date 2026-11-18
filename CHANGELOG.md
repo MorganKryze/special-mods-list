@@ -26,7 +26,7 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Changed
 
-- Gaming PC playthrough, 2026-11-18: local `Lunar Full Harvest.esp` patch lowers the chance that harvesting a planted crop gives nothing from 75 % (Lunar) to 25 %; 278 active plugins.
+- Gaming PC playthrough, 2026-11-18: local `Lunar Full Harvest.esp` patch: harvesting a planted crop always gives one item (Lunar set a 75 % chance of nothing; a 25 % build was tried, then set back to 0 on 2026-11-19); 278 active plugins.
 - Gaming PC playthrough, 2026-11-16: Skylighting off after frame drops in Boston (Screen Space GI kept); Key Remapping Done Proper added for rebound keys in the workshop.
 - Gaming PC playthrough, 2026-11-14: Diverse Wasteland - We Have Names AiO compat patch added (277 active plugins). DLAA (Community Shaders upscaling, DLSS at Native AA) on and stable under Proton; first launch with the SAMM3Y additions passed; three perk chart icons noted blank (perks edited by Lunar Fallout Overhaul).
 - Gaming PC playthrough, 2026-11-13: body changes removed after playing (CBBE, the Gunner CBBE conversions and the BodyGen pool disabled; faces and hair kept); about 140 fps with the trimmed Community Shaders features; FIS icons and scrap categories checked in game.

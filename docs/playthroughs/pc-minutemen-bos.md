@@ -243,7 +243,7 @@ Keys rebound in the game's settings (here ZQSD on an AZERTY keyboard) do not app
 
 ### Crop harvest (2026-11-18)
 
-Lunar Fallout Overhaul points the planted crops (corn, carrot, gourd, melon, mutfruit, razorgrain, tato, tarberry) to its own `lfmr_HarvestFood*` leveled lists, which have a 75 % chance of giving nothing; wild plants are not changed. A local light plugin, `Lunar Full Harvest.esp`, overrides the 8 lists with the chance of none lowered to 25 % and nothing else changed (checked with `esp.py diff`: only `LVLD` differs), so 3 harvests in 4 give one item. A first build at 0 was lowered to 25 to keep some of Lunar's scarcity. It loads after `Lunar - Community Fixes Merged Patch.esp` and wins the 8 lists. Food produced by settlers and SS2 plots is not affected. 278 active plugins.
+Lunar Fallout Overhaul points the planted crops (corn, carrot, gourd, melon, mutfruit, razorgrain, tato, tarberry) to its own `lfmr_HarvestFood*` leveled lists, which have a 75 % chance of giving nothing; wild plants are not changed. A local light plugin, `Lunar Full Harvest.esp`, overrides the 8 lists with the chance of none at 0 and nothing else changed (checked with `esp.py diff`: only `LVLD` differs), so each harvest gives one item as in the base game. A 25 % build was tried on 2026-11-18 and set back to 0 on 2026-11-19. It loads after `Lunar - Community Fixes Merged Patch.esp` and wins the 8 lists. Food produced by settlers and SS2 plots is not affected. 278 active plugins.
 
 ### Item sorting (2026-11-11)
 
