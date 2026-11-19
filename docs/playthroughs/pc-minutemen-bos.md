@@ -245,6 +245,10 @@ Keys rebound in the game's settings (here ZQSD on an AZERTY keyboard) do not app
 
 Lunar Fallout Overhaul points the planted crops (corn, carrot, gourd, melon, mutfruit, razorgrain, tato, tarberry) to its own `lfmr_HarvestFood*` leveled lists, which have a 75 % chance of giving nothing; wild plants are not changed. A local light plugin, `Lunar Full Harvest.esp`, overrides the 8 lists with the chance of none at 0 and nothing else changed (checked with `esp.py diff`: only `LVLD` differs), so each harvest gives one item as in the base game. A 25 % build was tried on 2026-11-18 and set back to 0 on 2026-11-19. It loads after `Lunar - Community Fixes Merged Patch.esp` and wins the 8 lists. Food produced by settlers and SS2 plots is not affected. 278 active plugins.
 
+### Workshop storage caps (2026-11-20)
+
+Each day a settlement adds its food, water and scrap production to the workbench only while the stock is under a cap: 10 food plus 1 per settler, 5 water plus 0.25 per settler, 100 scrap plus 5 per settler (base game values). Workshop Framework replaces the workbench script and reads these caps from its `WSFW_Workshop_maxStored*` globals (its `bUseGlobal*` script defaults are on); no plugin in the profile overrides them, and its MCM has no setting for them. A local light plugin, `Workshop Storage Uncapped.esp` (masters `Fallout4.esm` and `WorkshopFramework.esm`), sets the base caps to 1,000 food, 1,000 water, 10,000 scrap and 1,000 fertilizer; the per-settler parts are unchanged. It loads after `Lunar Full Harvest.esp`. 281 active plugins. The farm work limit (6 food points per settler) is a separate setting, left as is.
+
 ### Minutemen additions (2026-11-20)
 
 | Mod | Decision | Measured |

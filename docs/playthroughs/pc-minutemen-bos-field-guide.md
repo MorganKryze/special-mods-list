@@ -19,6 +19,7 @@ A spoiler-free sheet for the [Minutemen and Brotherhood PC playthrough](pc-minut
 | Reputation | Factions, including many from mods, keep a reputation with you; the top rank (Idolized) gives a perk. Some of those perks show a blank icon | REPUTATION |
 | Perks | Lunar reworks the chart: V.A.N.S. becomes Pip Boy Upgrade (3 ranks, more XP), Chem Resistant becomes Chem Dependant (chems last longer, no addiction immunity), Chemist makes batches of 5, Iron Fist has 6 ranks. Iron Fist, Pip Boy Upgrade and Sneak show a blank icon in the chart | Lunar Fallout Overhaul |
 | Food | Lunar makes food scarcer; harvesting a planted crop gives one item every time (local patch), and settlers and SS2 farms still produce food each day | Lunar Fallout Overhaul, Lunar Full Harvest |
+| Workbench stock | Daily food, water and scrap keep piling up in the workbench up to 1,000 food, 1,000 water and 10,000 scrap instead of about 10, 5 and 100 (local patch) | Workshop Framework, Workshop Storage Uncapped |
 | Keys | Keys rebound in Settings → Controls also work in the workshop, lockpicking and Pip-Boy menus; in menus, R, T, C, Z and X keep their usual actions | Key Remapping Done Proper |
 
 ## Settings to check once
