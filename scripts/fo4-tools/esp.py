@@ -39,6 +39,7 @@ def read(path):
             off += 24 + size
 
     walk(24 + size, len(data))
+    del walk  # walk() refers to itself: without this, every read() leaks its whole recs dict (~1.1 GB for Fallout4.esm)
     return masters, recs
 
 
