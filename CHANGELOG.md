@@ -26,6 +26,7 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Changed
 
+- Gaming PC playthrough, 2026-11-21: local `Molly Power Armor Fix.esp` patch: Molly can be asked to leave her power armour (It's Molly tested the race instead of the worn frame); 282 active plugins.
 - Gaming PC playthrough, 2026-11-20: local `Workshop Storage Uncapped.esp` patch raises the daily workbench stock caps to 1,000 food, 1,000 water and 10,000 scrap (Workshop Framework globals); 281 active plugins.
 - Gaming PC playthrough, 2026-11-20: C.R.P Minutemen Radio Relay Network and its YAWA2 patch added (280 active plugins); We Are The Minutemen checked and left out.
 - Gaming PC playthrough, 2026-11-18: local `Lunar Full Harvest.esp` patch: harvesting a planted crop always gives one item (Lunar set a 75 % chance of nothing; a 25 % build was tried, then set back to 0 on 2026-11-19); 278 active plugins.
