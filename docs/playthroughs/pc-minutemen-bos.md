@@ -253,6 +253,10 @@ Each day a settlement adds its food, water and scrap production to the workbench
 
 It's Molly (`CSEPCompanion.esp`) offers "I need you to get out of your power armor." and Molly's answer "Sure thing boss." (whose script calls `SwitchToPowerArmor`) only when `GetIsRace PowerArmorRace` is true for her. In game it stayed false while she sat in a power armour frame, so the choice showed "Just wanted to trade a few things." and she could not be asked to leave the armour. The base game companions test the worn frame instead (condition function 682 with the keyword `isPowerArmorFrame`, on the shared `FollowerGetOutPowerArmor` lines). A local light plugin, `Molly Power Armor Fix.esp`, overrides the two lines (INFO `0x6813` and `0x680B`) with that condition and nothing else changed (checked with a field diff). Checked in game: the choice shows, Molly answers and leaves the armour. 282 active plugins.
 
+### 10mm automatic receiver (2026-11-21)
+
+Lunar Fallout Arsenal gives the 10mm pistol a new model (`weapons\10mmMica\`) and points most of its receiver mods at it. `Lunar - Community Fixes Merged Patch.esp` loads later and overrides the Automatic receivers (OMOD `0x100E2E` and `0x14833B`) with the base game mesh `Weapons\10mmPistol\10MMPistol.nif`. A pistol with the automatic receiver, like the legendary Sidewinder, showed the old body with the new barrel, grip, magazine and sight floating around it. A local light plugin, `Lunar Arsenal 10mm Automatic Fix.esp` (masters: those of the Community Fixes patch plus the patch itself), overrides the two mods with `weapons\10mmMica\10mmPistol.nif` and nothing else changed (checked with a field diff). It loads after `Molly Power Armor Fix.esp`. Checked in game: the Sidewinder's parts sit on the body. 283 active plugins.
+
 ### Minutemen additions (2026-11-20)
 
 | Mod | Decision | Measured |
