@@ -26,6 +26,7 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ### Changed
 
+- Gaming PC playthrough, 2026-11-22: local `Lunar Arsenal CF Restore.esp` patch puts back Lunar Fallout Arsenal on 42 records that `Lunar - Community Fixes Merged Patch.esp` overrode (Tesla Cannon, Lightning Gun, nail gun, Heavy Flamer and others); Complex Sorter generated again; 284 active plugins. Field guide: `recycleactor` for an invisible NPC.
 - Gaming PC playthrough, 2026-11-21: local `Lunar Arsenal 10mm Automatic Fix.esp` patch: the 10mm Automatic receivers use the Lunar Arsenal model again (the Community Fixes merged patch had set back the base game mesh, so the other parts floated); 283 active plugins.
 - Gaming PC playthrough, 2026-11-21: local `Molly Power Armor Fix.esp` patch: Molly can be asked to leave her power armour (It's Molly tested the race instead of the worn frame); 282 active plugins.
 - Gaming PC playthrough, 2026-11-20: local `Workshop Storage Uncapped.esp` patch raises the daily workbench stock caps to 1,000 food, 1,000 water and 10,000 scrap (Workshop Framework globals); 281 active plugins.

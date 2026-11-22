@@ -257,6 +257,28 @@ It's Molly (`CSEPCompanion.esp`) offers "I need you to get out of your power arm
 
 Lunar Fallout Arsenal gives the 10mm pistol a new model (`weapons\10mmMica\`) and points most of its receiver mods at it. `Lunar - Community Fixes Merged Patch.esp` loads later and overrides the Automatic receivers (OMOD `0x100E2E` and `0x14833B`) with the base game mesh `Weapons\10mmPistol\10MMPistol.nif`. A pistol with the automatic receiver, like the legendary Sidewinder, showed the old body with the new barrel, grip, magazine and sight floating around it. A local light plugin, `Lunar Arsenal 10mm Automatic Fix.esp` (masters: those of the Community Fixes patch plus the patch itself), overrides the two mods with `weapons\10mmMica\10mmPistol.nif` and nothing else changed (checked with a field diff). It loads after `Molly Power Armor Fix.esp`. Checked in game: the Sidewinder's parts sit on the body. 283 active plugins.
 
+### Lunar Arsenal over the Community Fixes patch (2026-11-22)
+
+`Lunar - Community Fixes Merged Patch.esp` 1.0.3 is built against Lunar Fallout Overhaul only: `LunarArsenal.esp` is not one of its masters, yet it loads later and overrides 46 Arsenal records. A field-by-field diff of each record against the Arsenal version and both bases (Lunar Fallout Overhaul and `community fixes merged.esp`), with FormIDs resolved by master name, found that the winning version drops Arsenal changes on 41 of them. No later plugin restores them: `Lunar - UFO4.esp` repeats the Community Fixes version on its 7, and `M8r Complex Sorter.esp` had been generated on it.
+
+| Lost before the patch | Records |
+| --- | --- |
+| Tesla Cannon (Creation Club): ammo, damage 78 → 60, barrels and their names | WEAP and 7 OMOD |
+| Lightning Gun (Automatron): ammo, damage 72 → 48 | WEAP |
+| Nail gun: Arsenal's automatic receivers turned back into single-shot ones | WEAP and 7 OMOD |
+| Heavy Flamer, Chinese grenade launcher, harpoon gun, syringer: damage, keywords, models | 4 WEAP |
+| Pipe grenade launcher grips, a Gatling laser barrel | 4 OMOD |
+| Radium rifle automatic receivers, automatic laser musket legendary | 3 OMOD |
+| Receiver parts as loose items: value and weight | 6 MISC |
+| Sight and laser musket recipes: perk and components | 4 COBJ |
+| Nick Valentine and the Forged boss: their Arsenal inventory | 2 NPC_ |
+| Double-barrel shotgun leveled list filter | LVLI |
+| Weapon naming rules | INNR `dn_CommonGun` |
+
+A local light plugin, `Lunar Arsenal CF Restore.esp`, overrides 42 records with the Arsenal version (masters: Arsenal's 13 masters in Arsenal's order, plus `LunarArsenal.esp`, so its bytes copy without FormID remapping). Two records are merged: the 6 receiver parts keep the model and bounds of the Community Fixes, and Nick keeps the Unofficial Patch fixes from `Lunar - UFO4.esp` (ACBS, AIDT, NAM7). Left as they are: the Far Harbor unique items quest (the Arsenal version drops the Big Boy store item the other plugins keep), `co_mod_LaserMusket_Receiver_2` (a Community Fixes fix), a recipe that only differs by its EditorID, and the 10mm Automatic receiver: Arsenal itself keeps the base game mesh on it, so `Lunar Arsenal 10mm Automatic Fix.esp` stays. Checked with a field diff: only the planned differences, no new record. It loads just after `Lunar - UFO4.esp`. 284 active plugins.
+
+`M8r Complex Sorter.esp` was generated again afterwards: the 6 receiver parts now carry the Arsenal value and weight. Complex Sorter writes its own version of `dn_CommonGun`, so Arsenal's name prefixes (Burst Fire, Deadly, Masterwork, Improved Cycling) still do not show in weapon names; only names are affected. Not checked in game yet.
+
 ### Minutemen additions (2026-11-20)
 
 | Mod | Decision | Measured |
@@ -265,7 +287,7 @@ Lunar Fallout Arsenal gives the 10mm pistol a new model (`weapons\10mmMica\`) an
 | We Are The Minutemen 7.7 with its eXoPatch 1.2.6 | Not taken | Places nothing in previs cells, but loads after the ESM-flagged Lunar and overrides 31 of its records, including the Laser Musket, its receivers and the Minutemen outfits; it also edits the flare gun quest that Improved Minutemen and Lunar change (Improved Minutemen ships `ImprovedMinutemenWatmPatch.esp` for it) and Min02, which Who's The General edits. The JOTC Improved Minutemen fix needs `LIF.esl` and `ImprovedMinutemenWatmPatch.esp`. No author states whether it can be added to a running game; left out to keep the save safe |
 | Vertibird Reinforcement 1.2 | Checked, not installed | Adds records only: no override, nothing placed in the world |
 
-The 6 holotapes and notes CRP adds are not tagged by the item sorter until `M8r Complex Sorter.esp` is generated again.
+The 6 holotapes and notes CRP adds are tagged by the item sorter since `M8r Complex Sorter.esp` was generated again on 2026-11-22.
 
 ### Item sorting (2026-11-11)
 
@@ -279,6 +301,7 @@ FIS - The NEW FallUI Item Sorter 2.1 in Pro mode, with FallUI - Icon Library 1.0
 | Result | `M8r Complex Sorter.esp`, 103 masters: 12,604 overrides (7,380 MISC, 1,478 ARMO, 1,288 BOOK, 994 ALCH, 408 WEAP, 396 NOTE, 390 KEYM, 153 LVLI, 76 AMMO, 32 INNR, 9 MESG) and 10 new keywords; no CELL or placed reference, so the previs patch is untouched |
 | Regenerated 2026-11-12 | After the SS2 add-ons, same settings, 277 plugins in: 111 masters, 13,092 overrides (7,551 MISC, 1,503 ARMO, 1,291 BOOK, 1,036 ALCH, 646 WEAP, 401 NOTE, 391 KEYM, 155 LVLI, 76 AMMO, 33 INNR, 9 MESG), 10 new keywords, still no CELL or placed reference |
 | Regenerated 2026-11-13 | After Jampads 2 and the SAMM3Y additions, same settings, 291 plugins in: 121 masters, 14,109 overrides (7,790 MISC, 1,554 ARMO, 1,389 BOOK, 1,235 ALCH, 1,033 WEAP, 421 NOTE, 412 KEYM, 156 LVLI, 77 AMMO, 33 INNR, 9 MESG), 10 new keywords. FO4Edit saved it over the symbolic link of the linked copy, so the file was moved back into its MO2 mod by hand |
+| Regenerated 2026-11-22 | After `Lunar Arsenal CF Restore.esp` and the CRP radio relays, same settings: 122 masters (`CRP Radio Towers 2.5.esp` is the new one). FO4Edit again saved over the symbolic link; the file was moved back into its MO2 mod |
 | Placement | Just before `FOLIP - Patch.esp` and `SanctuaryPrevis.esp`, after every plugin whose items it copies |
 
 The plugin copies each item record as it wins at generation time. It has to be generated again after adding, removing or reordering a mod that adds or changes items. In the Complex Sorter window, plugins only show once made visible through **More plugins**; the run ended on FO4Edit's save prompt, which must be confirmed.
